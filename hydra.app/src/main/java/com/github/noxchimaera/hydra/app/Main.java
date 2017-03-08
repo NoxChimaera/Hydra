@@ -16,7 +16,10 @@
 
 package com.github.noxchimaera.hydra.app;
 
-import com.github.noxchimaera.zmok.matrix.Row;
+import com.github.noxchimaera.hydra.core.activity2.UmlNodeFactory;
+import com.github.noxchimaera.hydra.core.activity2.nodes.UmlInitialNode;
+import com.github.noxchimaera.hydra.core.model.HyPrinter;
+import com.github.noxchimaera.hydra.core.model.nodes.*;
 
 /**
  * @author Max Balushkin
@@ -25,8 +28,31 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Row<String> r = new Row<String>(new String[] { "zero", "one", "two" });
-        r.stream().forEach(System.out::println);
+        UmlNodeFactory fct = new UmlNodeFactory(-1, -1);
+        UmlInitialNode umlInit = fct.begin();
+        fct.flow(
+        fct.flow(
+            umlInit,
+            fct.act("print \"Hello!\"")),
+            fct.end());
+
+        HyAction init = new HyAction("arr = [0, 1, 5, 3, -1], isSorted = false");
+        HyLoop loop = new HyLoop(
+            new HyAction("!isSorted"),
+            new HySequence()
+                .add(new HyAction("isSorted = false"))
+                .add(new HyLoop(
+                    new HyAction("i < n - 1"),
+                    new HyConditional(
+                        new HyAction("arr[i] > arr[i + 1]"),
+                        new HySequence()
+                            .add(new HyAction("arr[i], arr[i + 1] = arr[i + 1], arr[i]"))
+                            .add(new HyAction("isSorted = false")),
+                        new HyEmpty())))
+                .add(new HyAction("++i"))
+        );
+        HySequence program = new HySequence().add(init).add(loop);
+        program.accept(new HyPrinter());
 
     }
 
