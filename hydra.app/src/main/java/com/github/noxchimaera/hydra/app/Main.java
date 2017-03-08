@@ -31,10 +31,10 @@ public class Main {
         UmlNodeFactory fct = new UmlNodeFactory(-1, -1);
         UmlInitialNode umlInit = fct.begin();
         fct.flow(
-        fct.flow(
             umlInit,
-            fct.act("print \"Hello!\"")),
-            fct.end());
+            fct.act("print \"Hello\""),
+            fct.end()
+        );
 
         HyAction init = new HyAction("arr = [0, 1, 5, 3, -1], isSorted = false");
         HyLoop loop = new HyLoop(

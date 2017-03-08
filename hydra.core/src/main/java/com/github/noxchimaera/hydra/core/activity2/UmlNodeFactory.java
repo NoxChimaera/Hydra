@@ -59,14 +59,18 @@ public class UmlNodeFactory {
         return node;
     }
 
-    public <I extends UmlNode & IUmlControlflow, O extends UmlNode & IUmlControlflow> O flow(I source, O target) {
-        UmlControlflowEdge edge = new UmlControlflowEdge(++edgeId, source, target);
-        edge.setSource(source);
-        source.setNext(edge);
-        edge.setTarget(target);
-        target.setPrev(edge);
-
-        return target;
+    public <I extends UmlNode & IUmlControlflow> void flow(I ... flow) {
+        final int n = flow.length;
+        for (int i = 0; i < n - 1; ++i) {
+            I source = flow[i];
+            I target = flow[i + 1];
+            UmlControlflowEdge edge = new UmlControlflowEdge(++edgeId, source, target);
+            edge.setSource(source);
+            source.setNext(edge);
+            edge.setTarget(target);
+            target.setPrev(edge);
+        }
     }
+
 
 }
