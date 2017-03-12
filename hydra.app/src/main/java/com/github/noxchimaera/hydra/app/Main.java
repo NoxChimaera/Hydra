@@ -18,6 +18,7 @@ package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeFactory;
 import com.github.noxchimaera.hydra.core.activity2.nodes.UmlInitialNode;
+import com.github.noxchimaera.hydra.core.activity2.nodes.UmlNode;
 import com.github.noxchimaera.hydra.core.model.HyPrinter;
 import com.github.noxchimaera.hydra.core.model.nodes.*;
 
@@ -27,11 +28,9 @@ import com.github.noxchimaera.hydra.core.model.nodes.*;
 public class Main {
 
     public static void main(String[] args) {
-
         UmlNodeFactory fct = new UmlNodeFactory(-1, -1);
-        UmlInitialNode umlInit = fct.begin();
-        fct.flow(
-            umlInit,
+        UmlNode umlInit = fct.flowl(
+            fct.begin(),
             fct.act("print \"Hello\""),
             fct.end()
         );
