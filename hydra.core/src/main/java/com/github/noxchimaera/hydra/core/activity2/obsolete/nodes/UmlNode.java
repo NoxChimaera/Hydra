@@ -14,40 +14,36 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
+
+import com.github.noxchimaera.hydra.core.activity2.obsolete.IUmlVisitor;
 
 import java.util.Collection;
 
 /**
  * @author Max Balushkin
  */
-public class UmlFinalNode extends UmlNode implements IUmlControlflow {
+public abstract class UmlNode {
 
-    private UmlControlflowEdge prev;
+    private long id;
 
-    public UmlFinalNode(long id) {
-        super(id);
+    private String name;
+
+    public abstract Collection<UmlEdge> getInputs();
+    public abstract Collection<UmlEdge> getOutputs();
+
+    public UmlNode(long id) {
+        this.id = id;
     }
 
-    @Override public UmlControlflowEdge getNext() {
-        return null;
+    public String getName() {
+        return name;
     }
 
-    @Override public void setNext(UmlControlflowEdge edge) { }
-
-    @Override public UmlControlflowEdge getPrev() {
-        return prev;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override public void setPrev(UmlControlflowEdge prev) {
-        this.prev = prev;
-    }
+    public abstract void accept(IUmlVisitor aVisitor);
 
-    @Override public Collection<UmlEdge> getInputs() {
-        return null;
-    }
-
-    @Override public Collection<UmlEdge> getOutputs() {
-        return null;
-    }
 }

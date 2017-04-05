@@ -9,6 +9,7 @@
         <module>zmok</module>
         <module>hydra.core</module>
         <module>hydra.app</module>
+        <module>hydra.utils</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

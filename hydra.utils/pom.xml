@@ -8,18 +8,13 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.noxchimaera</groupId>
-            <artifactId>hydra.utils</artifactId>
-            <version>0.1</version>
-        </dependency>
     </dependencies>
     <parent>
         <groupId>com.github.noxchimaera</groupId>
         <artifactId>hydra</artifactId>
         <version>0.1</version>
     </parent>
-    <artifactId>hydra.core</artifactId>
+    <artifactId>hydra.utils</artifactId>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

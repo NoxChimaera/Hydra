@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.app;
+
+import javax.swing.*;
 
 /**
  * @author Max Balushkin
  */
-public class UmlControlflowEdge extends UmlEdge {
-
-    public UmlControlflowEdge(long id, UmlNode source, UmlNode target) {
-        super(id, UmlEdgeType.FLOW, source, target);
-    }
-
+public class GraphEditorView extends JFrame {
 }

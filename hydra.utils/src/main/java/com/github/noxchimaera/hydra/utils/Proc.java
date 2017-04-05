@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.utils;
 
 /**
  * @author Max Balushkin
  */
-public interface IUmlControlflow {
+@FunctionalInterface
+public interface Proc<T> {
 
-    UmlControlflowEdge getNext();
-    void setNext(UmlControlflowEdge edge);
-
-    UmlControlflowEdge getPrev();
-    void setPrev(UmlControlflowEdge prev);
+    void exec(T arg);
 
 }

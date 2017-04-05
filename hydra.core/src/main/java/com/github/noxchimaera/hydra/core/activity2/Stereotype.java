@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,32 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
-
-import java.util.Collection;
+package com.github.noxchimaera.hydra.core.activity2;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public abstract class UmlNode {
-
-    private long id;
-
-    private String name;
-
-    public abstract Collection<UmlEdge> getInputs();
-    public abstract Collection<UmlEdge> getOutputs();
-
-    public UmlNode(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+public class Stereotype {
 }

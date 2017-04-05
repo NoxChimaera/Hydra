@@ -14,44 +14,61 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
 
-import java.util.ArrayList;
+import com.github.noxchimaera.hydra.core.activity2.obsolete.IUmlVisitor;
+
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 /**
  * @author Max Balushkin
  */
-public class UmlInitialNode extends UmlNode implements IUmlControlflow {
+public class UmlMergeNode extends UmlNode implements IHasOutput {
 
     private UmlControlflowEdge next;
 
-    public UmlInitialNode(long id) {
+    private UmlControlflowEdge prevLeft;
+    private UmlControlflowEdge prevRight;
+
+    public UmlMergeNode(long id) {
         super(id);
-    }
-
-    @Override public UmlControlflowEdge getPrev() {
-        return null;
-    }
-
-    @Override public void setPrev(UmlControlflowEdge prev) { }
-
-    @Override public UmlControlflowEdge getNext() {
-        return next;
     }
 
     @Override public void setNext(UmlControlflowEdge next) {
         this.next = next;
     }
 
+    @Override public UmlControlflowEdge getNext() {
+        return next;
+    }
+
     @Override public Collection<UmlEdge> getInputs() {
-        return new ArrayList<>();
+        return Arrays.asList(prevLeft, prevRight);
     }
 
     @Override public Collection<UmlEdge> getOutputs() {
         return Arrays.asList(next);
+    }
+
+    public UmlControlflowEdge getPrevLeft() {
+        return prevLeft;
+    }
+
+    public void setPrevLeft(UmlControlflowEdge prevLeft) {
+        this.prevLeft = prevLeft;
+    }
+
+    public UmlControlflowEdge getPrevRight() {
+        return prevRight;
+    }
+
+    public void setPrevRight(UmlControlflowEdge prevRight) {
+        this.prevRight = prevRight;
+    }
+
+    @Override public void accept(IUmlVisitor aVisitor) {
+        aVisitor.merge(this);
     }
 
 }

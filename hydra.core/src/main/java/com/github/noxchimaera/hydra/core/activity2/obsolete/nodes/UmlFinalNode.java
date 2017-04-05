@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
 
-import java.util.Arrays;
+import com.github.noxchimaera.hydra.core.activity2.obsolete.IUmlVisitor;
+
 import java.util.Collection;
-import java.util.stream.Stream;
 
 /**
  * @author Max Balushkin
  */
-public class UmlActionNode extends UmlNode implements IUmlControlflow {
+public class UmlFinalNode extends UmlNode implements IHasInput {
 
     private UmlControlflowEdge prev;
-    private UmlControlflowEdge next;
 
-    private String effect;
-
-    public UmlActionNode(long id) {
+    public UmlFinalNode(long id) {
         super(id);
     }
 
@@ -42,28 +39,16 @@ public class UmlActionNode extends UmlNode implements IUmlControlflow {
         this.prev = prev;
     }
 
-    @Override public UmlControlflowEdge getNext() {
-        return next;
-    }
-
-    @Override public void setNext(UmlControlflowEdge next) {
-        this.next = next;
-    }
-
-    public String getEffect() {
-        return effect;
-    }
-
-    public void setEffect(String effect) {
-        this.effect = effect;
-    }
-
     @Override public Collection<UmlEdge> getInputs() {
-        return Arrays.asList(prev);
+        return null;
     }
 
     @Override public Collection<UmlEdge> getOutputs() {
-        return Arrays.asList(next);
+        return null;
+    }
+
+    @Override public void accept(IUmlVisitor aVisitor) {
+        aVisitor.fin(this);
     }
 
 }

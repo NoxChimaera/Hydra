@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
+package com.github.noxchimaera.hydra.core.graph;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public enum UmlEdgeType {
+public class NodeType {
 
-    FLOW,
-    COMMENT
+    private String signature;
+
+    public
+    NodeType(String signature) {
+        this.signature = signature;
+    }
+
+    public
+    String getSignature() {
+        return signature;
+    }
 
 }
