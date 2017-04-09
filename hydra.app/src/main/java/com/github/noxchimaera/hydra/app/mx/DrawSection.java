@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app;
+package com.github.noxchimaera.hydra.app.mx;
 
-import javax.swing.*;
+import com.mxgraph.model.mxIGraphModel;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public class GraphEditorView extends JFrame {
+public class DrawSection implements AutoCloseable {
+
+    private mxIGraphModel model;
+
+    public DrawSection(mxIGraphModel model) {
+        this.model = model;
+        model.beginUpdate();
+    }
+
+    @Override public void close() {
+        model.endUpdate();
+    }
+
 }

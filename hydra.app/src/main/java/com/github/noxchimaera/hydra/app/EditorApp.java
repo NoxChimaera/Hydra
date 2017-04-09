@@ -31,7 +31,8 @@ public class EditorApp implements Initializable {
 
     }
 
-    @Override public void initialize() {
+    @Override public
+    void initialize() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
@@ -41,7 +42,8 @@ public class EditorApp implements Initializable {
 
     }
 
-    @Override public void uninitialize() {
+    @Override public
+    void uninitialize() {
 
     }
 

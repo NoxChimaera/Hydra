@@ -21,6 +21,6 @@ package com.github.noxchimaera.hydra.app;
  */
 public class GraphEditorController {
 
-    private GraphEditorView view;
+    private GraphView view;
 
 }

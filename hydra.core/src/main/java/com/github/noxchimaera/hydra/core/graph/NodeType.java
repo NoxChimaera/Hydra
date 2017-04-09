@@ -16,10 +16,12 @@
 
 package com.github.noxchimaera.hydra.core.graph;
 
+import java.io.Serializable;
+
 /**
  * @author Nox
  */
-public class NodeType {
+public class NodeType implements Serializable {
 
     private String signature;
 

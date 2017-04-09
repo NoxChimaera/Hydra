@@ -19,6 +19,7 @@ package com.github.noxchimaera.hydra.core.activity2;
 import com.github.noxchimaera.hydra.core.graph.Node;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,11 @@ public abstract class UmlNode extends Node<String> {
             .filter(st -> stereotypeClass.isInstance(st))
             .findFirst()
             .map(st -> stereotypeClass.cast(st));
+    }
+
+    @Override public
+    String toString() {
+        return value;
     }
 
 }

@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.core.graph;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ import java.util.Optional;
 /**
  * @author Nox
  */
-public abstract class Node<TVal> {
+public abstract class Node<TVal> implements Serializable {
 
     private final long id;
     private final NodeType type;

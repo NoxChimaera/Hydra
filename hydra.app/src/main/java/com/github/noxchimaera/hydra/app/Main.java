@@ -16,6 +16,14 @@
 
 package com.github.noxchimaera.hydra.app;
 
+import com.github.noxchimaera.hydra.app.models.NodeCell;
+import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
+import com.github.noxchimaera.hydra.core.activity2.obsolete.UmlNodeFactory;
+import com.github.noxchimaera.hydra.utils.swing.GUI;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
+
 import javax.swing.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,13 +33,27 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static
+    void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName())
                 .log(Level.SEVERE, null, ex);
         }
+
+        mxGraph graph = new mxGraph();
+        mxGraphComponent cmpt = new mxGraphComponent(graph);
+        GraphView view = new GraphView(cmpt);
+        GUI.frame(view, "Hydra Modelling System").setVisible(true);
+
+        UmlFactory uml = new UmlFactory();
+        NodeCellFactory fct = new NodeCellFactory(graph);
+        NodeCell cell = fct.init(uml.init(), 50, 50);
+        graph.addCell(cell);
+
+        NodeCell c2 = fct.fin(uml.fin(), 50, 150);
+        graph.addCell(c2);
     }
 
 
