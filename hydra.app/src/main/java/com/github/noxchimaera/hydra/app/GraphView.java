@@ -39,8 +39,7 @@ public class GraphView extends JPanel {
     private mxRubberband rubberbandSelection;
     private mxKeyboardHandler keyboardHandler;
 
-    public
-    GraphView(mxGraphComponent component) {
+    public GraphView(mxGraphComponent component) {
         super(new BorderLayout());
         graphComponent = component;
         graph = component.getGraph();
@@ -51,8 +50,7 @@ public class GraphView extends JPanel {
         add(component, GUI.borderLayout_Centre());
     }
 
-    private
-    void installHandlers() {
+    private void installHandlers() {
         rubberbandSelection = new mxRubberband(graphComponent);
         keyboardHandler = new mxKeyboardHandler(graphComponent);
     }

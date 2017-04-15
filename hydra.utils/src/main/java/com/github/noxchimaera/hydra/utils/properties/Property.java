@@ -14,16 +14,25 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.commons;
-
-import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+package com.github.noxchimaera.hydra.utils.properties;
 
 /**
  * @author Nox
  */
-public interface IHasOutput {
+public class Property<T> {
 
-    void setOutput(ControlflowUmlEdge edge);
-    ControlflowUmlEdge getOutput();
+    protected T value;
+
+    public Property(T value) {
+        this.value = value;
+    }
+
+    public boolean isNull() {
+        return value != null;
+    }
+
+    public T get() {
+        return value;
+    }
 
 }

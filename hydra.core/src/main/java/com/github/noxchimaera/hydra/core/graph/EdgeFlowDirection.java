@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
+package com.github.noxchimaera.hydra.core.graph;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public interface IHasOutput {
+public enum EdgeFlowDirection {
 
-    void setNext(UmlControlflowEdge next);
-    UmlControlflowEdge getNext();
+    Input, Output;
+
+    public static <T extends Node<?>>
+    EdgeFlowDirection get(T node, Edge<T> edge) {
+        return edge.getSource() == node
+            ? Output
+            : Input;
+    }
 
 }

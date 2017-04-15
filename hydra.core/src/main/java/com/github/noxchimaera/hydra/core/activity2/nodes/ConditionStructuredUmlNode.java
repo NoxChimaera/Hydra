@@ -24,8 +24,7 @@ import com.github.noxchimaera.hydra.core.graph.NodeType;
  */
 public class ConditionStructuredUmlNode extends StructuredUmlNode {
 
-    public
-    ConditionStructuredUmlNode(long id) {
+    public ConditionStructuredUmlNode(long id) {
         super(id, UmlNodeTypes.Uml, "");
         regions.add(new StructuredUmlNodeRegion("Test"));
         regions.add(new StructuredUmlNodeRegion("Body"));

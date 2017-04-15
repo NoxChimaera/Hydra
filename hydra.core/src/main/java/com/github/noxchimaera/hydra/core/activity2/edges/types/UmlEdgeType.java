@@ -14,30 +14,22 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.obsolete;
+package com.github.noxchimaera.hydra.core.activity2.edges.types;
 
-import com.github.noxchimaera.hydra.core.activity2.obsolete.nodes.*;
+import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.graph.EdgeType;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public interface IUmlVisitor {
+public abstract class UmlEdgeType extends EdgeType {
 
-    void init(UmlInitialNode aInit);
-    void fin(UmlFinalNode aFin);
+    protected UmlEdgeType(String signature) {
+        super(signature);
+    }
 
-    void action(UmlActionNode aAction);
-
-    void decision(UmlDecisionNode aDecision);
-    void merge(UmlMergeNode aMerge);
-
-    /*
-    void empty(HyEmpty empty);
-    void seq(HySequence seq);
-
-    void action(HyAction action);
-    void cond(HyConditional cond);
-    void loop(HyLoop loop);
-*/
+    public abstract UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory);
 
 }

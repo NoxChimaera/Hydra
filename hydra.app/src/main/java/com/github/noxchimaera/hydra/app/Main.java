@@ -16,12 +16,11 @@
 
 package com.github.noxchimaera.hydra.app;
 
-import com.github.noxchimaera.hydra.app.models.NodeCell;
+import com.github.noxchimaera.hydra.app.mx.UmlGraph;
+import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
+import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
-import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.obsolete.UmlNodeFactory;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
-import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
@@ -33,27 +32,33 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    public static
-    void main(String[] args) {
+    public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName())
                 .log(Level.SEVERE, null, ex);
         }
+        initialize();
+        UmlFactory uml = new UmlFactory();
 
-        mxGraph graph = new mxGraph();
-        mxGraphComponent cmpt = new mxGraphComponent(graph);
+        UmlGraph graph = new UmlGraph(uml);
+        UmlGraphComponent cmpt = new UmlGraphComponent(graph);
         GraphView view = new GraphView(cmpt);
         GUI.frame(view, "Hydra Modelling System").setVisible(true);
 
-        UmlFactory uml = new UmlFactory();
-        NodeCellFactory fct = new NodeCellFactory(graph);
-        NodeCell cell = fct.init(uml.init(), 50, 50);
+        UmlCellFactory fct = graph.getCellFactory();
+        UmlCell cell = fct.init(uml.init(), 50, 50);
         graph.addCell(cell);
 
-        NodeCell c2 = fct.fin(uml.fin(), 50, 150);
+        UmlCell c2 = fct.fin(uml.fin(), 50, 150);
         graph.addCell(c2);
+
+        uml.flow(cell.getUserObject(), c2.getUserObject());
+    }
+
+    private static void initialize() {
+
     }
 
 

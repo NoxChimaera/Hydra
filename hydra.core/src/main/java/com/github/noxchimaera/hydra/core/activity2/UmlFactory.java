@@ -16,57 +16,57 @@
 
 package com.github.noxchimaera.hydra.core.activity2;
 
-import com.github.noxchimaera.hydra.core.activity2.commons.IHasInput;
-import com.github.noxchimaera.hydra.core.activity2.commons.IHasOutput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
+
+import java.util.logging.Logger;
 
 /**
  * @author Nox
  */
 public class UmlFactory {
 
+    public static Logger LOGGER = Logger.getLogger("UmlFactory");
+
     private long nodeId = -1;
     private long edgeId = -1;
 
-    private
-    long next() {
+    private long next() {
         return ++nodeId;
     }
 
-    public
-    InitUmlNode init() {
+    public InitUmlNode init() {
         return new InitUmlNode(next());
     }
 
-    public
-    FinUmlNode fin() {
+    public FinUmlNode fin() {
         return new FinUmlNode(next());
     }
 
-    public
-    ActionUmlNode action(String effect) {
+    public ActionUmlNode action(String effect) {
         return new ActionUmlNode(next(), effect);
     }
 
-    public
-    LoopStructuredUmlNode loop() {
+    public LoopStructuredUmlNode loop() {
         return new LoopStructuredUmlNode(next());
     }
 
-    public
-    ConditionStructuredUmlNode cond() {
+    public ConditionStructuredUmlNode cond() {
         return new ConditionStructuredUmlNode(next());
     }
 
-    public <TSrc extends UmlNode & IHasOutput, TDst extends UmlNode & IHasInput>
-    void flow(TSrc src, TDst dst) {
+    public <TSrc extends UmlNode & HasOutput, TDst extends UmlNode & HasInput>
+    UmlEdge flow(TSrc src, TDst dst) {
         ControlflowUmlEdge edge = new ControlflowUmlEdge(++edgeId);
         edge.setSource(src);
         edge.setDestination(dst);
 
         src.setOutput(edge);
         dst.setInput(edge);
+
+        return edge;
     }
 
 }

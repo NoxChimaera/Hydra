@@ -16,41 +16,54 @@
 
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
+import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
-import com.github.noxchimaera.hydra.core.activity2.commons.IHasOutput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.core.graph.Node;
+import com.github.noxchimaera.hydra.core.graph.EdgeDirection;
+import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
+import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
+import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Nox
  */
-public class InitUmlNode extends UmlNode implements IHasOutput {
+public class InitUmlNode extends UmlNode implements HasOutput {
 
     private ControlflowUmlEdge output;
 
-    public
-    InitUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "");
+    public InitUmlNode(long id) {
+        super(id, UmlNodeTypes.Uml, "", UmlNodeSpecifications.Init);
     }
 
-    public
-    ControlflowUmlEdge getOutput() {
+    public ControlflowUmlEdge getOutput() {
         return output;
     }
 
-    public
-    void setOutput(ControlflowUmlEdge output) {
+    public void setOutput(ControlflowUmlEdge output) {
         this.output = output;
     }
 
-    @Override public
-    List<Edge> getEdges() {
+    // @Override
+    // public boolean addEdge(Edge edge) {
+    //     if (edge.getSource() == this && edge.getType() == UmlEdgeTypes.Controlflow) {
+    //         output = (ControlflowUmlEdge)edge;
+    //     } else {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
+    @Override
+    public List<Edge> getEdges() {
         return Arrays.asList(output);
     }
 

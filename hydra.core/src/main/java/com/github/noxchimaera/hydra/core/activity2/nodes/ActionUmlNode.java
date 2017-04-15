@@ -18,49 +18,44 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
-import com.github.noxchimaera.hydra.core.activity2.commons.IHasInput;
-import com.github.noxchimaera.hydra.core.activity2.commons.IHasOutput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.core.graph.NodeType;
 
 import java.util.List;
 
 /**
  * @author Nox
  */
-public class ActionUmlNode extends UmlNode implements IHasInput, IHasOutput {
+public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
 
     private ControlflowUmlEdge input;
     private ControlflowUmlEdge output;
 
-    public
-    ActionUmlNode(long id, String value) {
-        super(id, UmlNodeTypes.Uml, value);
+    public ActionUmlNode(long id, String value) {
+        super(id, UmlNodeTypes.Uml, value, UmlNodeSpecifications.Fake);
     }
 
-    public
-    ControlflowUmlEdge getInput() {
+    public ControlflowUmlEdge getInput() {
         return input;
     }
 
-    public
-    void setInput(ControlflowUmlEdge input) {
+    public void setInput(ControlflowUmlEdge input) {
         this.input = input;
     }
 
-    public
-    ControlflowUmlEdge getOutput() {
+    public ControlflowUmlEdge getOutput() {
         return output;
     }
 
-    public
-    void setOutput(ControlflowUmlEdge output) {
+    public void setOutput(ControlflowUmlEdge output) {
         this.output = output;
     }
 
-    @Override public
-    List<Edge> getEdges() {
+    @Override
+    public List<Edge> getEdges() {
         return null;
     }
 

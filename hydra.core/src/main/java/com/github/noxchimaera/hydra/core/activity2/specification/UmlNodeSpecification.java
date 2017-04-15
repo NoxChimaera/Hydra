@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.commons;
+package com.github.noxchimaera.hydra.core.activity2.specification;
 
-import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
+import com.github.noxchimaera.hydra.utils.properties.Property;
+
+import java.io.Serializable;
 
 /**
  * @author Nox
  */
-public interface IHasInput {
+public class UmlNodeSpecification implements Serializable {
 
-    void setInput(ControlflowUmlEdge edge);
+    transient public final Property<ControlflowUmlCardinalitySpecification> ControlflowCardinality;
 
-    ControlflowUmlEdge getInput();
-
+    public UmlNodeSpecification(ControlflowUmlCardinalitySpecification controlflowCardinality) {
+        ControlflowCardinality = new Property<>(controlflowCardinality);
+    }
 }

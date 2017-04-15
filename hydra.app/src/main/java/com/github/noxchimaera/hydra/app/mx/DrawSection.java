@@ -30,7 +30,8 @@ public class DrawSection implements AutoCloseable {
         model.beginUpdate();
     }
 
-    @Override public void close() {
+    @Override
+    public void close() {
         model.endUpdate();
     }
 

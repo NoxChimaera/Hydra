@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.graph;
+package com.github.noxchimaera.hydra.utils;
+
+import java.util.Arrays;
 
 /**
  * @author Nox
  */
-public enum EdgeDirection {
+public class Contracts {
 
-    OneWay, OneWayToSource, TwoWay
+    private Contracts() {
+        throw new AssertionError("Can't be instantiated");
+    }
+
+    public static <T>
+    boolean is(Class<? extends T> type, T... objects) {
+        return Arrays.stream(objects)
+            .allMatch(t -> type.isInstance(t));
+    }
 
 }

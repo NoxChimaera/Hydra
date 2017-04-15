@@ -14,13 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.graph;
+package com.github.noxchimaera.hydra.app.mx;
+
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.view.mxGraph;
+
+import java.awt.*;
+import java.awt.print.PageFormat;
 
 /**
  * @author Nox
  */
-public enum EdgeDirection {
+public class UmlGraphComponent extends mxGraphComponent {
 
-    OneWay, OneWayToSource, TwoWay
+    public UmlGraphComponent(mxGraph graph) {
+        super(graph);
+        setGridVisible(true);
+        getConnectionHandler().setCreateTarget(false);
+
+        getViewport().setOpaque(true);
+        getViewport().setBackground(Color.WHITE);
+
+        pageFormat.setOrientation(PageFormat.LANDSCAPE);
+    }
 
 }

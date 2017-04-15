@@ -16,10 +16,12 @@
 
 package com.github.noxchimaera.hydra.core.graph;
 
+import java.io.Serializable;
+
 /**
  * @author Nox
  */
-public abstract class Edge<TNode> {
+public abstract class Edge<TNode> implements Serializable {
 
     protected final long id;
 
@@ -30,13 +32,11 @@ public abstract class Edge<TNode> {
 
     protected EdgeType type;
 
-    public
-    Edge(long id, EdgeType type, TNode src, TNode dst) {
+    public Edge(long id, EdgeType type, TNode src, TNode dst) {
         this(id, type, src, dst, EdgeDirection.OneWay);
     }
 
-    public
-    Edge(long id, EdgeType type, TNode src, TNode dst, EdgeDirection direction) {
+    public Edge(long id, EdgeType type, TNode src, TNode dst, EdgeDirection direction) {
         this.id = id;
         this.src = src;
         this.dst = dst;
@@ -44,51 +44,42 @@ public abstract class Edge<TNode> {
         this.type = type;
     }
 
-    public
-    long getId() {
+    public long getId() {
         return id;
     }
 
-    public
-    TNode getSource() {
+    public TNode getSource() {
         return src;
     }
 
-    public
-    Edge<TNode> setSource(TNode node) {
+    public Edge<TNode> setSource(TNode node) {
         src = node;
         return this;
     }
 
-    public
-    TNode getDestination() {
+    public TNode getDestination() {
         return dst;
     }
 
-    public
-    Edge<TNode> setDestination(TNode node) {
+    public Edge<TNode> setDestination(TNode node) {
         dst = node;
         return this;
     }
 
-    public
-    EdgeDirection getDirection() {
+    public EdgeDirection getDirection() {
         return direction;
     }
 
-    public
-    Edge<TNode> setDirection(EdgeDirection direction) {
+    public Edge<TNode> setDirection(EdgeDirection direction) {
         this.direction = direction;
         return this;
     }
 
-    public
-    EdgeType getType() {
+    public EdgeType getType() {
         return type;
     }
 
-    public
-    Edge<TNode> setType(EdgeType type) {
+    public Edge<TNode> setType(EdgeType type) {
         this.type = type;
         return this;
     }

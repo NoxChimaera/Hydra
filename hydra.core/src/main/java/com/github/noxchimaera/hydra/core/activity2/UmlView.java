@@ -14,23 +14,48 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.graph;
+package com.github.noxchimaera.hydra.core.activity2;
 
 import java.io.Serializable;
 
 /**
  * @author Nox
  */
-public class NodeType implements Serializable {
+public class UmlView implements Serializable {
 
-    private String signature;
+    private int x, y;
+    private int width, height;
 
-    public NodeType(String signature) {
-        this.signature = signature;
+    public int getX() {
+        return x;
     }
 
-    public String getSignature() {
-        return signature;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }

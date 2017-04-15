@@ -16,6 +16,8 @@
 
 package com.github.noxchimaera.hydra.core.activity2;
 
+import com.github.noxchimaera.hydra.core.activity2.edges.types.ControlflowUmlEdgeType;
+import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
 import com.github.noxchimaera.hydra.core.graph.EdgeType;
 
 /**
@@ -23,7 +25,7 @@ import com.github.noxchimaera.hydra.core.graph.EdgeType;
  */
 public class UmlEdgeTypes {
 
-    public final static EdgeType Controlflow = new EdgeType("uml_controlflow");
+    public final static UmlEdgeType Controlflow = new ControlflowUmlEdgeType();
     public final static EdgeType Comment = new EdgeType("uml_comment");
 
 }

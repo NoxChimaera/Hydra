@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
+package com.github.noxchimaera.hydra.core.activity2.commons;
+
+import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public class UmlControlflowEdge extends UmlEdge {
+public interface HasOutput {
 
-    private String guard;
+    void setOutput(ControlflowUmlEdge edge);
 
-    public UmlControlflowEdge(long id, UmlNode source, UmlNode target) {
-        this(id, source, target, "");
-    }
-
-    public UmlControlflowEdge(long id, UmlNode source, UmlNode target, String guard) {
-        super(id, UmlEdgeType.FLOW, source, target);
-        this.guard = guard;
-    }
+    ControlflowUmlEdge getOutput();
 
 }

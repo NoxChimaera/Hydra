@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.obsolete.nodes;
+package com.github.noxchimaera.hydra.core.activity2.commons;
+
+import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public enum UmlEdgeType {
+public interface HasInput {
 
-    FLOW,
-    COMMENT
+    void setInput(ControlflowUmlEdge edge);
+
+    ControlflowUmlEdge getInput();
 
 }

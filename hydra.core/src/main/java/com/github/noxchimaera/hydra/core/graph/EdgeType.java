@@ -16,20 +16,20 @@
 
 package com.github.noxchimaera.hydra.core.graph;
 
+import java.io.Serializable;
+
 /**
  * @author Nox
  */
-public class EdgeType {
+public class EdgeType implements Serializable {
 
     private String signature;
 
-    public
-    EdgeType(String signature) {
+    public EdgeType(String signature) {
         this.signature = signature;
     }
 
-    public
-    String getSignature() {
+    public String getSignature() {
         return signature;
     }
 

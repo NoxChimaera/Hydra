@@ -31,38 +31,32 @@ public abstract class Node<TVal> implements Serializable {
 
     protected TVal value;
 
-    protected List<Mark> marks;
+    protected final List<Mark> marks;
 
-    public
-    Node(long id, NodeType type) {
+    public Node(long id, NodeType type) {
         this.id = id;
         this.type = type;
         marks = new ArrayList<>();
     }
 
-    public
-    long getId() {
+    public long getId() {
         return id;
     }
 
-    public
-    NodeType getType() {
+    public NodeType getType() {
         return type;
     }
 
-    public
-    TVal getValue() {
+    public TVal getValue() {
         return value;
     }
 
-    public
-    Node<TVal> setValue(TVal value) {
+    public Node<TVal> setValue(TVal value) {
         this.value = value;
         return this;
     }
 
-    public
-    Node<TVal> addMark(Mark mark) {
+    public Node<TVal> addMark(Mark mark) {
         if (!marks.contains(mark)) {
             marks.add(mark);
         }
@@ -78,7 +72,8 @@ public abstract class Node<TVal> implements Serializable {
             .map(mark -> markClass.cast(mark));
     }
 
-    public abstract
-    List<Edge> getEdges();
+    // public abstract boolean addEdge(Edge edge);
+
+    public abstract List<Edge> getEdges();
 
 }

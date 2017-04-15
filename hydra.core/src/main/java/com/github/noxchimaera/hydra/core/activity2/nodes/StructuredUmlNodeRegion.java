@@ -26,28 +26,23 @@ public class StructuredUmlNodeRegion {
     private String name;
     private UmlNode root;
 
-    public
-    StructuredUmlNodeRegion(String name) {
+    public StructuredUmlNodeRegion(String name) {
         this.name = name;
     }
 
-    public
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    public
-    void setName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public
-    UmlNode getRoot() {
+    public UmlNode getRoot() {
         return root;
     }
 
-    public
-    void setRoot(UmlNode root) {
+    public void setRoot(UmlNode root) {
         this.root = root;
     }
 

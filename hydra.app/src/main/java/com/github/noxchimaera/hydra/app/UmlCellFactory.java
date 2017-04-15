@@ -16,51 +16,59 @@
 
 package com.github.noxchimaera.hydra.app;
 
-import com.github.noxchimaera.hydra.app.models.NodeCell;
-import com.github.noxchimaera.hydra.app.models.NodePort;
+import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
+import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
+import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
 import com.github.noxchimaera.hydra.core.activity2.nodes.FinUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
+import com.github.noxchimaera.hydra.core.graph.EdgeType;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.view.mxGraph;
 
 /**
  * @author Nox
  */
-public class NodeCellFactory {
+public class UmlCellFactory {
 
     private final mxGraph g;
     private final mxIGraphModel m;
 
-    public
-    NodeCellFactory(mxGraph graph) {
+    private UmlFactory uml;
+
+    public UmlCellFactory(mxGraph graph, UmlFactory uml) {
         g = graph;
         m = graph.getModel();
+        this.uml = uml;
     }
 
     private DrawSection draw() {
         return new DrawSection(m);
     }
 
-    public
-    NodeCell init(InitUmlNode value, double x, double y) {
-        try (DrawSection loop = draw()) {
-            NodeCell c = new NodeCell(value, x, y, 60, 60);
+    public void connect(UmlCell source, UmlCell target, UmlEdgeType edgeType) {
+        UmlNode umlSource = source.getUserObject();
+        UmlNode umlTarget = target.getUserObject();
+
+        UmlEdge umlEdge = edgeType.create(umlSource, umlTarget, uml);
+    }
+
+    public UmlCell init(InitUmlNode value, double x, double y) {
+        try (DrawSection $ = draw()) {
+            UmlCell c = new UmlCell(value, x, y, 60, 60);
             c.setStyle("shape=ellipse");
-            NodePort p = new NodePort(NodePort.Type.Output, c, "out", 1, 0.5);
-            g.addCell(p, c);
             return c;
         }
     }
 
-    public
-    NodeCell fin(FinUmlNode value, double x, double y) {
-        try (DrawSection loop = draw()) {
-            NodeCell c = new NodeCell(value, x, y, 60, 60);
+    public UmlCell fin(FinUmlNode value, double x, double y) {
+        try (DrawSection $ = draw()) {
+            UmlCell c = new UmlCell(value, x, y, 60, 60);
             c.setStyle("shape=ellipse");
-            NodePort p = new NodePort(NodePort.Type.Input, c, "in", 0, 0.5);
-            g.addCell(p, c);
             return c;
         }
     }

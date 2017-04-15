@@ -14,60 +14,30 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.models;
+package com.github.noxchimaera.hydra.app.uml;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Nox
  */
-public class NodeCell extends mxCell {
+public class UmlCell extends mxCell {
 
-    private Map<String, NodePort> ports;
-
-    public
-    NodeCell(UmlNode value, double x, double y, double width, double height) {
+    public UmlCell(UmlNode value, double x, double y, double width, double height) {
         super(value);
         geometry = new mxGeometry(x - width / 2, y - height / 2, width, height);
         geometry.setRelative(false);
 
-        connectable = false;
         vertex = true;
-        ports = new HashMap<>();
     }
 
     public <T>
     T getUserObject() {
-        return (T)value;
-    }
-
-    public
-    void addPort(String portName, NodePort port) {
-        ports.put(portName, port);
-    }
-
-    public
-    void removePort(String portName) {
-        ports.remove(portName);
-    }
-
-    public
-    NodePort getPort(String portName) {
-        return ports.get(portName);
-    }
-
-    public
-    List<NodePort> getPorts(NodePort.Type portType) {
-        return ports.values().stream()
-            .filter(p -> p.getType() == portType)
-            .collect(Collectors.toList());
+        return (T) value;
     }
 
 }

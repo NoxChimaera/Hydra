@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.core.activity2;
 
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.graph.Node;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
@@ -29,16 +30,33 @@ import java.util.Optional;
  */
 public abstract class UmlNode extends Node<String> {
 
+    protected UmlView view;
+
     protected List<Stereotype> stereotypes;
 
-    public UmlNode(long id, NodeType type, String value) {
+    protected final UmlNodeSpecification specification;
+
+    public UmlNode(long id, NodeType type, String value, UmlNodeSpecification specification) {
         super(id, type);
-        setValue(value);
+        this.value = value;
+        view = new UmlView();
         stereotypes = new ArrayList<>();
+        this.specification = specification;
     }
 
-    public
-    UmlNode addStereotype(Stereotype aStereotype) {
+    public UmlView getView() {
+        return view;
+    }
+
+    public void setView(UmlView view) {
+        this.view = view;
+    }
+
+    public UmlNodeSpecification getSpecification() {
+        return specification;
+    }
+
+    public UmlNode addStereotype(Stereotype aStereotype) {
         stereotypes.add(aStereotype);
         return this;
     }
@@ -52,8 +70,8 @@ public abstract class UmlNode extends Node<String> {
             .map(st -> stereotypeClass.cast(st));
     }
 
-    @Override public
-    String toString() {
+    @Override
+    public String toString() {
         return value;
     }
 

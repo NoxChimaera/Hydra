@@ -25,13 +25,11 @@ import com.github.noxchimaera.hydra.core.graph.EdgeType;
  */
 public abstract class UmlEdge extends Edge<UmlNode> {
 
-    public
-    UmlEdge(long id, EdgeType type, UmlNode src, UmlNode dst) {
+    public UmlEdge(long id, EdgeType type, UmlNode src, UmlNode dst) {
         super(id, type, src, dst);
     }
 
-    public
-    UmlEdge(long id, EdgeType type, UmlNode src, UmlNode dst, EdgeDirection direction) {
+    public UmlEdge(long id, EdgeType type, UmlNode src, UmlNode dst, EdgeDirection direction) {
         super(id, type, src, dst, direction);
     }
 

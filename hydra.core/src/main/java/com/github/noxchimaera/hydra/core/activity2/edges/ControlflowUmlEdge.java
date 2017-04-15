@@ -19,7 +19,6 @@ package com.github.noxchimaera.hydra.core.activity2.edges;
 import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.obsolete.nodes.UmlControlflowEdge;
 import com.github.noxchimaera.hydra.core.graph.EdgeDirection;
 import com.github.noxchimaera.hydra.core.graph.EdgeType;
 
@@ -28,18 +27,15 @@ import com.github.noxchimaera.hydra.core.graph.EdgeType;
  */
 public class ControlflowUmlEdge extends UmlEdge {
 
-    public
-    ControlflowUmlEdge(long id) {
+    public ControlflowUmlEdge(long id) {
         super(id, UmlEdgeTypes.Controlflow, null, null);
     }
 
-    public
-    ControlflowUmlEdge(long id, UmlNode src, UmlNode dst) {
+    public ControlflowUmlEdge(long id, UmlNode src, UmlNode dst) {
         super(id, UmlEdgeTypes.Controlflow, src, dst);
     }
 
-    public
-    ControlflowUmlEdge(long id, UmlNode src, UmlNode dst, EdgeDirection direction) {
+    public ControlflowUmlEdge(long id, UmlNode src, UmlNode dst, EdgeDirection direction) {
         super(id, UmlEdgeTypes.Controlflow, src, dst, direction);
     }
 
