@@ -41,7 +41,7 @@ public class InitUmlNode extends UmlNode implements HasOutput {
     private ControlflowUmlEdge output;
 
     public InitUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "", UmlNodeSpecifications.Init);
+        super(id, UmlNodeTypes.Uml, "init", UmlNodeSpecifications.Init);
     }
 
     public ControlflowUmlEdge getOutput() {
@@ -52,19 +52,13 @@ public class InitUmlNode extends UmlNode implements HasOutput {
         this.output = output;
     }
 
-    // @Override
-    // public boolean addEdge(Edge edge) {
-    //     if (edge.getSource() == this && edge.getType() == UmlEdgeTypes.Controlflow) {
-    //         output = (ControlflowUmlEdge)edge;
-    //     } else {
-    //         return false;
-    //     }
-    //     return true;
-    // }
-
     @Override
     public List<Edge> getEdges() {
-        return Arrays.asList(output);
+        if (output == null) {
+            return Arrays.asList();
+        } else {
+            return Arrays.asList(output);
+        }
     }
 
 }

@@ -48,6 +48,7 @@ public class GraphView extends JPanel {
         defaultParent = graph.getDefaultParent();
 
         add(component, GUI.borderLayout_Centre());
+        installHandlers();
     }
 
     private void installHandlers() {

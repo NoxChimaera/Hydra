@@ -36,15 +36,36 @@ public class ControlflowUmlEdgeType extends UmlEdgeType {
     @Override
     public UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory) {
         if (!(source instanceof HasOutput)) {
-            UmlFactory.LOGGER.severe(String.format("Can not create Controlflow edge for {0} source", source));
+            UmlFactory.LOGGER.severe(String.format(
+                "Can not create Controlflow edge for `%s :: %s` source", source, source.getClass()));
             return null;
         }
         if (!(target instanceof HasInput)) {
-            UmlFactory.LOGGER.severe(String.format("Can not create Controlflow edge for {0} target", target));
+            UmlFactory.LOGGER.severe(String.format(
+                "Can not create Controlflow edge for `%s :: %s` target", target, target.getClass()));
             return null;
         }
 
         return factory.flow((UmlNode & HasOutput) source, (UmlNode & HasInput) target);
+    }
+
+    @Override
+    public void remove(UmlEdge edge) {
+        UmlNode source = edge.getSource();
+        UmlNode target = edge.getDestination();
+        if (!(source instanceof HasOutput)) {
+            UmlFactory.LOGGER.severe(
+                String.format("Can not remove Controlflow edge for `%s :: %s` source", source, source.getClass()));
+            return;
+        }
+        if (!(target instanceof HasInput)) {
+            UmlFactory.LOGGER.severe(
+                String.format("Can not remove Controlflow edge for `%s :: %s` target", target, target.getClass()));
+            return;
+        }
+
+        ((HasOutput) source).setOutput(null);
+        ((HasInput) target).setInput(null);
     }
 
 }

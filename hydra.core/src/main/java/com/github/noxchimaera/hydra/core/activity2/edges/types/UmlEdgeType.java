@@ -31,5 +31,6 @@ public abstract class UmlEdgeType extends EdgeType {
     }
 
     public abstract UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory);
+    public abstract void remove(UmlEdge edge);
 
 }

@@ -26,13 +26,19 @@ import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
 import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
 import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
+import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
 import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.properties.MutableProperty;
 import com.github.noxchimaera.hydra.utils.properties.Property;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.mxEvent;
 import com.mxgraph.util.mxEventObject;
 import com.mxgraph.view.mxGraph;
+
+import static com.github.noxchimaera.hydra.app.mx.utils.GraphxEventUtils.*;
+
+import java.util.Map;
 
 /**
  * @author Nox
@@ -58,6 +64,14 @@ public class UmlGraph extends mxGraph {
 
         addListener(mxEvent.CELL_CONNECTED, this::onCellConnected);
         addListener(mxEvent.CELLS_REMOVED, this::onCellRemoved);
+
+        Map<String, Object> style = stylesheet.getDefaultVertexStyle();
+        style.put(mxConstants.STYLE_FONTCOLOR, "#000000");
+        style.put(mxConstants.STYLE_FILLCOLOR, "#FFFFFF");
+        style.put(mxConstants.STYLE_STROKECOLOR, "#AAAAAA");
+
+        stylesheet.getDefaultEdgeStyle()
+            .put(mxConstants.STYLE_STROKECOLOR, "#000000");
     }
 
     public UmlCellFactory getCellFactory() {
@@ -76,7 +90,21 @@ public class UmlGraph extends mxGraph {
     }
 
     private void onCellRemoved(Object sender, mxEventObject evt) {
+        mxCell[] mxEdges = edges(cells(evt));
+        for (mxCell mxEdge : mxEdges) {
+            UmlCell source = (UmlCell)mxEdge.getSource();
+            UmlCell target = (UmlCell)mxEdge.getTarget();
 
+            UmlNode umlSource = source.getUserObject();
+            UmlNode umlTarget = target.getUserObject();
+
+            umlSource.getEdges().stream()
+                .filter(edge -> edge.getSource() == umlSource && edge.getDestination() == umlTarget)
+                .findFirst()
+                .ifPresent(edge -> {
+                    ((UmlEdgeType)edge.getType()).remove(((UmlEdge)edge));
+                });
+        }
     }
 
     @Override
@@ -94,11 +122,27 @@ public class UmlGraph extends mxGraph {
 
     @Override
     public boolean isValidSource(Object cell) {
-        if (cell == null || !isCellConnectable(cell)) {
+        if (cell == null || !Contracts.is(UmlCell.class, cell)) {
             return false;
         }
 
-        return super.isValidSource(cell);
+        if (!isCellConnectable(cell)) {
+            return false;
+        }
+
+        UmlCell umlCell = (UmlCell)cell;
+        UmlNode umlNode = umlCell.getUserObject();
+
+        UmlEdgeType edgeType = CurrentEdgeType.get();
+        ConnectionCardinalitySpecification spec = null;
+        if (edgeType == UmlEdgeTypes.Controlflow) {
+            spec = umlNode.getSpecification().ControlflowCardinality.get();
+        }
+
+        if (spec == null) {
+            return false;
+        }
+        return spec.check(umlNode, EdgeFlowDirection.Output);
     }
 
     @Override
@@ -119,7 +163,8 @@ public class UmlGraph extends mxGraph {
         ControlflowUmlCardinalitySpecification cf = srcNode.getSpecification().ControlflowCardinality.get();
         if (cf == null) {
             // Default behaviour?
-            return super.isValidConnection(rawSrc, rawDst);
+            return false;
+            // return super.isValidConnection(rawSrc, rawDst);
         }
         return cf.check(srcNode, EdgeFlowDirection.Output);
     }

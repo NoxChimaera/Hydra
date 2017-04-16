@@ -54,7 +54,9 @@ public class Main {
         UmlCell c2 = fct.fin(uml.fin(), 50, 150);
         graph.addCell(c2);
 
-        uml.flow(cell.getUserObject(), c2.getUserObject());
+        graph.addCell(fct.fin(uml.fin(), 150, 300));
+
+        // uml.flow(cell.getUserObject(), c2.getUserObject());
     }
 
     private static void initialize() {

@@ -54,7 +54,7 @@ public class UmlCellFactory {
         UmlNode umlSource = source.getUserObject();
         UmlNode umlTarget = target.getUserObject();
 
-        UmlEdge umlEdge = edgeType.create(umlSource, umlTarget, uml);
+        edgeType.create(umlSource, umlTarget, uml);
     }
 
     public UmlCell init(InitUmlNode value, double x, double y) {

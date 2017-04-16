@@ -29,6 +29,10 @@ public class ConnectionCardinality {
         return new ConnectionCardinality();
     }
 
+    public static ConnectionCardinality none() {
+        return new ConnectionCardinality(0);
+    }
+
     public static ConnectionCardinality bounded(int bound) {
         return new ConnectionCardinality(bound);
     }
@@ -58,7 +62,7 @@ public class ConnectionCardinality {
         if (Type.Unbounded == type) {
             return true;
         } else {
-            return count <= bound;
+            return count < bound;
         }
     }
 

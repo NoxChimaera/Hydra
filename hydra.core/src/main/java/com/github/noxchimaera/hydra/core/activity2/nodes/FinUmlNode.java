@@ -34,7 +34,7 @@ public class FinUmlNode extends UmlNode implements HasInput {
     private ControlflowUmlEdge input;
 
     public FinUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "", UmlNodeSpecifications.Fake);
+        super(id, UmlNodeTypes.Uml, "fin", UmlNodeSpecifications.Fake);
     }
 
     public ControlflowUmlEdge getInput() {
@@ -47,7 +47,11 @@ public class FinUmlNode extends UmlNode implements HasInput {
 
     @Override
     public List<Edge> getEdges() {
-        return Arrays.asList(input);
+        if (input == null) {
+            return Arrays.asList();
+        } else {
+            return Arrays.asList(input);
+        }
     }
 
 }

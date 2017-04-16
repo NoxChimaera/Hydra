@@ -28,19 +28,24 @@ public class UmlNodeSpecifications {
     public static final UmlNodeSpecification Fake;
 
     public static final UmlNodeSpecification Init;
+    public static final UmlNodeSpecification Fin;
 
     static {
         ControlflowUmlCardinalitySpecification fake_cf = new ControlflowUmlCardinalitySpecification()
-            .specify(EdgeFlowDirection.Input, ConnectionCardinality.unbounded())
-            .specify(EdgeFlowDirection.Output, ConnectionCardinality.unbounded());
+            .specify(EdgeFlowDirection.Input, ConnectionCardinality.none())
+            .specify(EdgeFlowDirection.Output, ConnectionCardinality.none());
         Fake = new UmlNodeSpecification(fake_cf);
 
         ControlflowUmlCardinalitySpecification init_cf = new ControlflowUmlCardinalitySpecification()
-            .specify(EdgeFlowDirection.Input, ConnectionCardinality.bounded(0))
+            .specify(EdgeFlowDirection.Input, ConnectionCardinality.none())
             .specify(EdgeFlowDirection.Output, ConnectionCardinality.bounded(1));
         Init = new UmlNodeSpecification(init_cf);
-    }
 
+        ControlflowUmlCardinalitySpecification fin_cf = new ControlflowUmlCardinalitySpecification()
+            .specify(EdgeFlowDirection.Input, ConnectionCardinality.bounded(1))
+            .specify(EdgeFlowDirection.Output, ConnectionCardinality.none());
+        Fin = new UmlNodeSpecification(fin_cf);
+    }
 
     private UmlNodeSpecifications() {
         throw new AssertionError("Can not create");
