@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,30 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app;
+package com.github.noxchimaera.hydra.app.gui.graph;
+
+import com.github.noxchimaera.hydra.app.UmlCellFactory;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public class GraphEditorController {
+public class UmlGraphController {
 
-    private GraphView view;
+    private UmlGraphView view;
+
+    private UmlCellFactory factory;
+
+    public UmlGraphController(UmlGraphView view, UmlCellFactory factory) {
+        this.view = view;
+        this.factory = factory;
+    }
+
+    public UmlGraphView getView() {
+        return view;
+    }
+
+    public UmlCellFactory getFactory() {
+        return factory;
+    }
 
 }

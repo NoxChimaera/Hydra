@@ -16,6 +16,10 @@
 
 package com.github.noxchimaera.hydra.app;
 
+import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
+import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
+import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
+import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
 import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
@@ -39,28 +43,45 @@ public class Main {
             Logger.getLogger(Main.class.getName())
                 .log(Level.SEVERE, null, ex);
         }
-        initialize();
-        UmlFactory uml = new UmlFactory();
 
-        UmlGraph graph = new UmlGraph(uml);
-        UmlGraphComponent cmpt = new UmlGraphComponent(graph);
-        GraphView view = new GraphView(cmpt);
-        GUI.frame(view, "Hydra Modelling System").setVisible(true);
+        UmlFactory factory = new UmlFactory();
+        UmlGraph graph = new UmlGraph(factory);
+        UmlGraphComponent graphComponent = new UmlGraphComponent(graph);
+        UmlGraphView umlGraphView = new UmlGraphView(graphComponent);
 
-        UmlCellFactory fct = graph.getCellFactory();
-        UmlCell cell = fct.init(uml.init(), 50, 50);
-        graph.addCell(cell);
+        LibraryPanel library = new LibraryPanel();
+        setupLibrary(library, graph);
 
-        UmlCell c2 = fct.fin(uml.fin(), 50, 150);
-        graph.addCell(c2);
+        AppWindowView view = new AppWindowView(umlGraphView, library);
 
-        graph.addCell(fct.fin(uml.fin(), 150, 300));
+        view.setTitle("Hydra Modelling System");
+        view.setSize(1280, 768);
+        view.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        view.setVisible(true);
 
-        // uml.flow(cell.getUserObject(), c2.getUserObject());
+        UmlCellFactory cellFactory = graph.getCellFactory();
+        UmlCell init = cellFactory.init(factory.init(), 50, 50);
+        graph.addCell(init);
+
+        UmlCell fin1 = cellFactory.fin(factory.fin(), 50, 150);
+        graph.addCell(fin1);
+
+        UmlCell fin2 = cellFactory.fin(factory.fin(), 150, 50);
+        graph.addCell(fin2);
     }
 
-    private static void initialize() {
+    private static void setupLibrary(LibraryPanel lib, UmlGraph graph) {
+        Object dp = graph.getDefaultParent();
+        UmlCellFactory cellFactory = graph.getCellFactory();
+        UmlFactory umlFactory = graph.getUmlFactory();
 
+        PalettePanel uml = lib.createPalette("UML Activity 2");
+        uml.addTemplate(
+            "Initial", null,
+            cellFactory.init(umlFactory.init(), 0, 0));
+        uml.addTemplate(
+            "Final", null,
+            cellFactory.fin(umlFactory.fin(), 0, 0));
     }
 
 

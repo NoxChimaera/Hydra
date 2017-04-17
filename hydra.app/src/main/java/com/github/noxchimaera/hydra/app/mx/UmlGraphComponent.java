@@ -16,6 +16,9 @@
 
 package com.github.noxchimaera.hydra.app.mx;
 
+import com.github.noxchimaera.hydra.app.events.EventBus;
+import com.github.noxchimaera.hydra.app.events.NodeImportEvent;
+import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 
@@ -36,6 +39,46 @@ public class UmlGraphComponent extends mxGraphComponent {
         getViewport().setBackground(Color.WHITE);
 
         pageFormat.setOrientation(PageFormat.LANDSCAPE);
+        setupListeners();
+    }
+
+    private void setupListeners() {
+        EventBus.instance.observe(NodeImportEvent.class)
+            .subscribe(this::asyncImportCell);
+    }
+
+    /**
+     * Custom import handling.
+     *
+     * @param event node import event
+     */
+    private void asyncImportCell(NodeImportEvent event) {
+        if (!event.isConsumed()) return;
+        if (event.getSender() != this) return;
+
+        super.importCells(
+            new Object[]{event.getCell()},
+            event.getDx(), event.getDy(),
+            event.getTarget(), event.getLocation());
+    }
+
+    /**
+     * Intercepts import event and suppress default behaviour.
+     * <p>
+     * {@inheritDoc}
+     */
+    @Override
+    public Object[] importCells(Object[] cells, double dx, double dy, Object target, Point location) {
+        final int n = cells.length;
+        for (int i = 0; i < n; ++i) {
+            if (cells[i] instanceof UmlCell) {
+                UmlCell cell = (UmlCell)cells[i];
+                // Post custom node import event
+                EventBus.instance.post(new NodeImportEvent(this, cell, dx, dy, target, location));
+            }
+        }
+        // Suppress default behaviour
+        return new Object[0];
     }
 
 }

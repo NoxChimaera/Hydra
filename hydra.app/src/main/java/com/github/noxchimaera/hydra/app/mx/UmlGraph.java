@@ -78,6 +78,10 @@ public class UmlGraph extends mxGraph {
         return cellFactory;
     }
 
+    public UmlFactory getUmlFactory() {
+        return umlFactory;
+    }
+
     private void onCellConnected(Object sender, mxEventObject evt) {
         // Handles only source connection event
         if ((Boolean)evt.getProperty("source")) {
@@ -109,7 +113,8 @@ public class UmlGraph extends mxGraph {
 
     @Override
     public boolean isCellEditable(Object cell) {
-        return cell instanceof UmlCell;
+        return false;
+        // return cell instanceof UmlCell;
     }
 
     @Override
