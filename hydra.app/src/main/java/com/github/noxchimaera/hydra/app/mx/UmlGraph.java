@@ -130,7 +130,6 @@ public class UmlGraph extends mxGraph {
         if (cell == null || !Contracts.is(UmlCell.class, cell)) {
             return false;
         }
-
         if (!isCellConnectable(cell)) {
             return false;
         }
@@ -152,7 +151,27 @@ public class UmlGraph extends mxGraph {
 
     @Override
     public boolean isValidTarget(Object cell) {
-        return super.isValidTarget(cell);
+        if (cell == null || !Contracts.is(UmlCell.class, cell)) {
+            return false;
+        }
+        if (!isCellConnectable(cell)) {
+            return false;
+        }
+
+        UmlCell umlCell = (UmlCell)cell;
+        UmlNode umlNode = umlCell.getUserObject();
+
+        UmlEdgeType edgeType = CurrentEdgeType.get();
+        ConnectionCardinalitySpecification spec = null;
+        if (edgeType == UmlEdgeTypes.Controlflow) {
+            spec = umlNode.getSpecification().ControlflowCardinality.get();
+        }
+
+        if (spec == null) {
+            return false;
+        }
+
+        return spec.check(umlNode, EdgeFlowDirection.Input);
     }
 
     @Override
@@ -161,17 +180,19 @@ public class UmlGraph extends mxGraph {
             return false;
         }
 
-        UmlCell src = (UmlCell)rawSrc;
-        UmlCell dst = (UmlCell)rawDst;
+        return super.isValidConnection(rawSrc, rawDst);
 
-        UmlNode srcNode = src.getUserObject();
-        ControlflowUmlCardinalitySpecification cf = srcNode.getSpecification().ControlflowCardinality.get();
-        if (cf == null) {
-            // Default behaviour?
-            return false;
-            // return super.isValidConnection(rawSrc, rawDst);
-        }
-        return cf.check(srcNode, EdgeFlowDirection.Output);
+        // UmlCell src = (UmlCell)rawSrc;
+        // UmlCell dst = (UmlCell)rawDst;
+        //
+        // UmlNode srcNode = src.getUserObject();
+        // ControlflowUmlCardinalitySpecification cf = srcNode.getSpecification().ControlflowCardinality.get();
+        // if (cf == null) {
+        //     // Default behaviour?
+        //     return false;
+        //     // return super.isValidConnection(rawSrc, rawDst);
+        // }
+        // return cf.check(srcNode, EdgeFlowDirection.Output);
     }
 
 }

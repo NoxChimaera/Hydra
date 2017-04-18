@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
@@ -28,6 +29,11 @@ public class ConditionStructuredUmlNode extends StructuredUmlNode {
         super(id, UmlNodeTypes.Uml, "");
         regions.add(new StructuredUmlNodeRegion("Test"));
         regions.add(new StructuredUmlNodeRegion("Body"));
+    }
+
+    @Override
+    public UmlNode deepClone() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }

@@ -43,7 +43,8 @@ public class UmlGraphComponent extends mxGraphComponent {
     }
 
     private void setupListeners() {
-        EventBus.instance.observe(NodeImportEvent.class)
+        EventBus.instance
+            .observe(NodeImportEvent.class)
             .subscribe(this::asyncImportCell);
     }
 

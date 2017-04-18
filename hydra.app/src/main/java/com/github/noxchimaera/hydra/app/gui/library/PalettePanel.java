@@ -116,10 +116,11 @@ public class PalettePanel extends JPanel {
         JLabel entry = new JLabel(icon);
         entry.setPreferredSize(new Dimension(EntrySize, EntrySize));
         entry.setBackground(getBackground().brighter());
-        entry.setFont(new Font(entry.getFont().getFamily(), 0, 10));
+        entry.setFont(new Font(entry.getFont().getFamily(), Font.PLAIN, 10));
         entry.setVerticalTextPosition(JLabel.BOTTOM);
         entry.setHorizontalAlignment(JLabel.CENTER);
         entry.setIconTextGap(0);
+        entry.setText(title);
         entry.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

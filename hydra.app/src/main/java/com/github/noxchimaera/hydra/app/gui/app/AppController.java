@@ -37,7 +37,8 @@ public class AppController {
     }
 
     private void setupListeners() {
-        EventBus.instance.observe(NodeImportEvent.class)
+        EventBus.instance
+            .observe(NodeImportEvent.class)
             .subscribe(this::onNodeImport);
     }
 
@@ -51,10 +52,17 @@ public class AppController {
         if (false) {
             // stub for wizards
         } else {
-            EventBus.instance.post(
-                new NodeImportEvent(event.getSender(), event.getCell(), event.getDx(), event.getDy(),
-                    event.getTarget(), event.getLocation()));
+            commitImport(event, event.getCell());
         }
+    }
+
+    private void commitImport(NodeImportEvent event, UmlCell cell) {
+        UmlNode node = ((UmlNode)cell.getValue()).deepClone();
+        cell.setValue(node);
+
+        EventBus.instance
+            .post(new NodeImportEvent(event.getSender(), cell, event.getDx(), event.getDy(),
+                event.getTarget(), event.getLocation(), true));
     }
 
 }

@@ -31,4 +31,5 @@ public class UmlNodeSpecification implements Serializable {
     public UmlNodeSpecification(ControlflowUmlCardinalitySpecification controlflowCardinality) {
         ControlflowCardinality = new Property<>(controlflowCardinality);
     }
+
 }

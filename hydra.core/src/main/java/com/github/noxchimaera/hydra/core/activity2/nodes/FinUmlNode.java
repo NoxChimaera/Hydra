@@ -23,6 +23,7 @@ import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class FinUmlNode extends UmlNode implements HasInput {
     private ControlflowUmlEdge input;
 
     public FinUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "fin", UmlNodeSpecifications.Fake);
+        super(id, UmlNodeTypes.Uml, "fin", UmlNodeSpecifications.Fin);
     }
 
     public ControlflowUmlEdge getInput() {
@@ -52,6 +53,18 @@ public class FinUmlNode extends UmlNode implements HasInput {
         } else {
             return Arrays.asList(input);
         }
+    }
+
+    @Override
+    public UmlNode deepClone() {
+        FinUmlNode clone = new FinUmlNode(getId());
+        clone.value = value;
+        clone.input = input;
+
+        clone.view = view;
+
+        clone.stereotypes = new ArrayList<>(stereotypes);
+        return clone;
     }
 
 }

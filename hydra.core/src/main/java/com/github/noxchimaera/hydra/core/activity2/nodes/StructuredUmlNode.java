@@ -80,4 +80,9 @@ public abstract class StructuredUmlNode extends UmlNode implements HasInput, Has
         return Arrays.asList(input, output);
     }
 
+    @Override
+    public UmlNode deepClone() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
 }

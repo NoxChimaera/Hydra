@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
@@ -29,6 +30,11 @@ public class LoopStructuredUmlNode extends StructuredUmlNode {
         regions.add(new StructuredUmlNodeRegion("Setup"));
         regions.add(new StructuredUmlNodeRegion("Test"));
         regions.add(new StructuredUmlNodeRegion("Body"));
+    }
+
+    @Override
+    public UmlNode deepClone() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }

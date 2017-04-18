@@ -30,6 +30,7 @@ import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -59,6 +60,19 @@ public class InitUmlNode extends UmlNode implements HasOutput {
         } else {
             return Arrays.asList(output);
         }
+    }
+
+    @Override
+    public UmlNode deepClone() {
+        InitUmlNode clone = new InitUmlNode(getId());
+        clone.value = value;
+        clone.output = output;
+
+        // copy?
+        clone.view = view;
+
+        clone.stereotypes = new ArrayList<>(stereotypes);
+        return clone;
     }
 
 }

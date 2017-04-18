@@ -75,4 +75,6 @@ public abstract class UmlNode extends Node<String> {
         return value;
     }
 
+    public abstract UmlNode deepClone();
+
 }

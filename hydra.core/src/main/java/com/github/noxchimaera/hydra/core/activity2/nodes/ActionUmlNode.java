@@ -24,6 +24,7 @@ import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +58,11 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
     @Override
     public List<Edge> getEdges() {
         return null;
+    }
+
+    @Override
+    public UmlNode deepClone() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }
