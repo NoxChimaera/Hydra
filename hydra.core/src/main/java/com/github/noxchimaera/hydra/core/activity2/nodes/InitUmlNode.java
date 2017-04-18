@@ -29,6 +29,7 @@ import com.github.noxchimaera.hydra.core.graph.EdgeDirection;
 import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,11 +56,7 @@ public class InitUmlNode extends UmlNode implements HasOutput {
 
     @Override
     public List<Edge> getEdges() {
-        if (output == null) {
-            return Arrays.asList();
-        } else {
-            return Arrays.asList(output);
-        }
+        return ListUtils.<Edge>toList(true, output);
     }
 
     @Override

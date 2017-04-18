@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.core.activity2.specification;
 
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
 import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
@@ -29,6 +30,8 @@ public class UmlNodeSpecifications {
 
     public static final UmlNodeSpecification Init;
     public static final UmlNodeSpecification Fin;
+
+    public static final UmlNodeSpecification Action;
 
     static {
         ControlflowUmlCardinalitySpecification fake_cf = new ControlflowUmlCardinalitySpecification()
@@ -45,6 +48,11 @@ public class UmlNodeSpecifications {
             .specify(EdgeFlowDirection.Input, ConnectionCardinality.bounded(1))
             .specify(EdgeFlowDirection.Output, ConnectionCardinality.none());
         Fin = new UmlNodeSpecification(fin_cf);
+
+        ControlflowUmlCardinalitySpecification action_cf = new ControlflowUmlCardinalitySpecification()
+            .specify(EdgeFlowDirection.Input, ConnectionCardinality.bounded(1))
+            .specify(EdgeFlowDirection.Output, ConnectionCardinality.bounded(1));
+        Action = new UmlNodeSpecification(action_cf);
     }
 
     private UmlNodeSpecifications() {

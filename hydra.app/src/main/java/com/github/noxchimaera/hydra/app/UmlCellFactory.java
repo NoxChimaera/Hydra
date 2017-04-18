@@ -16,17 +16,17 @@
 
 package com.github.noxchimaera.hydra.app;
 
+import com.github.noxchimaera.hydra.app.mx.style.CellRounded;
+import com.github.noxchimaera.hydra.app.mx.style.shape.CellShape;
+import com.github.noxchimaera.hydra.app.mx.style.shape.CellShapes;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
-import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.FinUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
-import com.github.noxchimaera.hydra.core.graph.EdgeType;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.view.mxGraph;
 
@@ -60,7 +60,18 @@ public class UmlCellFactory {
     public UmlCell init(InitUmlNode value, double x, double y) {
         try (DrawSection $ = draw()) {
             UmlCell c = new UmlCell(value, x, y, 60, 60);
-            c.setStyle("shape=ellipse");
+            c.clearStyle()
+                .addStyle(new CellShape(CellShapes.DoubleEllipse));
+            return c;
+        }
+    }
+
+    public UmlCell action(ActionUmlNode value, double x, double y) {
+        try (DrawSection $ = draw()) {
+            UmlCell c = new UmlCell(value, x, y, 120, 60);
+            c.clearStyle()
+                .addStyle(new CellShape(CellShapes.Rectangle))
+                .addStyle(new CellRounded(true));
             return c;
         }
     }
@@ -68,7 +79,8 @@ public class UmlCellFactory {
     public UmlCell fin(FinUmlNode value, double x, double y) {
         try (DrawSection $ = draw()) {
             UmlCell c = new UmlCell(value, x, y, 60, 60);
-            c.setStyle("shape=ellipse");
+            c.clearStyle()
+                .addStyle(new CellShape(CellShapes.DoubleEllipse));
             return c;
         }
     }

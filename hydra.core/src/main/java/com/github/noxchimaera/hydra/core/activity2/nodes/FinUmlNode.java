@@ -22,6 +22,7 @@ import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,11 +49,7 @@ public class FinUmlNode extends UmlNode implements HasInput {
 
     @Override
     public List<Edge> getEdges() {
-        if (input == null) {
-            return Arrays.asList();
-        } else {
-            return Arrays.asList(input);
-        }
+        return ListUtils.<Edge>toList(true, input);
     }
 
     @Override

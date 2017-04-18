@@ -23,8 +23,10 @@ import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
     private ControlflowUmlEdge output;
 
     public ActionUmlNode(long id, String value) {
-        super(id, UmlNodeTypes.Uml, value, UmlNodeSpecifications.Fake);
+        super(id, UmlNodeTypes.Uml, value, UmlNodeSpecifications.Action);
     }
 
     public ControlflowUmlEdge getInput() {
@@ -57,12 +59,19 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
 
     @Override
     public List<Edge> getEdges() {
-        return null;
+        return ListUtils.<Edge>toList(true, input, output);
     }
 
     @Override
     public UmlNode deepClone() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        ActionUmlNode clone = new ActionUmlNode(getId(), value);
+        clone.input = input;
+        clone.output = output;
+
+        clone.view = view;
+
+        clone.stereotypes = new ArrayList<>(stereotypes);
+        return clone;
     }
 
 }

@@ -68,6 +68,9 @@ public class Main {
 
         UmlCell fin2 = cellFactory.fin(factory.fin(), 150, 50);
         graph.addCell(fin2);
+
+        UmlCell act = cellFactory.action(factory.action("שָׁלוֹם עֲלֵיכֶם\u200F"), 300, 300);
+        graph.addCell(act);
     }
 
     private static void setupLibrary(LibraryPanel lib, UmlGraph graph) {
@@ -82,6 +85,9 @@ public class Main {
         uml.addTemplate(
             "Final", null,
             cellFactory.fin(umlFactory.fin(), 0, 0));
+        uml.addTemplate(
+            "Action", null,
+            cellFactory.action(umlFactory.action(""), 0, 0));
     }
 
 

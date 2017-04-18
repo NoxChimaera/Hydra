@@ -16,6 +16,8 @@
 
 package com.github.noxchimaera.hydra.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,6 +35,19 @@ public class ListUtils {
 
     public static <T> List<T> tail(List<T> lst) {
         return lst.subList(1, lst.size() - 1);
+    }
+
+    public static <T> ArrayList<T> toList(boolean ignoreNulls, T... items) {
+        ArrayList<T> lst = new ArrayList<>(items.length);
+        for (T item : items) {
+            if (ignoreNulls && item == null) continue;
+            lst.add(item);
+        }
+        return lst;
+    }
+
+    public static <T> ArrayList<T> toList(T... items) {
+        return new ArrayList<>(Arrays.asList(items));
     }
 
 }

@@ -170,7 +170,6 @@ public class UmlGraph extends mxGraph {
         if (spec == null) {
             return false;
         }
-
         return spec.check(umlNode, EdgeFlowDirection.Input);
     }
 
