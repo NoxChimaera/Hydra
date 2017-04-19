@@ -51,7 +51,7 @@ public class PalettePanel extends JPanel {
     }
 
     private void initialize() {
-        setBackground(new Color(149, 230, 190));
+        // setBackground(new Color(149, 230, 190));
         setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
         addMouseListener(new MouseAdapter() {
             @Override

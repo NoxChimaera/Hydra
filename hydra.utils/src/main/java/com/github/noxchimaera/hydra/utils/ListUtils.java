@@ -19,6 +19,7 @@ package com.github.noxchimaera.hydra.utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.IntFunction;
 
 /**
  * @author Max Balushkin
@@ -48,6 +49,10 @@ public class ListUtils {
 
     public static <T> ArrayList<T> toList(T... items) {
         return new ArrayList<>(Arrays.asList(items));
+    }
+
+    public static <T> T[] toArray(List<T> items, IntFunction<T[]> generator) {
+        return items.toArray(generator.apply(items.size()));
     }
 
 }

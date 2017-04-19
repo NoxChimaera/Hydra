@@ -23,6 +23,8 @@ import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.swing.mxGraphOutline;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 
 /**
  * @author Nox
@@ -51,6 +53,10 @@ public class AppWindowView extends JFrame {
 
     private void initialize() {
         menu = new JMenuBar();
+
+        JPanel root = new JPanel(new BorderLayout(4, 4));
+        root.setBorder(new EmptyBorder(8, 8, 8, 8));
+        setContentPane(root);
 
         JSplitPane rightPart = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphView, outline);
         rightPart.setDividerLocation(800);

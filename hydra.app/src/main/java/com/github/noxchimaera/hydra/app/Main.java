@@ -17,6 +17,8 @@
 package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
+import com.github.noxchimaera.hydra.app.gui.editors.ActionUmlNodeEditor;
+import com.github.noxchimaera.hydra.app.gui.editors.base.Editor;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
@@ -24,8 +26,6 @@ import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
-import com.github.noxchimaera.hydra.utils.swing.GUI;
-import com.mxgraph.view.mxGraph;
 
 import javax.swing.*;
 import java.util.logging.Level;
@@ -57,6 +57,7 @@ public class Main {
         view.setTitle("Hydra Modelling System");
         view.setSize(1280, 768);
         view.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        view.setLocationRelativeTo(null);
         view.setVisible(true);
 
         UmlCellFactory cellFactory = graph.getCellFactory();
@@ -69,8 +70,21 @@ public class Main {
         UmlCell fin2 = cellFactory.fin(factory.fin(), 150, 50);
         graph.addCell(fin2);
 
-        UmlCell act = cellFactory.action(factory.action("שָׁלוֹם עֲלֵיכֶם\u200F"), 300, 300);
+        UmlCell act = cellFactory.action(factory.action("print :hello"), 300, 300);
         graph.addCell(act);
+
+        junk();
+    }
+
+    private static void junk() {
+        Editor ed = new ActionUmlNodeEditor(null, null);
+
+        ed.setSize(640, 480);
+        ed.setLocationRelativeTo(null);
+        ed.setVisible(true);
+
+
+
     }
 
     private static void setupLibrary(LibraryPanel lib, UmlGraph graph) {

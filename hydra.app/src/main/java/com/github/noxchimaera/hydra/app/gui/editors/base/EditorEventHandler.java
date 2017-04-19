@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2;
+package com.github.noxchimaera.hydra.app.gui.editors.base;
 
 /**
  * @author Nox
  */
-public abstract class Stereotype {
+public interface EditorEventHandler<T> {
 
-    protected String name;
-
-    public Stereotype(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
+    void handleEvent(EditorEvent<T> event);
 
 }

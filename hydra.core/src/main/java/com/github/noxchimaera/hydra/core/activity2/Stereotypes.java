@@ -16,20 +16,21 @@
 
 package com.github.noxchimaera.hydra.core.activity2;
 
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
+import com.github.noxchimaera.hydra.utils.ListUtils;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Nox
  */
-public abstract class Stereotype {
+public class Stereotypes {
 
-    protected String name;
+    public final static DiversifiedStereotype Diversified = new DiversifiedStereotype();
 
-    public Stereotype(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    public static List<Stereotype> getAll(boolean withEmpty) {
+        return ListUtils.<Stereotype>toList(!withEmpty, null, Diversified);
     }
 
 }

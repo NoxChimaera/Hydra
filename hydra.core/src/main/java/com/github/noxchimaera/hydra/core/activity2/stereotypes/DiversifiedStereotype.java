@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2;
+package com.github.noxchimaera.hydra.core.activity2.stereotypes;
+
+import com.github.noxchimaera.hydra.core.activity2.Stereotype;
 
 /**
  * @author Nox
  */
-public abstract class Stereotype {
+public class DiversifiedStereotype extends Stereotype {
 
-    protected String name;
-
-    public Stereotype(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    public DiversifiedStereotype() {
+        super("Diversified");
     }
 
 }
