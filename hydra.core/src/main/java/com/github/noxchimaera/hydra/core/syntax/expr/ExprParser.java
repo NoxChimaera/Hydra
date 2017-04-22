@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
-
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-
-import javax.swing.*;
-import java.awt.*;
+package com.github.noxchimaera.hydra.core.syntax.expr;
 
 /**
+ * Parses expressions: {@code type id = id LPAR [ value DCOLON type ]* RPAR}.
+ * </p>
+ * Where {@code type} is type identifier, {@code id} - any valid identifier,
+ * value - any valid value (identifier, string, number or boolean),
+ * LPAR and RPAR - parentheses, DCOLON - double colon.
+ *
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
-
-    public abstract Stereotype stereotype();
-
+public class ExprParser {
 }

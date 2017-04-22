@@ -43,7 +43,7 @@ public class UmlGraphComponent extends mxGraphComponent {
     }
 
     private void setupListeners() {
-        EventBus.instance
+        EventBus.Shared
             .observe(NodeImportEvent.class)
             .subscribe(this::asyncImportCell);
     }
@@ -75,7 +75,7 @@ public class UmlGraphComponent extends mxGraphComponent {
             if (cells[i] instanceof UmlCell) {
                 UmlCell cell = (UmlCell)cells[i];
                 // Post custom node import event
-                EventBus.instance.post(new NodeImportEvent(this, cell, dx, dy, target, location));
+                EventBus.Shared.post(new NodeImportEvent(this, cell, dx, dy, target, location));
             }
         }
         // Suppress default behaviour

@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2;
+package com.github.noxchimaera.hydra.core.syntax.expr;
+
+import com.github.noxchimaera.hydra.core.syntax.Token;
 
 /**
  * @author Nox
  */
-public abstract class Stereotype {
+public class ExprToken extends Token {
 
-    protected String name;
-
-    public Stereotype(String name) {
-        this.name = name;
+    public static ExprToken eol(int line, int col) {
+        return new ExprToken(ExprTokenType.EOL, "<<EOL>>", line, col);
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public ExprToken(ExprTokenType tokenType, String lexeme, int line, int col) {
+        super(tokenType.ordinal(), lexeme, line, col);
     }
 
 }

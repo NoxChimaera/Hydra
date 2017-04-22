@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.util.List;
 
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public class Stereotypes {
 
-    public abstract Stereotype stereotype();
+    public final static DiversifiedStereotype Diversified = new DiversifiedStereotype();
+
+    public static List<Stereotype> getAll(boolean withEmpty) {
+        return ListUtils.<Stereotype>toList(!withEmpty, null, Diversified);
+    }
 
 }

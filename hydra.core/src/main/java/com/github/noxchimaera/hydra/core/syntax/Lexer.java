@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2;
+package com.github.noxchimaera.hydra.core.syntax;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
-import com.github.noxchimaera.hydra.utils.ListUtils;
-
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author Nox
  */
-public class Stereotypes {
+public interface Lexer<T extends Token> {
 
-    public final static DiversifiedStereotype Diversified = new DiversifiedStereotype();
+    T lookup(int k);
+    T next();
+    void prev(T token);
 
-    public static List<Stereotype> getAll(boolean withEmpty) {
-        return ListUtils.<Stereotype>toList(!withEmpty, null, Diversified);
-    }
+    List<LexerError> errors();
 
 }

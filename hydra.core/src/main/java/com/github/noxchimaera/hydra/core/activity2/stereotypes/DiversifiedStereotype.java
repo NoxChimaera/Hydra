@@ -16,7 +16,8 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
-import com.github.noxchimaera.hydra.core.activity2.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.NodeTypeConstraint;
 
 /**
  * @author Nox
@@ -25,6 +26,8 @@ public class DiversifiedStereotype extends Stereotype {
 
     public DiversifiedStereotype() {
         super("Diversified");
+
+        constraints.add(new NodeTypeConstraint(ActionUmlNode.class));
     }
 
 }

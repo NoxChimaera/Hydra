@@ -44,6 +44,7 @@ public class AppWindowView extends JFrame {
     public AppWindowView(UmlGraphView graphView, LibraryPanel library) {
         super();
         this.graphView = graphView;
+        graphView.setOwner(this);
         this.library = library;
         outline = new mxGraphOutline(graphView.getGraphComponent());
 

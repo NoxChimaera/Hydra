@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-
-import javax.swing.*;
-import java.awt.*;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public class SyntaxExpressionConstraint implements StereotypeConstraint<ActionUmlNode> {
 
-    public abstract Stereotype stereotype();
+    @Override
+    public boolean checkConstraint(ActionUmlNode node) {
+        return false;
+    }
 
 }

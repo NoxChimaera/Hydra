@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.syntax;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-
-import javax.swing.*;
-import java.awt.*;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public class LexerError {
 
-    public abstract Stereotype stereotype();
+    private String message;
+
+    private int line, col;
+
+    public LexerError(String message, int line, int col) {
+        this.message = message;
+        this.line = line;
+        this.col = col;
+    }
+
+    @Override
+    public String toString() {
+        return Strings.$(message, " at (", line, ":", col, ")");
+    }
 
 }

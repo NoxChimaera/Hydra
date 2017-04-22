@@ -19,7 +19,6 @@ package com.github.noxchimaera.hydra.app.gui.app;
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.events.EventBus;
 import com.github.noxchimaera.hydra.app.events.NodeImportEvent;
-import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 
@@ -37,7 +36,7 @@ public class AppController {
     }
 
     private void setupListeners() {
-        EventBus.instance
+        EventBus.Shared
             .observe(NodeImportEvent.class)
             .subscribe(this::onNodeImport);
     }
@@ -60,7 +59,7 @@ public class AppController {
         UmlNode node = ((UmlNode)cell.getValue()).deepClone();
         cell.setValue(node);
 
-        EventBus.instance
+        EventBus.Shared
             .post(new NodeImportEvent(event.getSender(), cell, event.getDx(), event.getDy(),
                 event.getTarget(), event.getLocation(), true));
     }

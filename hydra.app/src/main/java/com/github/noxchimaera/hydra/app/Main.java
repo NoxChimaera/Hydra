@@ -26,6 +26,8 @@ import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import java.util.logging.Level;
@@ -43,6 +45,8 @@ public class Main {
             Logger.getLogger(Main.class.getName())
                 .log(Level.SEVERE, null, ex);
         }
+
+        IconFontSwing.register(FontAwesome.getIconFont());
 
         UmlFactory factory = new UmlFactory();
         UmlGraph graph = new UmlGraph(factory);
@@ -77,11 +81,11 @@ public class Main {
     }
 
     private static void junk() {
-        Editor ed = new ActionUmlNodeEditor(null, null);
-
-        ed.setSize(640, 480);
-        ed.setLocationRelativeTo(null);
-        ed.setVisible(true);
+        // Editor ed = new ActionUmlNodeEditor(null, null);
+        //
+        // ed.setSize(640, 480);
+        // ed.setLocationRelativeTo(null);
+        // ed.setVisible(true);
 
 
 

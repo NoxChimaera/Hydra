@@ -18,14 +18,16 @@ package com.github.noxchimaera.hydra.app.gui.editors.components;
 
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public class EmptyStereotypeComponent extends StereotypeComponent {
 
-    public abstract Stereotype stereotype();
+    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+
+    @Override
+    public Stereotype stereotype() {
+        return null;
+    }
 
 }

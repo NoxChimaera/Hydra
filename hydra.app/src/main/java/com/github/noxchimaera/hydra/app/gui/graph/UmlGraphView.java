@@ -19,6 +19,10 @@ package com.github.noxchimaera.hydra.app.gui.graph;
 import com.github.noxchimaera.hydra.app.gui.app.AppController;
 import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
+import com.github.noxchimaera.hydra.app.uml.UmlCell;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
+import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.swing.handler.mxKeyboardHandler;
@@ -35,6 +39,8 @@ import java.awt.event.MouseWheelEvent;
  */
 public class UmlGraphView extends JPanel {
 
+    private Frame owner;
+
     private UmlGraphController controller;
 
     private UmlGraphComponent graphComponent;
@@ -47,7 +53,6 @@ public class UmlGraphView extends JPanel {
 
     public UmlGraphView(UmlGraphComponent graphComponent) {
         super(new BorderLayout());
-
         this.graphComponent = graphComponent;
         graph = (UmlGraph)graphComponent.getGraph();
         model = graph.getModel();
@@ -66,23 +71,23 @@ public class UmlGraphView extends JPanel {
     }
 
     private void installListeners() {
-        graphComponent.addMouseWheelListener(e -> {
-            if (e.isControlDown()) {
-                onMouseWheelMoved(e);
+        graphComponent.addMouseWheelListener(event -> {
+            if (event.isControlDown()) {
+                onMouseWheelMoved(event);
             }
         });
 
         graphComponent.getGraphControl().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                int count = e.getClickCount();
-                if (SwingUtilities.isLeftMouseButton(e)) {
+            public void mouseClicked(MouseEvent event) {
+                int count = event.getClickCount();
+                if (SwingUtilities.isLeftMouseButton(event)) {
                     if (count == 2) {
-                        // left double click
+                        onLeftDoubleClick(event);
                     } else if (count == 1) {
                         // left click
                     }
-                } else if (SwingUtilities.isRightMouseButton(e)) {
+                } else if (SwingUtilities.isRightMouseButton(event)) {
                     if (count == 2) {
 
                     } else if (count == 1) {
@@ -91,6 +96,19 @@ public class UmlGraphView extends JPanel {
                 }
             }
         });
+    }
+
+    private void onLeftDoubleClick(MouseEvent event) {
+        Object selected = graph.getSelectionCell();
+        if (null == selected) {
+            return;
+        }
+        if (!Contracts.is(UmlCell.class, selected)) {
+            return;
+        }
+        UmlCell cell = (UmlCell)selected;
+        UmlNode node = cell.getUserObject();
+        controller.showEditor(cell, node);
     }
 
     private void onMouseWheelMoved(MouseWheelEvent event) {
@@ -107,6 +125,14 @@ public class UmlGraphView extends JPanel {
 
     public UmlGraph getGraph() {
         return graph;
+    }
+
+    public void setOwner(Frame owner) {
+        this.owner = owner;
+    }
+
+    public Frame getOwner() {
+        return owner;
     }
 
 }

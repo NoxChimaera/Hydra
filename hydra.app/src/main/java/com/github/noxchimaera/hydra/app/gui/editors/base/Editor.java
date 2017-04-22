@@ -36,7 +36,7 @@ public abstract class Editor<T> extends JDialog {
     protected JButton applyButton;
     protected JButton cancelButton;
 
-    public Editor(Dialog owner, String title, boolean modal) {
+    public Editor(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
         preinitialize();
     }
@@ -88,6 +88,10 @@ public abstract class Editor<T> extends JDialog {
         }
         setVisible(false);
         dispose();
+    }
+
+    public void setEventHandler(EditorEventHandler<T> handler) {
+        eventHandler = handler;
     }
 
 }

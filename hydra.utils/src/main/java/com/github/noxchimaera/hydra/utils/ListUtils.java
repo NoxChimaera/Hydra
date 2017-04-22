@@ -18,13 +18,28 @@ package com.github.noxchimaera.hydra.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.IntFunction;
+import java.util.function.Predicate;
 
 /**
  * @author Max Balushkin
  */
 public class ListUtils {
+
+    public static <T> boolean any(Predicate<T> predicate, List<T> lst) {
+        for (T item : lst) {
+            if (predicate.test(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static <T> boolean every(Predicate<T> predicate, List<T> lst) {
+        return any(predicate.negate(), lst);
+    }
 
     public static <T> T last(List<T> lst) {
         return lst.get(lst.size() - 1);
@@ -53,6 +68,10 @@ public class ListUtils {
 
     public static <T> T[] toArray(List<T> items, IntFunction<T[]> generator) {
         return items.toArray(generator.apply(items.size()));
+    }
+
+    public static <T> HashSet<T> toHashSet(T... items) {
+        return new HashSet<>(toList(items));
     }
 
 }

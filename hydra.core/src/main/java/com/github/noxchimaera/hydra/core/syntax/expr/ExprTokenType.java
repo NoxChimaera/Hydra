@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
-
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-
-import javax.swing.*;
-import java.awt.*;
+package com.github.noxchimaera.hydra.core.syntax.expr;
 
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public enum ExprTokenType {
 
-    public abstract Stereotype stereotype();
+    Error,
+    Whitespace,
+    EOL,
+
+    Symbol,
+    Int,
+    Real,
+    String,
+    Boolean,
+
+    Assign,
+    DoubleColon
 
 }

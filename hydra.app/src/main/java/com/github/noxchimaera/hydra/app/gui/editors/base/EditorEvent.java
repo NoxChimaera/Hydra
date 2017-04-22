@@ -47,4 +47,16 @@ public class EditorEvent<T> {
         this.value = value;
     }
 
+    public Editor<T> getSource() {
+        return source;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
 }

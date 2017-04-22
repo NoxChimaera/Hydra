@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * @author Nox
  */
-public abstract class StereotypeComponent extends JPanel {
+public class NodeTypeConstraint<T extends UmlNode> implements StereotypeConstraint<T> {
 
-    public abstract Stereotype stereotype();
+    private HashSet<Class> types;
+
+    public NodeTypeConstraint(Class<? extends UmlNode>... types) {
+        this.types = ListUtils.toHashSet(types);
+    }
+
+    @Override
+    public boolean checkConstraint(UmlNode node) {
+        return false;
+    }
 
 }

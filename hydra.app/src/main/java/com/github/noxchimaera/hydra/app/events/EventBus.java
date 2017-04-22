@@ -25,7 +25,7 @@ import rx.subjects.Subject;
  */
 public class EventBus<T> {
 
-    public final static EventBus<Object> instance = new EventBus<>();
+    public final static EventBus<Object> Shared = new EventBus<>();
 
     private final Subject<T, T> subject;
 

@@ -17,10 +17,10 @@
 package com.github.noxchimaera.hydra.core.activity2;
 
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.graph.Node;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
