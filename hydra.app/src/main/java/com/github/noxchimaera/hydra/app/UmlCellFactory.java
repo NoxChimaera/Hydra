@@ -17,6 +17,11 @@
 package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.app.mx.style.CellRounded;
+import com.github.noxchimaera.hydra.app.mx.style.CellSpacing;
+import com.github.noxchimaera.hydra.app.mx.style.align.CellLabelAlignment;
+import com.github.noxchimaera.hydra.app.mx.style.align.CellLabelPosition;
+import com.github.noxchimaera.hydra.app.mx.style.align.HorizontalAlignment;
+import com.github.noxchimaera.hydra.app.mx.style.align.VerticalAlignment;
 import com.github.noxchimaera.hydra.app.mx.style.shape.CellShape;
 import com.github.noxchimaera.hydra.app.mx.style.shape.CellShapes;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
@@ -71,7 +76,11 @@ public class UmlCellFactory {
             UmlCell c = new UmlCell(value, x, y, 120, 60);
             c.clearStyle()
                 .addStyle(new CellShape(CellShapes.Rectangle))
-                .addStyle(new CellRounded(true));
+                .addStyle(new CellRounded(true))
+                .addStyle(new CellLabelPosition(HorizontalAlignment.Centre, VerticalAlignment.Centre))
+                .addStyle(new CellLabelAlignment(HorizontalAlignment.Left, VerticalAlignment.Centre))
+                .addStyle(new CellSpacing(16))
+            ;
             return c;
         }
     }

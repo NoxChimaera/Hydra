@@ -16,25 +16,23 @@
 
 package com.github.noxchimaera.hydra.app.mx.style;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.utils.Strings;
 import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellGlass extends SimpleCellStyle {
+public class CellSpacing extends SimpleCellStyle {
 
-    private boolean enabled;
+    private double spacing;
 
-    public CellGlass(boolean enabled) {
-        super(mxConstants.STYLE_GLASS);
-        this.enabled = enabled;
+    public CellSpacing(double spacing) {
+        super(mxConstants.STYLE_SPACING);
+        this.spacing = spacing;
     }
 
     @Override
     public String parameter() {
-        return String.valueOf(enabled);
+        return String.valueOf(spacing);
     }
 
 }

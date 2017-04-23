@@ -16,17 +16,13 @@
 
 package com.github.noxchimaera.hydra.app.mx.style;
 
+import com.github.noxchimaera.hydra.utils.Strings;
+
 /**
  * @author Nox
  */
 public abstract class CellStyle {
 
-    protected String property;
-
-    public CellStyle(String property) {
-        this.property = property;
-    }
-
-    public abstract String getValue();
+    public abstract String value();
 
 }

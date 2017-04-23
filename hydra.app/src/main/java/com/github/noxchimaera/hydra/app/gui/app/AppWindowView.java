@@ -54,10 +54,10 @@ public class AppWindowView extends JFrame {
 
     private void initialize() {
         menu = new JMenuBar();
+        menu.add(new JButton("Tets"));
 
         JPanel root = new JPanel(new BorderLayout(4, 4));
         root.setBorder(new EmptyBorder(8, 8, 8, 8));
-        setContentPane(root);
 
         JSplitPane rightPart = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphView, outline);
         rightPart.setDividerLocation(800);
@@ -71,9 +71,15 @@ public class AppWindowView extends JFrame {
         whole.setDividerSize(6);
         whole.setOneTouchExpandable(true);
         whole.setBorder(null);
-        add(whole, GUI.borderLayout_Centre());
+        root.add(whole, GUI.borderLayout_Centre());
+
+
+        JToolBar bar = new JToolBar();
+        bar.add(new JLabel("ffff"));
+        root.add(bar, GUI.borderLayout_Top());
 
         add(menu, GUI.borderLayout_Top());
+        add(root, GUI.borderLayout_Centre());
     }
 
     public UmlGraphView getGraphView() {

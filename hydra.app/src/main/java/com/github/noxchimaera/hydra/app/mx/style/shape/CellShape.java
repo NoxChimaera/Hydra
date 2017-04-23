@@ -17,23 +17,25 @@
 package com.github.noxchimaera.hydra.app.mx.style.shape;
 
 import com.github.noxchimaera.hydra.app.mx.style.CellStyle;
+import com.github.noxchimaera.hydra.app.mx.style.SimpleCellStyle;
 import com.github.noxchimaera.hydra.utils.Strings;
+import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellShape extends CellStyle {
+public class CellShape extends SimpleCellStyle {
 
     private CellShapes shape;
 
     public CellShape(CellShapes shape) {
-        super("shape");
+        super(mxConstants.STYLE_SHAPE);
         this.shape = shape;
     }
 
     @Override
-    public String getValue() {
-        return Strings.$(property, "=", shape.asString(), ";");
+    public String parameter() {
+        return shape.asString();
     }
 
 }

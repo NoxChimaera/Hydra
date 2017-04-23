@@ -18,17 +18,19 @@ package com.github.noxchimaera.hydra.app.mx.style.opacity;
 
 import com.github.noxchimaera.hydra.app.Log;
 import com.github.noxchimaera.hydra.app.mx.style.CellStyle;
+import com.github.noxchimaera.hydra.app.mx.style.SimpleCellStyle;
 import com.github.noxchimaera.hydra.utils.Strings;
+import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellOpacity extends CellStyle {
+public class CellOpacity extends SimpleCellStyle {
 
     private float opacity;
 
     public CellOpacity(float opacity) {
-        super("opacity");
+        super(mxConstants.STYLE_OPACITY);
         if (opacity < 0) {
             opacity = 0;
             Log.shared.warning("Opacity level < 0");
@@ -40,8 +42,8 @@ public class CellOpacity extends CellStyle {
     }
 
     @Override
-    public String getValue() {
-        return Strings.$(property, "=", opacity, ";");
+    public String parameter() {
+        return String.valueOf(opacity);
     }
 
 }

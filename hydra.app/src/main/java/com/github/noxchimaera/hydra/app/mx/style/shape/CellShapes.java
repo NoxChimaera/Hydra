@@ -16,27 +16,29 @@
 
 package com.github.noxchimaera.hydra.app.mx.style.shape;
 
+import com.mxgraph.util.mxConstants;
+
 /**
  * @author Nox
  */
 public enum CellShapes {
 
-    Rectangle("rectangle"),
-    Ellipse("ellipse"),
-    DoubleRectangle("doubleRectangle"),
-    DoubleEllipse("doubleEllipse"),
-    Rhombus("rhombus"),
-    Line("line"),
-    Image("image"),
-    Arrow("arrow"),
-    Curve("curve"),
-    Label("label"),
-    Cylinder("cylinder"),
-    Swimlane("swimlane"),
-    Actor("actor"),
-    Cloud("cloud"),
-    Triangle("triangle"),
-    Hexagon("hexagon");
+    Rectangle(mxConstants.SHAPE_RECTANGLE),
+    Ellipse(mxConstants.SHAPE_ELLIPSE),
+    DoubleRectangle(mxConstants.SHAPE_DOUBLE_RECTANGLE),
+    DoubleEllipse(mxConstants.SHAPE_ELLIPSE),
+    Rhombus(mxConstants.SHAPE_RHOMBUS),
+    Line(mxConstants.SHAPE_LINE),
+    Image(mxConstants.SHAPE_IMAGE),
+    Arrow(mxConstants.SHAPE_ARROW),
+    Curve(mxConstants.SHAPE_CURVE),
+    Label(mxConstants.SHAPE_LABEL),
+    Cylinder(mxConstants.SHAPE_CYLINDER),
+    Swimlane(mxConstants.SHAPE_SWIMLANE),
+    Actor(mxConstants.SHAPE_ACTOR),
+    Cloud(mxConstants.SHAPE_CLOUD),
+    Triangle(mxConstants.SHAPE_TRIANGLE),
+    Hexagon(mxConstants.SHAPE_HEXAGON);
 
     private String value;
 

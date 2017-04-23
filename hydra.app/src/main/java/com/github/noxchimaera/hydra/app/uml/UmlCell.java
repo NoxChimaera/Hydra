@@ -18,11 +18,8 @@ package com.github.noxchimaera.hydra.app.uml;
 
 import com.github.noxchimaera.hydra.app.mx.style.CellStyle;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.utils.Strings;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
-
-import java.util.HashMap;
 
 /**
  * @author Nox
@@ -48,7 +45,7 @@ public class UmlCell extends mxCell {
     }
 
     public UmlCell addStyle(CellStyle cellStyle) {
-        String style = getStyle() + String.format("%s", cellStyle.getValue());
+        String style = getStyle() + String.format("%s", cellStyle.value());
         setStyle(style);
         return this;
     }

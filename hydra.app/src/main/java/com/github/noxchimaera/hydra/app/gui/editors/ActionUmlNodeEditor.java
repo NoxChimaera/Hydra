@@ -26,6 +26,7 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -82,6 +83,7 @@ public class ActionUmlNodeEditor extends Editor<ActionUmlNode> {
         effectInput = new RSyntaxTextArea(20, 60);
         effectInput.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
         effectInput.setCodeFoldingEnabled(true);
+        effectInput.setTabsEmulated(true);
 
         RTextScrollPane scroll = new RTextScrollPane(effectInput);
         effectPanel.add(scroll, GUI.borderLayout_Centre());
@@ -93,8 +95,8 @@ public class ActionUmlNodeEditor extends Editor<ActionUmlNode> {
             IconFontSwing.buildIcon(FontAwesome.CHECK_CIRCLE, 16, Color.GREEN.darker()));
         languageTitle = new JLabel("Java");
 
-        langPanel.add(statusIcon);
-        langPanel.add(languageTitle);
+        // langPanel.add(statusIcon);
+        // langPanel.add(languageTitle);
 
         effectPanel.add(langPanel, GUI.borderLayout_Bottom());
 

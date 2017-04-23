@@ -16,25 +16,34 @@
 
 package com.github.noxchimaera.hydra.app.mx.style;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.utils.Strings;
-import com.mxgraph.util.mxConstants;
+import java.util.Map;
 
 /**
  * @author Nox
  */
-public class CellGlass extends SimpleCellStyle {
+public abstract class CompoundCellStyle extends CellStyle {
 
-    private boolean enabled;
+    private String[] properties;
 
-    public CellGlass(boolean enabled) {
-        super(mxConstants.STYLE_GLASS);
-        this.enabled = enabled;
+    public CompoundCellStyle(String... properties) {
+        this.properties = properties;
     }
 
+    public abstract String[] parameters();
+
     @Override
-    public String parameter() {
-        return String.valueOf(enabled);
+    public String value() {
+        String[] parameters = parameters();
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < properties.length; ++i) {
+            builder
+                .append(properties[i])
+                .append("=")
+                .append(parameters[i])
+                .append(";");
+        }
+
+        return builder.toString();
     }
 
 }

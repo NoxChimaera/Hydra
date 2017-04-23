@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.mx.style;
+package com.github.noxchimaera.hydra.app.mx.style.align;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.utils.Strings;
+import com.github.noxchimaera.hydra.app.mx.style.CompoundCellStyle;
 import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellGlass extends SimpleCellStyle {
+public class CellLabelPosition extends CompoundCellStyle {
 
-    private boolean enabled;
+    private HorizontalAlignment horizontal;
+    private VerticalAlignment vertical;
 
-    public CellGlass(boolean enabled) {
-        super(mxConstants.STYLE_GLASS);
-        this.enabled = enabled;
+    public CellLabelPosition(HorizontalAlignment horizontal, VerticalAlignment vertical) {
+        super(mxConstants.STYLE_LABEL_POSITION, mxConstants.STYLE_VERTICAL_LABEL_POSITION);
+        this.horizontal = horizontal;
+        this.vertical = vertical;
     }
 
     @Override
-    public String parameter() {
-        return String.valueOf(enabled);
+    public String[] parameters() {
+        return new String[] { horizontal.asString(), vertical.asString() };
     }
 
 }

@@ -41,9 +41,7 @@ public class UmlGraphController {
     }
 
     private void updateCell(UmlCell cell) {
-        // TODO: Doesn't works properly
-        view.getGraph().updateCellSize(cell);
-        view.getGraph().repaint();
+        view.getGraph().cellLabelChanged(cell, cell.getValue(), true);
     }
 
     public void showEditor(UmlCell cell, UmlNode node) {
@@ -51,19 +49,16 @@ public class UmlGraphController {
         Editor editor = null;
         if (Contracts.is(ActionUmlNode.class, node)) {
             editor = new ActionUmlNodeEditor(view.getOwner(), (ActionUmlNode)node);
-            editor.setEventHandler(new EditorEventHandler() {
-                @Override
-                public void handleEvent(EditorEvent event) {
-                    if (EditorEvent.Status.CANCEL == event.getStatus()) {
-                        return;
-                    }
-
-                    ActionUmlNode action = (ActionUmlNode)node;
-                    ActionUmlNode result = (ActionUmlNode)event.getValue();
-                    action.setValue(result.getValue());
-
-                    updateCell(cell);
+            editor.setEventHandler(event -> {
+                if (EditorEvent.Status.CANCEL == event.getStatus()) {
+                    return;
                 }
+
+                ActionUmlNode action = (ActionUmlNode)node;
+                ActionUmlNode result = (ActionUmlNode)event.getValue();
+                action.setValue(result.getValue());
+
+                updateCell(cell);
             });
         } else {
             return;

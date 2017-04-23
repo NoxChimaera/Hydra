@@ -17,22 +17,23 @@
 package com.github.noxchimaera.hydra.app.mx.style;
 
 import com.github.noxchimaera.hydra.utils.Strings;
+import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellRounded extends CellStyle {
+public class CellRounded extends SimpleCellStyle {
 
     private boolean enabled;
 
     public CellRounded(boolean enabled) {
-        super("rounded");
+        super(mxConstants.STYLE_ROUNDED);
         this.enabled = enabled;
     }
 
     @Override
-    public String getValue() {
-        return Strings.$(property, "=", enabled, ";");
+    public String parameter() {
+        return String.valueOf(enabled);
     }
 
 }

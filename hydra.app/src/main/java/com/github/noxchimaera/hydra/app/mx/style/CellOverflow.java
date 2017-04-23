@@ -17,11 +17,12 @@
 package com.github.noxchimaera.hydra.app.mx.style;
 
 import com.github.noxchimaera.hydra.utils.Strings;
+import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellOverflow extends CellStyle {
+public class CellOverflow extends SimpleCellStyle {
 
     public enum Mode {
         Visible("visible"),
@@ -42,13 +43,13 @@ public class CellOverflow extends CellStyle {
     private Mode mode;
 
     public CellOverflow(Mode mode) {
-        super("overflow");
+        super(mxConstants.STYLE_OVERFLOW);
         this.mode = mode;
     }
 
     @Override
-    public String getValue() {
-        return Strings.$(property, "=", mode.asString(), ";");
+    public String parameter() {
+        return mode.asString();
     }
 
 }

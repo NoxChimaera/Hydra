@@ -31,9 +31,9 @@ import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.properties.MutableProperty;
 import com.github.noxchimaera.hydra.utils.properties.Property;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.util.mxConstants;
-import com.mxgraph.util.mxEvent;
-import com.mxgraph.util.mxEventObject;
+import com.mxgraph.model.mxGeometry;
+import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.util.*;
 import com.mxgraph.view.mxGraph;
 
 import static com.github.noxchimaera.hydra.app.mx.utils.GraphxEventUtils.*;
@@ -72,6 +72,10 @@ public class UmlGraph extends mxGraph {
 
         stylesheet.getDefaultEdgeStyle()
             .put(mxConstants.STYLE_STROKECOLOR, "#000000");
+    }
+
+    private DrawSection draw() {
+        return new DrawSection(model);
     }
 
     public UmlCellFactory getCellFactory() {
@@ -180,18 +184,40 @@ public class UmlGraph extends mxGraph {
         }
 
         return super.isValidConnection(rawSrc, rawDst);
-
-        // UmlCell src = (UmlCell)rawSrc;
-        // UmlCell dst = (UmlCell)rawDst;
-        //
-        // UmlNode srcNode = src.getUserObject();
-        // ControlflowUmlCardinalitySpecification cf = srcNode.getSpecification().ControlflowCardinality.get();
-        // if (cf == null) {
-        //     // Default behaviour?
-        //     return false;
-        //     // return super.isValidConnection(rawSrc, rawDst);
-        // }
-        // return cf.check(srcNode, EdgeFlowDirection.Output);
     }
+
+    @Override
+    public void cellSizeUpdated(Object cell, boolean ignoreChildren) {
+        if (cell == null) return;
+        try (DrawSection $ = draw()) {
+            mxRectangle size = getPreferredSizeForCell(cell);
+            mxGeometry geo = model.getGeometry(cell);
+            if (size == null || geo == null) return;
+
+            boolean collapsed = isCellCollapsed(cell);
+            geo = (mxGeometry)geo.clone();
+            if (isSwimlane(cell)) {
+                // TODO: implement swimlane resizing
+            } else {
+                geo.setWidth(size.getWidth());
+                geo.setHeight(size.getHeight());
+            }
+
+            if (!ignoreChildren && !collapsed) {
+                mxRectangle bounds = view.getBounds(mxGraphModel.getChildren(model, cell));
+                if (bounds != null) {
+                    mxPoint tr = view.getTranslate();
+                    double scale = view.getScale();
+                    double width = (bounds.getX() + bounds.getWidth()) / scale - geo.getX() - tr.getX();
+                    double height = (bounds.getY() + bounds.getHeight()) / scale - geo.getY() - tr.getY();
+                    geo.setWidth(Math.max(geo.getWidth(), width));
+                    geo.setHeight(Math.max(geo.getHeight(), height));
+                }
+            }
+
+            cellsResized(new Object[] { cell }, new mxRectangle[] { geo });
+        }
+    }
+
 
 }

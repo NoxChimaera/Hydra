@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.mx.style;
+package com.github.noxchimaera.hydra.app.mx.style.align;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.utils.Strings;
 import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public class CellGlass extends SimpleCellStyle {
+public enum VerticalAlignment {
 
-    private boolean enabled;
+    Top(mxConstants.ALIGN_TOP),
+    Centre(mxConstants.ALIGN_MIDDLE),
+    Bottom(mxConstants.ALIGN_BOTTOM);
 
-    public CellGlass(boolean enabled) {
-        super(mxConstants.STYLE_GLASS);
-        this.enabled = enabled;
+    private String value;
+
+    private VerticalAlignment(String value) {
+        this.value = value;
     }
 
-    @Override
-    public String parameter() {
-        return String.valueOf(enabled);
+    public String asString() {
+        return value;
     }
 
 }

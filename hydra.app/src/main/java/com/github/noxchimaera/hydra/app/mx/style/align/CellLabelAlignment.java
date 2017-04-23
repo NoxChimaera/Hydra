@@ -14,36 +14,31 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.mx.style.opacity;
+package com.github.noxchimaera.hydra.app.mx.style.align;
 
-import com.github.noxchimaera.hydra.app.Log;
 import com.github.noxchimaera.hydra.app.mx.style.CellStyle;
-import com.github.noxchimaera.hydra.app.mx.style.SimpleCellStyle;
-import com.github.noxchimaera.hydra.utils.Strings;
+import com.github.noxchimaera.hydra.app.mx.style.CompoundCellStyle;
 import com.mxgraph.util.mxConstants;
+
+import java.util.Arrays;
 
 /**
  * @author Nox
  */
-public class CellTextOpacity extends SimpleCellStyle {
+public class CellLabelAlignment extends CompoundCellStyle {
 
-    private float opacity;
+    private HorizontalAlignment horizontal;
+    private VerticalAlignment vertical;
 
-    public CellTextOpacity(float opacity) {
-        super(mxConstants.STYLE_TEXT_OPACITY);
-        if (opacity < 0) {
-            opacity = 0;
-            Log.shared.warning("Opacity level < 0");
-        } else if (opacity > 100) {
-            opacity = 100;
-            Log.shared.warning("Opacity level > 100");
-        }
-        this.opacity = opacity;
+    public CellLabelAlignment(HorizontalAlignment horizontal, VerticalAlignment vertical) {
+        super(mxConstants.STYLE_ALIGN, mxConstants.STYLE_VERTICAL_ALIGN);
+        this.horizontal = horizontal;
+        this.vertical = vertical;
     }
 
     @Override
-    public String parameter() {
-        return String.valueOf(opacity);
+    public String[] parameters() {
+        return new String[] { horizontal.asString(), vertical.asString() };
     }
 
 }
