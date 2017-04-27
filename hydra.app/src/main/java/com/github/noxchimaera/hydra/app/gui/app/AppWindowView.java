@@ -16,14 +16,25 @@
 
 package com.github.noxchimaera.hydra.app.gui.app;
 
+import com.alee.laf.button.WebButton;
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.menu.WebMenu;
+import com.alee.laf.menu.WebMenuBar;
+import com.alee.laf.menu.WebMenuItem;
+import com.alee.laf.panel.WebPanel;
+import com.alee.laf.splitpane.WebSplitPane;
+import com.alee.laf.toolbar.WebToolBar;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.swing.mxGraphOutline;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 
 /**
@@ -33,7 +44,7 @@ public class AppWindowView extends JFrame {
 
     private AppController controller;
 
-    private JMenuBar menu;
+    private WebMenuBar menu;
 
     private LibraryPanel library;
 
@@ -53,29 +64,34 @@ public class AppWindowView extends JFrame {
     }
 
     private void initialize() {
-        menu = new JMenuBar();
-        menu.add(new JButton("Tets"));
+        menu = new WebMenuBar();
+        WebMenu t1 = new WebMenu("Test 1");
+        t1.add(new WebMenuItem("Test 1.2"));
+        t1.add(new WebMenuItem("Test 1.3"));
+        menu.add(t1);
 
-        JPanel root = new JPanel(new BorderLayout(4, 4));
+        WebPanel root = new WebPanel(new BorderLayout(4, 4));
         root.setBorder(new EmptyBorder(8, 8, 8, 8));
 
-        JSplitPane rightPart = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, graphView, outline);
+        WebSplitPane rightPart = new WebSplitPane(WebSplitPane.HORIZONTAL_SPLIT, graphView, outline);
         rightPart.setDividerLocation(800);
         rightPart.setResizeWeight(1);
         rightPart.setDividerSize(6);
         rightPart.setOneTouchExpandable(true);
         rightPart.setBorder(null);
 
-        JSplitPane whole = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, library, rightPart);
+        WebSplitPane whole = new WebSplitPane(WebSplitPane.HORIZONTAL_SPLIT, library, rightPart);
         whole.setDividerSize(200);
         whole.setDividerSize(6);
         whole.setOneTouchExpandable(true);
         whole.setBorder(null);
         root.add(whole, GUI.borderLayout_Centre());
 
-
-        JToolBar bar = new JToolBar();
-        bar.add(new JLabel("ffff"));
+        WebToolBar bar = new WebToolBar();
+        WebButton codegenButton = new WebButton(
+            "Codegen", IconFontSwing.buildIcon(FontAwesome.CUBE, root.getFont().getSize()));
+        codegenButton.onMouseClick(mouseEvent -> codegen());
+        bar.add(codegenButton);
         root.add(bar, GUI.borderLayout_Top());
 
         add(menu, GUI.borderLayout_Top());
@@ -84,6 +100,10 @@ public class AppWindowView extends JFrame {
 
     public UmlGraphView getGraphView() {
         return graphView;
+    }
+
+    private void codegen() {
+        controller.codegen(getGraphView().getGraph().getModel(), getGraphView().getGraph().getDefaultParent());
     }
 
 }

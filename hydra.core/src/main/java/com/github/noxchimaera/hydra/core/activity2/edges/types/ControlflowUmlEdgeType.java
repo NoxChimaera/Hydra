@@ -21,6 +21,8 @@ import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
+import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
 import java.util.logging.Logger;
 
@@ -34,8 +36,8 @@ public class ControlflowUmlEdgeType extends UmlEdgeType {
     }
 
     @Override
-    public UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory) {
-        if (!(source instanceof HasOutput)) {
+    public UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory, Object data) {
+        if (!Contracts.is(HasOutput.class, source) && !Contracts.is(StructuredUmlNode.class, source)) {
             UmlFactory.LOGGER.severe(String.format(
                 "Can not create Controlflow edge for `%s :: %s` source", source, source.getClass()));
             return null;
@@ -46,7 +48,11 @@ public class ControlflowUmlEdgeType extends UmlEdgeType {
             return null;
         }
 
-        return factory.flow((UmlNode & HasOutput) source, (UmlNode & HasInput) target);
+        if (Contracts.is(StructuredUmlNode.class, source)) {
+            return factory.flow((StructuredUmlNode)source, (UmlNode & HasInput)target, data.toString());
+        } else {
+            return factory.flow((UmlNode & HasOutput)source, (UmlNode & HasInput)target);
+        }
     }
 
     @Override

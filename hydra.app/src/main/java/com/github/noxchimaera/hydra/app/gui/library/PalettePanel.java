@@ -16,6 +16,8 @@
 
 package com.github.noxchimaera.hydra.app.gui.library;
 
+import com.alee.laf.label.WebLabel;
+import com.alee.laf.panel.WebPanel;
 import com.github.noxchimaera.hydra.app.swing.ShadowBorder;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.mxgraph.model.mxCell;
@@ -40,9 +42,9 @@ import java.awt.event.MouseEvent;
 /**
  * @author Nox
  */
-public class PalettePanel extends JPanel {
+public class PalettePanel extends WebPanel {
 
-    private JLabel selectedEntry;
+    private WebLabel selectedEntry;
     private mxEventSource eventSource;
 
     public PalettePanel() {
@@ -71,7 +73,7 @@ public class PalettePanel extends JPanel {
         setSelectionEntry(null, null);
     }
 
-    public void setSelectionEntry(JLabel entry, mxGraphTransferable transferable) {
+    public void setSelectionEntry(WebLabel entry, mxGraphTransferable transferable) {
         JLabel prev = selectedEntry;
         selectedEntry = entry;
         if (prev != null) {
@@ -94,7 +96,7 @@ public class PalettePanel extends JPanel {
     public static int EntrySize = 50;
     public static int Padding = 5;
 
-    public void setPreferredWidth(int width) {
+    public void setPreferredPaletteWidth(int width) {
         int cols = Math.max(1, width / (EntrySize + Padding));
         setPreferredSize(new Dimension(
             width,
@@ -113,7 +115,7 @@ public class PalettePanel extends JPanel {
             }
         }
 
-        JLabel entry = new JLabel(icon);
+        WebLabel entry = new WebLabel(icon);
         entry.setPreferredSize(new Dimension(EntrySize, EntrySize));
         entry.setBackground(getBackground().brighter());
         entry.setFont(new Font(entry.getFont().getFamily(), Font.PLAIN, 10));

@@ -16,6 +16,9 @@
 
 package com.github.noxchimaera.hydra.app.gui.library;
 
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.tabbedpane.WebTabbedPane;
+
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,11 +26,11 @@ import java.awt.event.ComponentEvent;
 /**
  * @author Nox
  */
-public class LibraryPanel extends JTabbedPane {
+public class LibraryPanel extends WebTabbedPane {
 
     public PalettePanel createPalette(String title) {
         PalettePanel panel = new PalettePanel();
-        JScrollPane scroll = new JScrollPane(panel);
+        WebScrollPane scroll = new WebScrollPane(panel);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(title, scroll);
@@ -36,7 +39,7 @@ public class LibraryPanel extends JTabbedPane {
             @Override
             public void componentResized(ComponentEvent e) {
                 int w = scroll.getWidth() - scroll.getVerticalScrollBar().getWidth();
-                panel.setPreferredWidth(w);
+                panel.setPreferredPaletteWidth(w);
             }
         });
         return panel;

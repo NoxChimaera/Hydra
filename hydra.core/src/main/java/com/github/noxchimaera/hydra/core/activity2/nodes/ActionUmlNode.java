@@ -18,6 +18,7 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
+import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
@@ -72,6 +73,11 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
 
         clone.stereotypes = new ArrayList<>(stereotypes);
         return clone;
+    }
+
+    @Override
+    public void accept(UmlVisitor visitor) {
+        visitor.action(this);
     }
 
 }

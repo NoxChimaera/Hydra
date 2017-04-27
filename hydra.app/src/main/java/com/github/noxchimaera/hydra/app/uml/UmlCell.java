@@ -39,6 +39,10 @@ public class UmlCell extends mxCell {
         return (T) value;
     }
 
+    public UmlNode getUmlNode() {
+        return (UmlNode)value;
+    }
+
     public UmlCell clearStyle() {
         setStyle("");
         return this;

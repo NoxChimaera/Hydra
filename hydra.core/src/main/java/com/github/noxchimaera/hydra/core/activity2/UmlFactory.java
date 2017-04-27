@@ -49,12 +49,25 @@ public class UmlFactory {
         return new ActionUmlNode(next(), effect);
     }
 
-    public LoopStructuredUmlNode loop() {
-        return new LoopStructuredUmlNode(next());
+    public LoopUmlNode loop() {
+        return new LoopUmlNode(next());
     }
 
-    public ConditionStructuredUmlNode cond() {
-        return new ConditionStructuredUmlNode(next());
+    public ConditionalUmlNode cond() {
+        return new ConditionalUmlNode(next());
+    }
+
+    public <TSrc extends StructuredUmlNode, TDst extends UmlNode & HasInput>
+    UmlEdge flow(TSrc src, TDst dst, String region) {
+        ControlflowUmlEdge edge = new ControlflowUmlEdge(++edgeId);
+        edge.setGuard(region);
+        edge.setSource(src);
+        edge.setDestination(dst);
+
+        src.setConnection(region, edge);
+        dst.setInput(edge);
+
+        return edge;
     }
 
     public <TSrc extends UmlNode & HasOutput, TDst extends UmlNode & HasInput>

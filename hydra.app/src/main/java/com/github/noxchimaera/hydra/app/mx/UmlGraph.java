@@ -17,11 +17,10 @@
 package com.github.noxchimaera.hydra.app.mx;
 
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
+import com.github.noxchimaera.hydra.app.events.EventBus;
+import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
-import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.*;
 import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
 import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
@@ -94,6 +93,19 @@ public class UmlGraph extends mxGraph {
         mxCell edge = (mxCell)evt.getProperty("edge");
         UmlCell source = (UmlCell)edge.getSource();
         UmlCell target = (UmlCell)edge.getTarget();
+
+        // Hello darkness, my old friend...
+        if (UmlNodeTypes.RegionHeader == source.getUmlNode().getType()) {
+            if (!Contracts.is(UmlEdge.class, edge.getValue())) {
+                EventBus.Shared.post(new RegionConnectionEvent(source, target, CurrentEdgeType.get(), cellFactory));
+                model.remove(edge);
+                return;
+            } else {
+                // If value of edge is just a string - correct edge was inserted
+                return;
+            }
+        }
+
         cellFactory.connect(source, target, CurrentEdgeType.get());
     }
 
@@ -126,7 +138,7 @@ public class UmlGraph extends mxGraph {
         if (cell instanceof UmlCell) {
             return ((UmlCell) cell).getUserObject() instanceof StructuredUmlNode;
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -185,39 +197,5 @@ public class UmlGraph extends mxGraph {
 
         return super.isValidConnection(rawSrc, rawDst);
     }
-
-    @Override
-    public void cellSizeUpdated(Object cell, boolean ignoreChildren) {
-        if (cell == null) return;
-        try (DrawSection $ = draw()) {
-            mxRectangle size = getPreferredSizeForCell(cell);
-            mxGeometry geo = model.getGeometry(cell);
-            if (size == null || geo == null) return;
-
-            boolean collapsed = isCellCollapsed(cell);
-            geo = (mxGeometry)geo.clone();
-            if (isSwimlane(cell)) {
-                // TODO: implement swimlane resizing
-            } else {
-                geo.setWidth(size.getWidth());
-                geo.setHeight(size.getHeight());
-            }
-
-            if (!ignoreChildren && !collapsed) {
-                mxRectangle bounds = view.getBounds(mxGraphModel.getChildren(model, cell));
-                if (bounds != null) {
-                    mxPoint tr = view.getTranslate();
-                    double scale = view.getScale();
-                    double width = (bounds.getX() + bounds.getWidth()) / scale - geo.getX() - tr.getX();
-                    double height = (bounds.getY() + bounds.getHeight()) / scale - geo.getY() - tr.getY();
-                    geo.setWidth(Math.max(geo.getWidth(), width));
-                    geo.setHeight(Math.max(geo.getHeight(), height));
-                }
-            }
-
-            cellsResized(new Object[] { cell }, new mxRectangle[] { geo });
-        }
-    }
-
 
 }

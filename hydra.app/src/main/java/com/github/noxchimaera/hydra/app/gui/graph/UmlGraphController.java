@@ -18,9 +18,8 @@ package com.github.noxchimaera.hydra.app.gui.graph;
 
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.gui.editors.ActionUmlNodeEditor;
-import com.github.noxchimaera.hydra.app.gui.editors.base.Editor;
-import com.github.noxchimaera.hydra.app.gui.editors.base.EditorEvent;
-import com.github.noxchimaera.hydra.app.gui.editors.base.EditorEventHandler;
+import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
+import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
@@ -46,11 +45,11 @@ public class UmlGraphController {
 
     public void showEditor(UmlCell cell, UmlNode node) {
         // TODO: refactor
-        Editor editor = null;
+        Dialog editor = null;
         if (Contracts.is(ActionUmlNode.class, node)) {
             editor = new ActionUmlNodeEditor(view.getOwner(), (ActionUmlNode)node);
             editor.setEventHandler(event -> {
-                if (EditorEvent.Status.CANCEL == event.getStatus()) {
+                if (DialogEvent.Status.CANCEL == event.getStatus()) {
                     return;
                 }
 

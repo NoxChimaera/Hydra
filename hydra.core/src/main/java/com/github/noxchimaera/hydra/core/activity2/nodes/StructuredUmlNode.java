@@ -17,31 +17,51 @@
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
-import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.graph.Edge;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
+import com.github.noxchimaera.hydra.utils.ListUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * @author Nox
  */
-public abstract class StructuredUmlNode extends UmlNode implements HasInput, HasOutput {
+public abstract class StructuredUmlNode extends UmlNode implements HasInput, Serializable {
 
     protected ControlflowUmlEdge input;
     protected ControlflowUmlEdge output;
 
-    protected List<StructuredUmlNodeRegion> regions;
+    protected Set<String> regions;
+    protected Map<String, ControlflowUmlEdge> regionRoots;
 
-    public StructuredUmlNode(long id, NodeType type, String value) {
-        super(id, type, value, UmlNodeSpecifications.Fake);
-        regions = new ArrayList<>();
+    public StructuredUmlNode(long id, NodeType type, String value, UmlNodeSpecification specification) {
+        super(id, type, value, specification);
+        regions = new HashSet<>();
+        regionRoots = new HashMap<>();
+    }
+
+    public void setConnection(String connection, ControlflowUmlEdge edge) {
+        if (edge.getGuard().equals("")) {
+            output = edge;
+        } else {
+            regionRoots.put(connection, edge);
+        }
+    }
+
+    public List<String> getEmptyConnections() {
+        List<String> lst = new ArrayList<>(regions);
+        for (String key : regionRoots.keySet()) {
+            lst.remove(key);
+        }
+        if (output == null) {
+            lst.add(0, "");
+        }
+        return lst;
     }
 
     @Override
@@ -52,37 +72,6 @@ public abstract class StructuredUmlNode extends UmlNode implements HasInput, Has
     @Override
     public ControlflowUmlEdge getInput() {
         return input;
-    }
-
-    @Override
-    public void
-    setOutput(ControlflowUmlEdge edge) {
-        output = edge;
-    }
-
-    @Override
-    public ControlflowUmlEdge getOutput() {
-        return output;
-    }
-
-    public Optional<StructuredUmlNodeRegion> getRegion(String regionName) {
-        return regions.stream()
-            .filter(region -> region.getName().equals(regionName))
-            .findFirst();
-    }
-
-    public List<StructuredUmlNodeRegion> getRegions() {
-        return new ArrayList<>(regions);
-    }
-
-    @Override
-    public List<Edge> getEdges() {
-        return Arrays.asList(input, output);
-    }
-
-    @Override
-    public UmlNode deepClone() {
-        throw new UnsupportedOperationException("Not implemented yet");
     }
 
 }

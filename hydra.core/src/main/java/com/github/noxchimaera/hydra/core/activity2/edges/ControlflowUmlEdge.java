@@ -27,6 +27,8 @@ import com.github.noxchimaera.hydra.core.graph.EdgeType;
  */
 public class ControlflowUmlEdge extends UmlEdge {
 
+    private String guard;
+
     public ControlflowUmlEdge(long id) {
         super(id, UmlEdgeTypes.Controlflow, null, null);
     }
@@ -37,6 +39,19 @@ public class ControlflowUmlEdge extends UmlEdge {
 
     public ControlflowUmlEdge(long id, UmlNode src, UmlNode dst, EdgeDirection direction) {
         super(id, UmlEdgeTypes.Controlflow, src, dst, direction);
+    }
+
+    public String getGuard() {
+        return guard;
+    }
+
+    public void setGuard(String guard) {
+        this.guard = guard;
+    }
+
+    @Override
+    public String toString() {
+        return guard;
     }
 
 }

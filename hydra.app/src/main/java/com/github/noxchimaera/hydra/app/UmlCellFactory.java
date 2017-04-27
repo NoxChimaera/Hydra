@@ -26,12 +26,15 @@ import com.github.noxchimaera.hydra.app.mx.style.shape.CellShape;
 import com.github.noxchimaera.hydra.app.mx.style.shape.CellShapes;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
+import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ConditionalUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.FinUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
+import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.view.mxGraph;
 
@@ -59,39 +62,49 @@ public class UmlCellFactory {
         UmlNode umlSource = source.getUserObject();
         UmlNode umlTarget = target.getUserObject();
 
-        edgeType.create(umlSource, umlTarget, uml);
+        edgeType.create(umlSource, umlTarget, uml, "");
+    }
+
+    public void connect(UmlCell source, UmlCell target, UmlEdgeType edgeType, String value) {
+        UmlNode umlSource = source.getUserObject();
+        UmlNode umlTarget = target.getUserObject();
+
+        UmlEdge edge = edgeType.create(umlSource, umlTarget, uml, value);
+        try (DrawSection $ = draw()) {
+            g.insertEdge(g.getDefaultParent(), null, edge, source, target);
+        }
     }
 
     public UmlCell init(InitUmlNode value, double x, double y) {
-        try (DrawSection $ = draw()) {
-            UmlCell c = new UmlCell(value, x, y, 60, 60);
-            c.clearStyle()
-                .addStyle(new CellShape(CellShapes.DoubleEllipse));
-            return c;
-        }
+        UmlCell c = new UmlCell(value, x, y, 60, 60);
+        c.clearStyle()
+            .addStyle(new CellShape(CellShapes.DoubleEllipse));
+        return c;
     }
 
     public UmlCell action(ActionUmlNode value, double x, double y) {
-        try (DrawSection $ = draw()) {
-            UmlCell c = new UmlCell(value, x, y, 120, 60);
-            c.clearStyle()
-                .addStyle(new CellShape(CellShapes.Rectangle))
-                .addStyle(new CellRounded(true))
-                .addStyle(new CellLabelPosition(HorizontalAlignment.Centre, VerticalAlignment.Centre))
-                .addStyle(new CellLabelAlignment(HorizontalAlignment.Left, VerticalAlignment.Centre))
-                .addStyle(new CellSpacing(16))
-            ;
-            return c;
-        }
+        UmlCell c = new UmlCell(value, x, y, 120, 60);
+        c.clearStyle()
+            .addStyle(new CellShape(CellShapes.Rectangle))
+            .addStyle(new CellRounded(true))
+            .addStyle(new CellLabelPosition(HorizontalAlignment.Centre, VerticalAlignment.Centre))
+            .addStyle(new CellLabelAlignment(HorizontalAlignment.Left, VerticalAlignment.Centre))
+            .addStyle(new CellSpacing(16));
+        return c;
     }
 
     public UmlCell fin(FinUmlNode value, double x, double y) {
-        try (DrawSection $ = draw()) {
-            UmlCell c = new UmlCell(value, x, y, 60, 60);
-            c.clearStyle()
-                .addStyle(new CellShape(CellShapes.DoubleEllipse));
-            return c;
-        }
+        UmlCell c = new UmlCell(value, x, y, 60, 60);
+        c.clearStyle()
+            .addStyle(new CellShape(CellShapes.DoubleEllipse));
+        return c;
+    }
+
+    public UmlCell cond(ConditionalUmlNode value, double x, double y) {
+        UmlCell c = new UmlCell(value, x, y, 120, 60);
+        c.clearStyle()
+            .addStyle(new CellShape(CellShapes.DoubleRectangle));
+        return c;
     }
 
 }

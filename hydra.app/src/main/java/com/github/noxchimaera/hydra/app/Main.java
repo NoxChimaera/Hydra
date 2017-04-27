@@ -17,8 +17,6 @@
 package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
-import com.github.noxchimaera.hydra.app.gui.editors.ActionUmlNodeEditor;
-import com.github.noxchimaera.hydra.app.gui.editors.base.Editor;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
@@ -40,7 +38,8 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
+            // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {
             Logger.getLogger(Main.class.getName())
                 .log(Level.SEVERE, null, ex);
@@ -81,11 +80,11 @@ public class Main {
     }
 
     private static void junk() {
-        // Editor ed = new ActionUmlNodeEditor(null, null);
+        // Dialog ed = new ActionUmlNodeEditor(null, null);
         //
         // ed.setSize(640, 480);
         // ed.setLocationRelativeTo(null);
-        // ed.setVisible(true);
+        // ed.setVisible(false);
 
 
 
@@ -106,105 +105,9 @@ public class Main {
         uml.addTemplate(
             "Action", null,
             cellFactory.action(umlFactory.action(""), 0, 0));
+        uml.addTemplate(
+            "Conditional", null,
+            cellFactory.cond(umlFactory.cond(), 0, 0));
     }
-
-
-//    private static void unmark(ObsoleteNode node) {
-//        node.unmark(Index.class);
-//        node.unmark(Tarjan.Root.class);
-//    }
-//
-//    public static void main2(String[] args) {
-//        ObsoleteGraphFactory<String> fct = new ObsoleteGraphFactory<>();
-//
-//        MyObsoleteNode init = new MyObsoleteNode(fct, "init");
-//        MyObsoleteNode loop1Header = new MyObsoleteNode(fct, "loop 1");
-//        MyObsoleteNode loop2Header = new MyObsoleteNode(fct, "loop 2");
-//        MyObsoleteNode loop2End = new MyObsoleteNode(fct, "loop 2 end");
-//        MyObsoleteNode loop1Pre = new MyObsoleteNode(fct, "loop 1 pre end");
-//        MyObsoleteNode loop1End = new MyObsoleteNode(fct, "loop 1 end");
-//        MyObsoleteNode end = new MyObsoleteNode(fct, "end");
-//
-//        init.connect(loop1Header);
-//        loop1Header.connect(loop2Header);
-//        loop2Header.connect(loop2End);
-//        loop2End.connect(loop2Header);
-//        loop2End.connect(loop1Pre);
-//        loop1Pre.connect(loop1End);
-//        loop1End.connect(loop1Header);
-//        loop1End.connect(end);
-//
-//        Tarjan t = new Tarjan();
-//        t.accept(init);
-//
-//        Tarjan t2 = new Tarjan();
-//        unmark(init);
-//        unmark(loop1Header);
-//        unmark(loop2Header);
-//        unmark(loop2End);
-//        unmark(loop1Pre);
-//        unmark(loop1End);
-//        unmark(end);
-//
-//        t2.addIgnoringEdges(loop1End.getEdges());
-//        t2.accept(loop1Header);
-//
-//        for (Object o : t2.getComponents()) {
-//            int f = 3;
-//        }
-//
-//
-//
-//
-////        UmlNodeFactory fct = new UmlNodeFactory(-1, -1);
-//        // signum
-////        UmlInitialNode init = fct.begin();
-////        UmlDecisionNode ifLesser = fct.decision();
-////        UmlMergeNode fullMerge = fct.merge();
-////        UmlDecisionNode ifGreater = fct.decision();
-////        UmlMergeNode subMerge = fct.merge();
-////
-////        fct.flow(init, ifLesser);
-////        fct.flow(ifLesser, UmlDecisionNode::setNextLeft,
-////            "n < 0", Arrays.asList(fct.act("n = -1")),
-////            fullMerge, UmlMergeNode::setPrevLeft);
-////        fct.link(ifLesser, ifGreater, "n >= 0", UmlDecisionNode::setNextRight);
-////        fct.flow(ifGreater,
-////            "n == 0", Arrays.asList(fct.act("n = 0")),
-////            "n > 0", Arrays.asList(fct.act("n = 1")),
-////            subMerge);
-////        fct.link(subMerge, fullMerge, UmlMergeNode::setPrevRight);
-////        fct.flow(fullMerge, fct.end());
-//
-//
-//
-////        UmlInitialNode umlInit = fct.flowl(
-////            fct.begin(),
-////            Arrays.asList(
-////                fct.act("print `Hello`")
-////            ),
-////            fct.end()
-////        );
-//
-//
-////        HyAction init = new HyAction("arr = [0, 1, 5, 3, -1], isSorted = false");
-////        HyLoop loop = new HyLoop(
-////            new HyAction("!isSorted"),
-////            new HySequence()
-////                .add(new HyAction("isSorted = false"))
-////                .add(new HyLoop(
-////                    new HyAction("i < n - 1"),
-////                    new HyConditional(
-////                        new HyAction("arr[i] > arr[i + 1]"),
-////                        new HySequence()
-////                            .add(new HyAction("arr[i], arr[i + 1] = arr[i + 1], arr[i]"))
-////                            .add(new HyAction("isSorted = false")),
-////                        new HyEmpty())))
-////                .add(new HyAction("++i"))
-////        );
-////        HySequence program = new HySequence().add(init).add(loop);
-////        program.accept(new HyPrinter());
-//
-//    }
 
 }

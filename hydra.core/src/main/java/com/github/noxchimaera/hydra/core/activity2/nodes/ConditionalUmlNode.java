@@ -19,45 +19,40 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
-import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
-import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
+import com.github.noxchimaera.hydra.core.graph.NodeType;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * @author Nox
  */
-public class FinUmlNode extends UmlNode implements HasInput {
+public class ConditionalUmlNode extends StructuredUmlNode {
 
-    private ControlflowUmlEdge input;
+    public static final String Test = "Test";
+    public static final String IfBranch = "If-Branch";
+    public static final String ElseBranch = "Else-Branch";
 
-    public FinUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "fin", UmlNodeSpecifications.Fin);
-    }
-
-    public ControlflowUmlEdge getInput() {
-        return input;
-    }
-
-    public void setInput(ControlflowUmlEdge input) {
-        this.input = input;
-    }
-
-    @Override
-    public List<Edge> getEdges() {
-        return ListUtils.<Edge>toList(true, input);
+    public ConditionalUmlNode(long id) {
+        super(id, UmlNodeTypes.RegionHeader, "Conditional", UmlNodeSpecifications.Conditional);
+        regions.add(Test);
+        regions.add(IfBranch);
+        regions.add(ElseBranch);
     }
 
     @Override
     public UmlNode deepClone() {
-        FinUmlNode clone = new FinUmlNode(getId());
-        clone.value = value;
+        ConditionalUmlNode clone = new ConditionalUmlNode(getId());
         clone.input = input;
+        clone.output = output;
+        clone.regions = new HashSet<>(regions);
+        clone.regionRoots = new HashMap<>(regionRoots);
 
         clone.view = view;
 
@@ -67,7 +62,14 @@ public class FinUmlNode extends UmlNode implements HasInput {
 
     @Override
     public void accept(UmlVisitor visitor) {
-        visitor.fin(this);
+        visitor.condition(this);
+    }
+
+    @Override
+    public List<Edge> getEdges() {
+        return ListUtils.<Edge>toList(true,
+            input, output,
+            regionRoots.get(Test), regionRoots.get(IfBranch), regionRoots.get(ElseBranch));
     }
 
 }

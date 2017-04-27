@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.base;
+package com.github.noxchimaera.hydra.core.transformers;
+
+import com.github.noxchimaera.hydra.core.activity2.AbstractUmlVisitor;
 
 /**
  * @author Nox
  */
-public interface EditorEventHandler<T> {
+public class UmlTransformer extends AbstractUmlVisitor {
 
-    void handleEvent(EditorEvent<T> event);
+
 
 }

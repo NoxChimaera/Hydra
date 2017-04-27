@@ -16,47 +16,48 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors.base;
 
+import com.alee.laf.button.WebButton;
+import com.alee.laf.panel.WebPanel;
+import com.alee.laf.rootpane.WebDialog;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
  * @author Nox
  */
-public abstract class Editor<T> extends JDialog {
+public abstract class Dialog<T> extends WebDialog {
 
-    protected EditorEventHandler<T> eventHandler;
+    protected DialogEventHandler<T> eventHandler;
 
-    protected JPanel contentPanel;
+    protected WebPanel contentPanel;
 
-    protected JPanel controlPanel;
-    protected JButton okButton;
-    protected JButton applyButton;
-    protected JButton cancelButton;
+    protected WebPanel controlPanel;
+    protected WebButton okButton;
+    protected WebButton applyButton;
+    protected WebButton cancelButton;
 
-    public Editor(Frame owner, String title, boolean modal) {
+    public Dialog(Frame owner, String title, boolean modal) {
         super(owner, title, modal);
         preinitialize();
     }
 
     private void preinitialize() {
-        JPanel root = new JPanel(new BorderLayout(4, 4));
+        WebPanel root = new WebPanel(new BorderLayout(4, 4));
         root.setBorder(new EmptyBorder(8, 8, 8, 8));
+        contentPanel = new WebPanel();
+        controlPanel = new WebPanel(new FlowLayout(FlowLayout.RIGHT, 4, 4));
 
-        contentPanel = new JPanel();
-        controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 4, 4));
-
-        okButton = new JButton("OK");
+        okButton = new WebButton("OK");
         okButton.addActionListener(e -> ok(result()));
         controlPanel.add(okButton);
 
-        applyButton = new JButton("Apply");
+        applyButton = new WebButton("Apply");
         applyButton.addActionListener(e -> apply(result()));
         controlPanel.add(applyButton);
 
-        cancelButton = new JButton("Cancel");
+        cancelButton = new WebButton("Cancel");
         cancelButton.addActionListener(e -> cancel());
         controlPanel.add(cancelButton);
 
@@ -70,7 +71,7 @@ public abstract class Editor<T> extends JDialog {
 
     protected void ok(T result) {
         if (eventHandler != null) {
-            eventHandler.handleEvent(EditorEvent.ok(this, result));
+            eventHandler.handleEvent(DialogEvent.ok(this, result));
         }
         setVisible(false);
         dispose();
@@ -78,20 +79,24 @@ public abstract class Editor<T> extends JDialog {
 
     protected void apply(T result) {
         if (eventHandler != null) {
-            eventHandler.handleEvent(EditorEvent.apply(this, result));
+            eventHandler.handleEvent(DialogEvent.apply(this, result));
         }
     }
 
     protected void cancel() {
         if (eventHandler != null) {
-            eventHandler.handleEvent(EditorEvent.cancel(this));
+            eventHandler.handleEvent(DialogEvent.cancel(this));
         }
         setVisible(false);
         dispose();
     }
 
-    public void setEventHandler(EditorEventHandler<T> handler) {
+    public void setEventHandler(DialogEventHandler<T> handler) {
         eventHandler = handler;
+    }
+
+    public void setApplyVisible(boolean visible) {
+        applyButton.setVisible(visible);
     }
 
 }

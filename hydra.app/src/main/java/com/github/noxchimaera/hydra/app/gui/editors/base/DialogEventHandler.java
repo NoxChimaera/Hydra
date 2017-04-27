@@ -14,36 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.nodes;
-
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+package com.github.noxchimaera.hydra.app.gui.editors.base;
 
 /**
  * @author Nox
  */
-public class StructuredUmlNodeRegion {
+public interface DialogEventHandler<T> {
 
-    private String name;
-    private UmlNode root;
-
-    public StructuredUmlNodeRegion(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public UmlNode getRoot() {
-        return root;
-    }
-
-    public void setRoot(UmlNode root) {
-        this.root = root;
-    }
+    void handleEvent(DialogEvent<T> event);
 
 }

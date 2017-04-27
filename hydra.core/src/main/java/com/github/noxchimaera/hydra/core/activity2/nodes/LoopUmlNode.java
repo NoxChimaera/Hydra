@@ -19,45 +19,35 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
-import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
-import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
+import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
+import com.github.noxchimaera.hydra.core.graph.NodeType;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.swing.*;
+import java.util.*;
 
 /**
  * @author Nox
  */
-public class FinUmlNode extends UmlNode implements HasInput {
+public class LoopUmlNode extends StructuredUmlNode {
 
-    private ControlflowUmlEdge input;
+    public final String Setup = "Setup";
+    public final String Test = "Test";
+    public final String Body = "Body";
 
-    public FinUmlNode(long id) {
-        super(id, UmlNodeTypes.Uml, "fin", UmlNodeSpecifications.Fin);
-    }
-
-    public ControlflowUmlEdge getInput() {
-        return input;
-    }
-
-    public void setInput(ControlflowUmlEdge input) {
-        this.input = input;
-    }
-
-    @Override
-    public List<Edge> getEdges() {
-        return ListUtils.<Edge>toList(true, input);
+    public LoopUmlNode(long id) {
+        super(id, UmlNodeTypes.RegionHeader, "", UmlNodeSpecifications.Fake);
     }
 
     @Override
     public UmlNode deepClone() {
-        FinUmlNode clone = new FinUmlNode(getId());
-        clone.value = value;
+        LoopUmlNode clone = new LoopUmlNode(getId());
         clone.input = input;
+        clone.output = output;
+        clone.regions = new HashSet<>(regions);
+        clone.regionRoots = new HashMap<>(regionRoots);
 
         clone.view = view;
 
@@ -67,7 +57,14 @@ public class FinUmlNode extends UmlNode implements HasInput {
 
     @Override
     public void accept(UmlVisitor visitor) {
-        visitor.fin(this);
+        visitor.loop(this);
+    }
+
+    @Override
+    public List<Edge> getEdges() {
+        return ListUtils.<Edge>toList(true,
+            input, output,
+            regionRoots.get(Setup), regionRoots.get(Test), regionRoots.get(Body));
     }
 
 }

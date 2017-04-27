@@ -16,7 +16,6 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors;
 
-import com.github.noxchimaera.hydra.app.gui.editors.base.Editor;
 import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypePicker;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotypes;
@@ -26,7 +25,6 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -39,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * @author Nox
  */
-public class ActionUmlNodeEditor extends Editor<ActionUmlNode> {
+public class ActionUmlNodeEditor extends com.github.noxchimaera.hydra.app.gui.editors.base.Dialog<ActionUmlNode> {
 
     private ActionUmlNode node;
 

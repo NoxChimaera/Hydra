@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.edges.types;
+package com.github.noxchimaera.hydra.core.activity2;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.graph.EdgeType;
+import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 
 /**
  * @author Nox
  */
-public abstract class UmlEdgeType extends EdgeType {
+public interface UmlVisitor {
 
-    protected UmlEdgeType(String signature) {
-        super(signature);
-    }
+    void init(InitUmlNode init);
+    void fin(FinUmlNode fin);
 
-    public abstract UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory, Object data);
-    public abstract void remove(UmlEdge edge);
+    void action(ActionUmlNode action);
+
+    void condition(ConditionalUmlNode condition);
+    void loop(LoopUmlNode loop);
 
 }

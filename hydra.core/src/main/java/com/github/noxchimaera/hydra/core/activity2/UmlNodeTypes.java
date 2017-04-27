@@ -25,4 +25,6 @@ public class UmlNodeTypes {
 
     public static final NodeType Uml = new NodeType("uml");
 
+    public static final NodeType RegionHeader = new NodeType("uml_region_header");
+
 }

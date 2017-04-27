@@ -19,35 +19,35 @@ package com.github.noxchimaera.hydra.app.gui.editors.base;
 /**
  * @author Nox
  */
-public class EditorEvent<T> {
+public class DialogEvent<T> {
 
-    public static <T> EditorEvent<T> ok(Editor<T> editor, T value) {
-        return new EditorEvent<>(editor, Status.OK, value);
+    public static <T> DialogEvent<T> ok(Dialog<T> dialog, T value) {
+        return new DialogEvent<>(dialog, Status.OK, value);
     }
 
-    public static <T> EditorEvent<T> apply(Editor<T> editor, T value) {
-        return new EditorEvent<>(editor, Status.APPLY, value);
+    public static <T> DialogEvent<T> apply(Dialog<T> dialog, T value) {
+        return new DialogEvent<>(dialog, Status.APPLY, value);
     }
 
-    public static <T> EditorEvent<T> cancel(Editor<T> editor) {
-        return new EditorEvent<>(editor, Status.CANCEL, null);
+    public static <T> DialogEvent<T> cancel(Dialog<T> dialog) {
+        return new DialogEvent<>(dialog, Status.CANCEL, null);
     }
 
     public enum Status {
         OK, APPLY, CANCEL
     }
 
-    private Editor<T> source;
+    private Dialog<T> source;
     private Status status;
     private T value;
 
-    public EditorEvent(Editor<T> source, Status status, T value) {
+    public DialogEvent(Dialog<T> source, Status status, T value) {
         this.source = source;
         this.status = status;
         this.value = value;
     }
 
-    public Editor<T> getSource() {
+    public Dialog<T> getSource() {
         return source;
     }
 
