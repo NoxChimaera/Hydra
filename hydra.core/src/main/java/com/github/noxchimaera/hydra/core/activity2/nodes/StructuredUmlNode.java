@@ -19,6 +19,7 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
+import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.graph.Edge;
@@ -31,7 +32,7 @@ import java.util.*;
 /**
  * @author Nox
  */
-public abstract class StructuredUmlNode extends UmlNode implements HasInput, Serializable {
+public abstract class StructuredUmlNode extends UmlNode implements HasInput, HasOutput, Serializable {
 
     protected ControlflowUmlEdge input;
     protected ControlflowUmlEdge output;
@@ -45,11 +46,29 @@ public abstract class StructuredUmlNode extends UmlNode implements HasInput, Ser
         regionRoots = new HashMap<>();
     }
 
+    @Override
+    public void setOutput(String id, ControlflowUmlEdge edge) {
+        setConnection(id, edge);
+    }
+
+    @Override
+    public ControlflowUmlEdge getOutput(String name) {
+        if (name.equals("")) {
+            return output;
+        } else {
+            return regionRoots.get(name);
+        }
+    }
+
     public void setConnection(String connection, ControlflowUmlEdge edge) {
-        if (edge.getGuard().equals("")) {
+        if (connection.equals("")) {
             output = edge;
         } else {
-            regionRoots.put(connection, edge);
+            if (edge == null) {
+                regionRoots.remove(connection);
+            } else {
+                regionRoots.put(connection, edge);
+            }
         }
     }
 

@@ -50,11 +50,11 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
         this.input = input;
     }
 
-    public ControlflowUmlEdge getOutput() {
+    public ControlflowUmlEdge getOutput(String name) {
         return output;
     }
 
-    public void setOutput(ControlflowUmlEdge output) {
+    public void setOutput(String id, ControlflowUmlEdge output) {
         this.output = output;
     }
 

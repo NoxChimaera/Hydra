@@ -47,12 +47,14 @@ public class InitUmlNode extends UmlNode implements HasOutput {
         super(id, UmlNodeTypes.Uml, "init", UmlNodeSpecifications.Init);
     }
 
-    public ControlflowUmlEdge getOutput() {
-        return output;
+    @Override
+    public void setOutput(String id, ControlflowUmlEdge edge) {
+        output = edge;
     }
 
-    public void setOutput(ControlflowUmlEdge output) {
-        this.output = output;
+    @Override
+    public ControlflowUmlEdge getOutput(String name) {
+        return output;
     }
 
     @Override

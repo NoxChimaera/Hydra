@@ -57,26 +57,14 @@ public class UmlFactory {
         return new ConditionalUmlNode(next());
     }
 
-    public <TSrc extends StructuredUmlNode, TDst extends UmlNode & HasInput>
-    UmlEdge flow(TSrc src, TDst dst, String region) {
-        ControlflowUmlEdge edge = new ControlflowUmlEdge(++edgeId);
-        edge.setGuard(region);
-        edge.setSource(src);
-        edge.setDestination(dst);
-
-        src.setConnection(region, edge);
-        dst.setInput(edge);
-
-        return edge;
-    }
-
     public <TSrc extends UmlNode & HasOutput, TDst extends UmlNode & HasInput>
-    UmlEdge flow(TSrc src, TDst dst) {
+    UmlEdge flow(TSrc src, TDst dst, String name) {
         ControlflowUmlEdge edge = new ControlflowUmlEdge(++edgeId);
+        edge.setGuard(name);
         edge.setSource(src);
         edge.setDestination(dst);
 
-        src.setOutput(edge);
+        src.setOutput(name, edge);
         dst.setInput(edge);
 
         return edge;

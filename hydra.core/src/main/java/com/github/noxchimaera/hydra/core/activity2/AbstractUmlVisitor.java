@@ -34,7 +34,7 @@ public class AbstractUmlVisitor implements UmlVisitor {
 
     @Override
     public void init(InitUmlNode init) {
-        nullsafeFlow(init.getOutput());
+        nullsafeFlow(init.getOutput(""));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AbstractUmlVisitor implements UmlVisitor {
 
     @Override
     public void action(ActionUmlNode action) {
-        nullsafeFlow(action.getOutput());
+        nullsafeFlow(action.getOutput(""));
     }
 
     @Override

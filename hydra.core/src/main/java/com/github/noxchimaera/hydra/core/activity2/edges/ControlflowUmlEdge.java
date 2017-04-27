@@ -27,7 +27,7 @@ import com.github.noxchimaera.hydra.core.graph.EdgeType;
  */
 public class ControlflowUmlEdge extends UmlEdge {
 
-    private String guard;
+    private String guard = "";
 
     public ControlflowUmlEdge(long id) {
         super(id, UmlEdgeTypes.Controlflow, null, null);

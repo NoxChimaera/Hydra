@@ -23,8 +23,8 @@ import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
  */
 public interface HasOutput {
 
-    void setOutput(ControlflowUmlEdge edge);
+    void setOutput(String id, ControlflowUmlEdge edge);
 
-    ControlflowUmlEdge getOutput();
+    ControlflowUmlEdge getOutput(String name);
 
 }
