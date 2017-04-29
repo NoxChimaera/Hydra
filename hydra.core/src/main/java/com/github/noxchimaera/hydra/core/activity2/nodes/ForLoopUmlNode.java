@@ -19,31 +19,33 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
-import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.core.graph.NodeType;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
-import javax.swing.*;
 import java.util.*;
 
 /**
  * @author Nox
  */
-public class LoopUmlNode extends StructuredUmlNode {
+public class ForLoopUmlNode extends StructuredUmlNode {
 
-    public final String Setup = "Setup";
-    public final String Test = "Test";
-    public final String Body = "Body";
+    public static final String Setup = "Setup";
+    public static final String Test = "Test";
+    public static final String Step = "Step";
+    public static final String Body = "Body";
 
-    public LoopUmlNode(long id) {
-        super(id, UmlNodeTypes.RegionHeader, "", UmlNodeSpecifications.Fake);
+    public ForLoopUmlNode(long id) {
+        super(id, UmlNodeTypes.RegionHeader, "For-Loop", UmlNodeSpecifications.Loop);
+        regions.add(Setup);
+        regions.add(Test);
+        regions.add(Step);
+        regions.add(Body);
     }
 
     @Override
     public UmlNode deepClone() {
-        LoopUmlNode clone = new LoopUmlNode(getId());
+        ForLoopUmlNode clone = new ForLoopUmlNode(getId());
         clone.input = input;
         clone.output = output;
         clone.regions = new HashSet<>(regions);
@@ -64,7 +66,7 @@ public class LoopUmlNode extends StructuredUmlNode {
     public List<Edge> getEdges() {
         return ListUtils.<Edge>toList(true,
             input, output,
-            regionRoots.get(Setup), regionRoots.get(Test), regionRoots.get(Body));
+            regionRoots.get(Setup), regionRoots.get(Test), regionRoots.get(Step), regionRoots.get(Body));
     }
 
 }

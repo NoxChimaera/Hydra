@@ -21,40 +21,53 @@ import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
  * @author Nox
  */
-public class UmlFactory {
+public class UmlGraph {
 
-    public static Logger LOGGER = Logger.getLogger("UmlFactory");
+    public static Logger LOGGER = Logger.getLogger("UmlGraph");
 
     private long nodeId = -1;
     private long edgeId = -1;
+
+    private List<UmlNode> nodes;
+
+    public UmlGraph() {
+        nodes = new ArrayList<>();
+    }
+
+    private <T extends UmlNode> T add(T node) {
+        nodes.add(node);
+        return node;
+    }
 
     private long next() {
         return ++nodeId;
     }
 
     public InitUmlNode init() {
-        return new InitUmlNode(next());
+        return add(new InitUmlNode(next()));
     }
 
     public FinUmlNode fin() {
-        return new FinUmlNode(next());
+        return add(new FinUmlNode(next()));
     }
 
     public ActionUmlNode action(String effect) {
-        return new ActionUmlNode(next(), effect);
+        return add(new ActionUmlNode(next(), effect));
     }
 
-    public LoopUmlNode loop() {
-        return new LoopUmlNode(next());
+    public ForLoopUmlNode loop() {
+        return add(new ForLoopUmlNode(next()));
     }
 
     public ConditionalUmlNode cond() {
-        return new ConditionalUmlNode(next());
+        return add(new ConditionalUmlNode(next()));
     }
 
     public <TSrc extends UmlNode & HasOutput, TDst extends UmlNode & HasInput>
@@ -68,6 +81,10 @@ public class UmlFactory {
         dst.setInput(edge);
 
         return edge;
+    }
+
+    public List<UmlNode> getNodes() {
+        return new ArrayList<>(nodes);
     }
 
 }

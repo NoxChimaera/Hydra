@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.app;
 
+import com.github.noxchimaera.hydra.app.mx.style.CellFoldable;
 import com.github.noxchimaera.hydra.app.mx.style.CellRounded;
 import com.github.noxchimaera.hydra.app.mx.style.CellSpacing;
 import com.github.noxchimaera.hydra.app.mx.style.align.CellLabelAlignment;
@@ -27,14 +28,10 @@ import com.github.noxchimaera.hydra.app.mx.style.shape.CellShapes;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
 import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
-import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.nodes.ConditionalUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.nodes.FinUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
-import com.mxgraph.model.mxCell;
+import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 import com.mxgraph.model.mxIGraphModel;
 import com.mxgraph.view.mxGraph;
 
@@ -46,9 +43,9 @@ public class UmlCellFactory {
     private final mxGraph g;
     private final mxIGraphModel m;
 
-    private UmlFactory uml;
+    private UmlGraph uml;
 
-    public UmlCellFactory(mxGraph graph, UmlFactory uml) {
+    public UmlCellFactory(mxGraph graph, UmlGraph uml) {
         g = graph;
         m = graph.getModel();
         this.uml = uml;
@@ -58,21 +55,24 @@ public class UmlCellFactory {
         return new DrawSection(m);
     }
 
+    public void connect(UmlCell source, UmlCell target, UmlEdge edge) {
+        try (DrawSection $ = draw()) {
+            g.insertEdge(g.getDefaultParent(), null, edge, source, target);
+        }
+    }
+
     public void connect(UmlCell source, UmlCell target, UmlEdgeType edgeType) {
         UmlNode umlSource = source.getUserObject();
         UmlNode umlTarget = target.getUserObject();
-
-        edgeType.create(umlSource, umlTarget, uml, "");
+        UmlEdge edge = edgeType.create(umlSource, umlTarget, uml, "");
+        connect(source, target, edge);
     }
 
     public void connect(UmlCell source, UmlCell target, UmlEdgeType edgeType, String value) {
         UmlNode umlSource = source.getUserObject();
         UmlNode umlTarget = target.getUserObject();
-
         UmlEdge edge = edgeType.create(umlSource, umlTarget, uml, value);
-        try (DrawSection $ = draw()) {
-            g.insertEdge(g.getDefaultParent(), null, edge, source, target);
-        }
+        connect(source, target, edge);
     }
 
     public UmlCell init(InitUmlNode value, double x, double y) {
@@ -103,8 +103,21 @@ public class UmlCellFactory {
     public UmlCell cond(ConditionalUmlNode value, double x, double y) {
         UmlCell c = new UmlCell(value, x, y, 120, 60);
         c.clearStyle()
-            .addStyle(new CellShape(CellShapes.DoubleRectangle));
+            .addStyle(new CellShape(CellShapes.DoubleRectangle))
+            .addStyle(new CellFoldable(false));
         return c;
+    }
+
+    public UmlCell forLoop(ForLoopUmlNode value, double x, double y) {
+        UmlCell c = new UmlCell(value, x, y, 120, 60);
+        c.clearStyle()
+            .addStyle(new CellShape(CellShapes.DoubleRectangle))
+            .addStyle(new CellFoldable(false));
+        return c;
+    }
+
+    public mxGraph getGraph() {
+        return g;
     }
 
 }

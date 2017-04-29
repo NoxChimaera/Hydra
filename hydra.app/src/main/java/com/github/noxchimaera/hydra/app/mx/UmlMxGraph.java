@@ -22,16 +22,11 @@ import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.*;
 import com.github.noxchimaera.hydra.core.activity2.edges.types.UmlEdgeType;
-import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
 import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
 import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.properties.MutableProperty;
-import com.github.noxchimaera.hydra.utils.properties.Property;
 import com.mxgraph.model.mxCell;
-import com.mxgraph.model.mxGeometry;
-import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.util.*;
 import com.mxgraph.view.mxGraph;
 
@@ -42,15 +37,15 @@ import java.util.Map;
 /**
  * @author Nox
  */
-public class UmlGraph extends mxGraph {
+public class UmlMxGraph extends mxGraph {
 
     public final MutableProperty<UmlEdgeType> CurrentEdgeType;
 
     private UmlCellFactory cellFactory;
 
-    private UmlFactory umlFactory;
+    private com.github.noxchimaera.hydra.core.activity2.UmlGraph umlGraph;
 
-    public UmlGraph(UmlFactory umlFactory) {
+    public UmlMxGraph(com.github.noxchimaera.hydra.core.activity2.UmlGraph umlGraph) {
         super();
         allowDanglingEdges = false;
         multigraph = false;
@@ -58,8 +53,8 @@ public class UmlGraph extends mxGraph {
 
         CurrentEdgeType = new MutableProperty<>(UmlEdgeTypes.Controlflow);
 
-        cellFactory = new UmlCellFactory(this, umlFactory);
-        this.umlFactory = umlFactory;
+        cellFactory = new UmlCellFactory(this, umlGraph);
+        this.umlGraph = umlGraph;
 
         addListener(mxEvent.CELL_CONNECTED, this::onCellConnected);
         addListener(mxEvent.CELLS_REMOVED, this::onCellRemoved);
@@ -81,8 +76,8 @@ public class UmlGraph extends mxGraph {
         return cellFactory;
     }
 
-    public UmlFactory getUmlFactory() {
-        return umlFactory;
+    public com.github.noxchimaera.hydra.core.activity2.UmlGraph getUmlGraph() {
+        return umlGraph;
     }
 
     private void onCellConnected(Object sender, mxEventObject evt) {
@@ -91,6 +86,11 @@ public class UmlGraph extends mxGraph {
             return;
         }
         mxCell edge = (mxCell)evt.getProperty("edge");
+        if (Contracts.is(UmlEdge.class, edge.getValue())) {
+            // Connection was already handled
+            return;
+        }
+
         UmlCell source = (UmlCell)edge.getSource();
         UmlCell target = (UmlCell)edge.getTarget();
 
@@ -100,12 +100,10 @@ public class UmlGraph extends mxGraph {
                 EventBus.Shared.post(new RegionConnectionEvent(source, target, CurrentEdgeType.get(), cellFactory));
                 model.remove(edge);
                 return;
-            } else {
-                // If value of edge is just a string - correct edge was inserted
-                return;
             }
         }
 
+        model.remove(edge);
         cellFactory.connect(source, target, CurrentEdgeType.get());
     }
 
@@ -135,10 +133,7 @@ public class UmlGraph extends mxGraph {
 
     @Override
     public boolean isCellFoldable(Object cell, boolean collapse) {
-        if (cell instanceof UmlCell) {
-            return ((UmlCell) cell).getUserObject() instanceof StructuredUmlNode;
-        }
-        return true;
+        return super.isCellFoldable(cell, collapse);
     }
 
     @Override

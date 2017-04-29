@@ -17,16 +17,16 @@
 package com.github.noxchimaera.hydra.app.gui.app;
 
 import com.alee.laf.button.WebButton;
-import com.alee.laf.label.WebLabel;
 import com.alee.laf.menu.WebMenu;
 import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.panel.WebPanel;
+import com.alee.laf.separator.WebSeparator;
 import com.alee.laf.splitpane.WebSplitPane;
 import com.alee.laf.toolbar.WebToolBar;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
-import com.github.noxchimaera.hydra.app.mx.UmlGraph;
+import com.github.noxchimaera.hydra.app.swing.prompt.Ask;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.swing.mxGraphOutline;
 import jiconfont.icons.FontAwesome;
@@ -34,8 +34,8 @@ import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * @author Nox
@@ -63,13 +63,53 @@ public class AppWindowView extends JFrame {
         controller = new AppController(this);
     }
 
-    private void initialize() {
-        menu = new WebMenuBar();
-        WebMenu t1 = new WebMenu("Test 1");
-        t1.add(new WebMenuItem("Test 1.2"));
-        t1.add(new WebMenuItem("Test 1.3"));
-        menu.add(t1);
+    private void exit(ActionEvent event) {
+        Ask.Answer res = Ask.yesOrNo(this, "Are you really want to exit?", "");
+        if (Ask.Answer.Yes == res) {
+            System.exit(0);
+        }
+    }
 
+    private void initializeMenu() {
+        menu = new WebMenuBar();
+
+        WebMenu fileMenu = new WebMenu("File");
+        WebMenuItem fileNew = new WebMenuItem(
+            "New model", IconFontSwing.buildIcon(FontAwesome.FILE, 16));
+        fileMenu.add(fileNew);
+        WebMenuItem fileOpen = new WebMenuItem(
+            "Open...", IconFontSwing.buildIcon(FontAwesome.FOLDER_OPEN, 16));
+        fileMenu.add(fileOpen);
+        WebMenu fileOpenRecent = new WebMenu(
+            "Open recent");
+        fileMenu.add(fileOpenRecent);
+        WebMenuItem fileSave = new WebMenuItem(
+            "Save", IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 16));
+        fileMenu.add(fileSave);
+
+        WebSeparator fileSeparator = new WebSeparator();
+        fileMenu.add(fileSeparator);
+        WebMenuItem fileExit = new WebMenuItem("Exit");
+        fileExit.addActionListener(this::exit);
+        fileMenu.add(fileExit);
+        menu.add(fileMenu);
+
+        WebMenu modelMenu = new WebMenu("Model");
+        WebMenuItem modelLayout = new WebMenuItem("Do layout");
+        modelMenu.add(modelLayout);
+        menu.add(modelMenu);
+
+        WebMenu toolsMenu = new WebMenu("Tools");
+        WebMenuItem toolsJava = new WebMenuItem("Show Java code");
+        toolsMenu.add(toolsJava);
+        menu.add(toolsMenu);
+
+        WebMenu helpMenu = new WebMenu("Help");
+        menu.add(helpMenu);
+    }
+
+    private void initialize() {
+        initializeMenu();
         WebPanel root = new WebPanel(new BorderLayout(4, 4));
         root.setBorder(new EmptyBorder(8, 8, 8, 8));
 

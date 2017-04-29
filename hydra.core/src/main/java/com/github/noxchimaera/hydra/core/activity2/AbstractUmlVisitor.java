@@ -47,12 +47,18 @@ public class AbstractUmlVisitor implements UmlVisitor {
 
     @Override
     public void condition(ConditionalUmlNode condition) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        nullsafeFlow(condition.getOutput(ConditionalUmlNode.Test));
+        nullsafeFlow(condition.getOutput(ConditionalUmlNode.IfBranch));
+        nullsafeFlow(condition.getOutput(ConditionalUmlNode.ElseBranch));
+        nullsafeFlow(condition.getOutput(""));
     }
 
     @Override
-    public void loop(LoopUmlNode loop) {
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void loop(ForLoopUmlNode loop) {
+        nullsafeFlow(loop.getOutput(ForLoopUmlNode.Setup));
+        nullsafeFlow(loop.getOutput(ForLoopUmlNode.Test));
+        nullsafeFlow(loop.getOutput(ForLoopUmlNode.Body));
+        nullsafeFlow(loop.getOutput(""));
     }
 
 }

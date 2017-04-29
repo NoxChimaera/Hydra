@@ -59,7 +59,7 @@ public class UmlToStringTransformer extends AbstractUmlVisitor {
     }
 
     @Override
-    public void loop(LoopUmlNode loop) {
+    public void loop(ForLoopUmlNode loop) {
         super.loop(loop);
     }
 

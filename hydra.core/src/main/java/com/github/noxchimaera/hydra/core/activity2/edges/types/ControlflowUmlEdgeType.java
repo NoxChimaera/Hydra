@@ -17,15 +17,13 @@
 package com.github.noxchimaera.hydra.core.activity2.edges.types;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
 import com.github.noxchimaera.hydra.utils.Contracts;
-
-import java.util.logging.Logger;
 
 /**
  * @author Nox
@@ -37,14 +35,14 @@ public class ControlflowUmlEdgeType extends UmlEdgeType {
     }
 
     @Override
-    public UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory, String name) {
+    public UmlEdge create(UmlNode source, UmlNode target, UmlGraph factory, String name) {
         if (!Contracts.is(HasOutput.class, source) && !Contracts.is(StructuredUmlNode.class, source)) {
-            UmlFactory.LOGGER.severe(String.format(
+            UmlGraph.LOGGER.severe(String.format(
                 "Can not create Controlflow edge for `%s :: %s` source", source, source.getClass()));
             return null;
         }
         if (!(target instanceof HasInput)) {
-            UmlFactory.LOGGER.severe(String.format(
+            UmlGraph.LOGGER.severe(String.format(
                 "Can not create Controlflow edge for `%s :: %s` target", target, target.getClass()));
             return null;
         }
@@ -56,12 +54,12 @@ public class ControlflowUmlEdgeType extends UmlEdgeType {
         UmlNode source = edge.getSource();
         UmlNode target = edge.getDestination();
         if (!(source instanceof HasOutput)) {
-            UmlFactory.LOGGER.severe(
+            UmlGraph.LOGGER.severe(
                 String.format("Can not remove Controlflow edge for `%s :: %s` source", source, source.getClass()));
             return;
         }
         if (!(target instanceof HasInput)) {
-            UmlFactory.LOGGER.severe(
+            UmlGraph.LOGGER.severe(
                 String.format("Can not remove Controlflow edge for `%s :: %s` target", target, target.getClass()));
             return;
         }

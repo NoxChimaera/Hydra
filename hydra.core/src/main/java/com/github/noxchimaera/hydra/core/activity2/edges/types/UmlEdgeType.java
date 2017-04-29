@@ -17,7 +17,7 @@
 package com.github.noxchimaera.hydra.core.activity2.edges.types;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.graph.EdgeType;
 
@@ -30,7 +30,7 @@ public abstract class UmlEdgeType extends EdgeType {
         super(signature);
     }
 
-    public abstract UmlEdge create(UmlNode source, UmlNode target, UmlFactory factory, String id);
+    public abstract UmlEdge create(UmlNode source, UmlNode target, UmlGraph factory, String id);
     public abstract void remove(UmlEdge edge);
 
 }

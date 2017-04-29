@@ -16,12 +16,10 @@
 
 package com.github.noxchimaera.hydra.app.gui.graph;
 
-import com.github.noxchimaera.hydra.app.gui.app.AppController;
-import com.github.noxchimaera.hydra.app.mx.UmlGraph;
+import com.github.noxchimaera.hydra.app.mx.UmlMxGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.model.mxIGraphModel;
@@ -44,7 +42,7 @@ public class UmlGraphView extends JPanel {
     private UmlGraphController controller;
 
     private UmlGraphComponent graphComponent;
-    private UmlGraph graph;
+    private UmlMxGraph graph;
     private mxIGraphModel model;
     private Object defaultParent;
 
@@ -54,7 +52,7 @@ public class UmlGraphView extends JPanel {
     public UmlGraphView(UmlGraphComponent graphComponent) {
         super(new BorderLayout());
         this.graphComponent = graphComponent;
-        graph = (UmlGraph)graphComponent.getGraph();
+        graph = (UmlMxGraph)graphComponent.getGraph();
         model = graph.getModel();
         defaultParent = graph.getDefaultParent();
 
@@ -123,7 +121,7 @@ public class UmlGraphView extends JPanel {
         return graphComponent;
     }
 
-    public UmlGraph getGraph() {
+    public UmlMxGraph getGraph() {
         return graph;
     }
 

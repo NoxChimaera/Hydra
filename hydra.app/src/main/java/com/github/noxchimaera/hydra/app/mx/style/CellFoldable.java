@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2;
+package com.github.noxchimaera.hydra.app.mx.style;
 
-import com.github.noxchimaera.hydra.core.activity2.nodes.*;
+import com.mxgraph.util.mxConstants;
 
 /**
  * @author Nox
  */
-public interface UmlVisitor {
+public class CellFoldable extends SimpleCellStyle {
 
-    void init(InitUmlNode init);
-    void fin(FinUmlNode fin);
+    private boolean foldable;
 
-    void action(ActionUmlNode action);
+    public CellFoldable(boolean foldable) {
+        super(mxConstants.STYLE_FOLDABLE);
+        this.foldable = foldable;
+    }
 
-    void condition(ConditionalUmlNode condition);
-    void loop(ForLoopUmlNode loop);
+    @Override
+    public String parameter() {
+        return foldable ? "1" : "0";
+    }
 
 }

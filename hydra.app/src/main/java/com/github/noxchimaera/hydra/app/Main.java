@@ -16,14 +16,16 @@
 
 package com.github.noxchimaera.hydra.app;
 
+import com.github.noxchimaera.hydra.app.graph.GraphBuilder;
 import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
-import com.github.noxchimaera.hydra.app.mx.UmlGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
-import com.github.noxchimaera.hydra.app.uml.UmlCell;
-import com.github.noxchimaera.hydra.core.activity2.UmlFactory;
+import com.github.noxchimaera.hydra.app.mx.UmlMxGraph;
+import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
+import com.github.noxchimaera.hydra.core.activity2.nodes.*;
+import com.mxgraph.layout.*;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -47,8 +49,8 @@ public class Main {
 
         IconFontSwing.register(FontAwesome.getIconFont());
 
-        UmlFactory factory = new UmlFactory();
-        UmlGraph graph = new UmlGraph(factory);
+        UmlGraph umlGraph = new UmlGraph();
+        UmlMxGraph graph = new UmlMxGraph(umlGraph);
         UmlGraphComponent graphComponent = new UmlGraphComponent(graph);
         UmlGraphView umlGraphView = new UmlGraphView(graphComponent);
 
@@ -63,18 +65,26 @@ public class Main {
         view.setLocationRelativeTo(null);
         view.setVisible(true);
 
-        UmlCellFactory cellFactory = graph.getCellFactory();
-        UmlCell init = cellFactory.init(factory.init(), 50, 50);
-        graph.addCell(init);
+        InitUmlNode init = umlGraph.init();
+        ForLoopUmlNode loop = umlGraph.loop();
+        ActionUmlNode setup = umlGraph.action("int i = 0");
+        ActionUmlNode test = umlGraph.action("i < 10");
+        ActionUmlNode step = umlGraph.action("++i");
+        ActionUmlNode body = umlGraph.action("System.out.println(i)");
+        FinUmlNode fin = umlGraph.fin();
 
-        UmlCell fin1 = cellFactory.fin(factory.fin(), 50, 150);
-        graph.addCell(fin1);
+        umlGraph.flow(init, loop, "");
+        umlGraph.flow(loop, setup, ForLoopUmlNode.Setup);
+        umlGraph.flow(loop, test, ForLoopUmlNode.Test);
+        umlGraph.flow(loop, step, ForLoopUmlNode.Step);
+        umlGraph.flow(loop, body, ForLoopUmlNode.Body);
+        umlGraph.flow(loop, fin, "");
 
-        UmlCell fin2 = cellFactory.fin(factory.fin(), 150, 50);
-        graph.addCell(fin2);
+        GraphBuilder builder = new GraphBuilder(graph.getCellFactory());
+        builder.build(umlGraph);
 
-        UmlCell act = cellFactory.action(factory.action("print :hello"), 300, 300);
-        graph.addCell(act);
+        mxIGraphLayout layout = new mxCompactTreeLayout(graph, false);
+        layout.execute(graph.getDefaultParent());
 
         junk();
     }
@@ -90,24 +100,27 @@ public class Main {
 
     }
 
-    private static void setupLibrary(LibraryPanel lib, UmlGraph graph) {
+    private static void setupLibrary(LibraryPanel lib, UmlMxGraph graph) {
         Object dp = graph.getDefaultParent();
         UmlCellFactory cellFactory = graph.getCellFactory();
-        UmlFactory umlFactory = graph.getUmlFactory();
+        UmlGraph umlGraph = graph.getUmlGraph();
 
         PalettePanel uml = lib.createPalette("UML Activity 2");
         uml.addTemplate(
             "Initial", null,
-            cellFactory.init(umlFactory.init(), 0, 0));
+            cellFactory.init(new InitUmlNode(-1), 0, 0));
         uml.addTemplate(
             "Final", null,
-            cellFactory.fin(umlFactory.fin(), 0, 0));
+            cellFactory.fin(new FinUmlNode(-1), 0, 0));
         uml.addTemplate(
             "Action", null,
-            cellFactory.action(umlFactory.action(""), 0, 0));
+            cellFactory.action(new ActionUmlNode(-1, ""), 0, 0));
         uml.addTemplate(
             "Conditional", null,
-            cellFactory.cond(umlFactory.cond(), 0, 0));
+            cellFactory.cond(new ConditionalUmlNode(-1), 0, 0));
+        uml.addTemplate(
+            "Loop", null,
+            cellFactory.forLoop(new ForLoopUmlNode(-1), 0, 0));
     }
 
 }
