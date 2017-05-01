@@ -23,12 +23,13 @@ import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEventHandler;
+import com.github.noxchimaera.hydra.app.transformers.UmlToHydraTransformer;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.nodes.InitUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.StructuredUmlNode;
-import com.github.noxchimaera.hydra.core.transformers.UmlToStringTransformer;
+import com.github.noxchimaera.hydra.core.model.nodes.HySequence;
 import com.github.noxchimaera.hydra.utils.Contracts;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxIGraphModel;
@@ -126,14 +127,14 @@ public class AppController {
             }
         }
 
-        final String nl = System.lineSeparator();
-
-        StringBuilder sources = new StringBuilder();
+        UmlToHydraTransformer t = new UmlToHydraTransformer();
         for (UmlNode root : roots) {
-            UmlToStringTransformer t = new UmlToStringTransformer();
-            sources.append(t.transform(root)).append(nl).append(nl);
+            root.accept(t);
         }
-        debug(sources.toString());
+        for (HySequence hySequence : t.getResult()) {
+            System.out.println(hySequence);
+        }
+
     }
 
     private void debug(String data) {

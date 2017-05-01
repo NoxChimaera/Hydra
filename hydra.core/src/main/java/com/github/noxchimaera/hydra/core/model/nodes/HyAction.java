@@ -17,6 +17,7 @@
 package com.github.noxchimaera.hydra.core.model.nodes;
 
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Max Balushkin
@@ -35,6 +36,11 @@ public class HyAction extends HyNode {
 
     @Override public void accept(HyVisitor visitor) {
         visitor.action(this);
+    }
+
+    @Override
+    public String toString() {
+        return Strings.$("[ ", effect, " ]");
     }
 
 }

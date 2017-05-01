@@ -76,8 +76,8 @@ public class InitUmlNode extends UmlNode implements HasOutput {
     }
 
     @Override
-    public void accept(UmlVisitor visitor) {
-        visitor.init(this);
+    public <T> T accept(UmlVisitor<T> visitor) {
+        return visitor.init(this);
     }
 
 }

@@ -28,6 +28,6 @@ public interface HyVisitor {
 
     void action(HyAction action);
     void cond(HyConditional cond);
-    void loop(HyLoop loop);
+    void loop(HyForLoop loop);
 
 }

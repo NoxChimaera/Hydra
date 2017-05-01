@@ -51,6 +51,8 @@ public class Main {
 
         UmlGraph umlGraph = new UmlGraph();
         UmlMxGraph graph = new UmlMxGraph(umlGraph);
+        graph.setResetViewOnRootChange(true);
+
         UmlGraphComponent graphComponent = new UmlGraphComponent(graph);
         UmlGraphView umlGraphView = new UmlGraphView(graphComponent);
 
@@ -83,7 +85,10 @@ public class Main {
         GraphBuilder builder = new GraphBuilder(graph.getCellFactory());
         builder.build(umlGraph);
 
-        mxIGraphLayout layout = new mxCompactTreeLayout(graph, false);
+        mxCompactTreeLayout layout = new mxCompactTreeLayout(graph, false);
+        layout.setMoveTree(true);
+        layout.setEdgeRouting(false);
+        layout.setLevelDistance(100);
         layout.execute(graph.getDefaultParent());
 
         junk();

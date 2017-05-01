@@ -76,8 +76,8 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
     }
 
     @Override
-    public void accept(UmlVisitor visitor) {
-        visitor.action(this);
+    public <T> T accept(UmlVisitor<T> visitor) {
+        return visitor.action(this);
     }
 
 }

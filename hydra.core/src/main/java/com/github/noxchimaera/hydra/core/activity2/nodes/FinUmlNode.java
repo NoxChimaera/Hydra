@@ -66,8 +66,8 @@ public class FinUmlNode extends UmlNode implements HasInput {
     }
 
     @Override
-    public void accept(UmlVisitor visitor) {
-        visitor.fin(this);
+    public <T> T accept(UmlVisitor<T> visitor) {
+        return visitor.fin(this);
     }
 
 }

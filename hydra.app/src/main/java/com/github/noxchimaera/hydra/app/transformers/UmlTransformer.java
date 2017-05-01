@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.transformers;
+package com.github.noxchimaera.hydra.app.transformers;
 
-import com.github.noxchimaera.hydra.core.activity2.AbstractUmlVisitor;
+import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 
 /**
  * @author Nox
  */
-public class UmlTransformer extends AbstractUmlVisitor {
-
-
+public abstract class UmlTransformer<T> implements UmlVisitor<T> {
 
 }

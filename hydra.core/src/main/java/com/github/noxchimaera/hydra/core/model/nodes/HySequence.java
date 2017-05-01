@@ -20,6 +20,7 @@ import com.github.noxchimaera.hydra.core.model.HyVisitor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Max Balushkin
@@ -41,8 +42,24 @@ public class HySequence extends HyNode {
         return new ArrayList<>(nodes);
     }
 
+    public HyNode get(int idx) {
+        return nodes.get(idx);
+    }
+
+    public int size() {
+        return nodes.size();
+    }
+
     @Override public void accept(HyVisitor visitor) {
         visitor.seq(this);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder("[ ")
+            .append(nodes.stream().map(HyNode::toString).collect(Collectors.joining(", ")))
+            .append(" ]");
+        return b.toString();
     }
 
 }

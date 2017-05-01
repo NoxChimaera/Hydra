@@ -17,6 +17,7 @@
 package com.github.noxchimaera.hydra.core.model.nodes;
 
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Max Balushkin
@@ -53,6 +54,11 @@ public class HyConditional extends HyNode {
 
     @Override public void accept(HyVisitor visitor) {
         visitor.cond(this);
+    }
+
+    @Override
+    public String toString() {
+        return Strings.$("[ If ", condition, " do ", trueBranch, " else ", falseBranch, " ]");
     }
 
 }

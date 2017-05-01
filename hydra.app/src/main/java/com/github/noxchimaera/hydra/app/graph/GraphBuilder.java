@@ -20,10 +20,10 @@ import com.github.noxchimaera.hydra.app.Log;
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
-import com.github.noxchimaera.hydra.core.activity2.AbstractUmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.UmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 import com.github.noxchimaera.hydra.core.graph.Edge;
 import com.github.noxchimaera.hydra.utils.Strings;
@@ -36,7 +36,7 @@ import java.util.Map;
 /**
  * @author Nox
  */
-public class GraphBuilder extends AbstractUmlVisitor {
+public class GraphBuilder implements UmlVisitor<Void> {
 
     private UmlCellFactory factory;
     private mxGraph mxGraph;
@@ -75,43 +75,43 @@ public class GraphBuilder extends AbstractUmlVisitor {
     }
 
     @Override
-    public void init(InitUmlNode init) {
+    public Void init(InitUmlNode init) {
         UmlCell cell = factory.init(init, x(init), y(init));
         cells.put(init, cell);
         draw(cell);
-        // super.init(init);
+        return null;
     }
 
     @Override
-    public void fin(FinUmlNode fin) {
+    public Void fin(FinUmlNode fin) {
         UmlCell cell = factory.fin(fin, x(fin), y(fin));
         cells.put(fin, cell);
         draw(cell);
-        // super.fin(fin);
+        return null;
     }
 
     @Override
-    public void action(ActionUmlNode action) {
+    public Void action(ActionUmlNode action) {
         UmlCell cell = factory.action(action, x(action), y(action));
         cells.put(action, cell);
         draw(cell);
-        // super.action(action);
+        return null;
     }
 
     @Override
-    public void condition(ConditionalUmlNode condition) {
+    public Void condition(ConditionalUmlNode condition) {
         UmlCell cell = factory.cond(condition, x(condition), y(condition));
         cells.put(condition, cell);
         draw(cell);
-        // super.condition(condition);
+        return null;
     }
 
     @Override
-    public void loop(ForLoopUmlNode loop) {
+    public Void loop(ForLoopUmlNode loop) {
         UmlCell cell = factory.forLoop(loop, x(loop), y(loop));
         cells.put(loop, cell);
         draw(cell);
-        // super.loop(loop);
+        return null;
     }
 
     private void connectAll() {

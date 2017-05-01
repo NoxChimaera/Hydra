@@ -17,22 +17,35 @@
 package com.github.noxchimaera.hydra.core.model.nodes;
 
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Max Balushkin
  */
-public class HyLoop extends HyNode {
+public class HyForLoop extends HyNode {
 
-    private HyAction condition;
+    private HyAction setup;
+    private HyAction test;
+    private HyAction step;
     private HyNode body;
 
-    public HyLoop(HyAction condition, HyNode body) {
-        this.condition = condition;
+    public HyForLoop(HyAction setup, HyAction test, HyAction step, HyNode body) {
+        this.setup = setup;
+        this.test = test;
+        this.step = step;
         this.body = body;
     }
 
-    public HyAction getCondition() {
-        return condition;
+    public HyAction getSetup() {
+        return setup;
+    }
+
+    public HyAction getTest() {
+        return test;
+    }
+
+    public HyAction getStep() {
+        return step;
     }
 
     public HyNode getBody() {
@@ -41,6 +54,11 @@ public class HyLoop extends HyNode {
 
     @Override public void accept(HyVisitor visitor) {
         visitor.loop(this);
+    }
+
+    @Override
+    public String toString() {
+        return Strings.$("[ For ", setup, " while ", test, " with ", step, " do ", body);
     }
 
 }

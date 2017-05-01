@@ -58,8 +58,8 @@ public class ForLoopUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public void accept(UmlVisitor visitor) {
-        visitor.loop(this);
+    public <T> T accept(UmlVisitor<T> visitor) {
+        return visitor.loop(this);
     }
 
     @Override

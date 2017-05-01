@@ -21,14 +21,14 @@ import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 /**
  * @author Nox
  */
-public interface UmlVisitor {
+public interface UmlVisitor<TResult> {
 
-    void init(InitUmlNode init);
-    void fin(FinUmlNode fin);
+    TResult init(InitUmlNode init);
+    TResult fin(FinUmlNode fin);
 
-    void action(ActionUmlNode action);
+    TResult action(ActionUmlNode action);
 
-    void condition(ConditionalUmlNode condition);
-    void loop(ForLoopUmlNode loop);
+    TResult condition(ConditionalUmlNode condition);
+    TResult loop(ForLoopUmlNode loop);
 
 }

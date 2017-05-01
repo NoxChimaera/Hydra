@@ -69,10 +69,10 @@ public class HyPrinter implements HyVisitor {
         printlnIntended("}");
     }
 
-    @Override public void loop(HyLoop loop) {
+    @Override public void loop(HyForLoop loop) {
         printlnIntended("WHILE (");
         ++indent;
-        loop.getCondition().accept(this);
+        loop.getTest().accept(this);
         --indent;
         printlnIntended(") {");
         ++indent;

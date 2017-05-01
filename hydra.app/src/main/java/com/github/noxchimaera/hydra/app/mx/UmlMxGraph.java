@@ -56,6 +56,8 @@ public class UmlMxGraph extends mxGraph {
         cellFactory = new UmlCellFactory(this, umlGraph);
         this.umlGraph = umlGraph;
 
+        setAlternateEdgeStyle("edgeStyle=mxEdgeStyle.ElbowConnector;elbow=vertical;");
+
         addListener(mxEvent.CELL_CONNECTED, this::onCellConnected);
         addListener(mxEvent.CELLS_REMOVED, this::onCellRemoved);
 

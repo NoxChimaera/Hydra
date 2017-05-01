@@ -61,8 +61,8 @@ public class ConditionalUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public void accept(UmlVisitor visitor) {
-        visitor.condition(this);
+    public <T> T accept(UmlVisitor<T> visitor) {
+        return visitor.condition(this);
     }
 
     @Override
