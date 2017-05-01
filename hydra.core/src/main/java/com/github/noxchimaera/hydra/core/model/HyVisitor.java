@@ -21,13 +21,13 @@ import com.github.noxchimaera.hydra.core.model.nodes.*;
 /**
  * @author Max Balushkin
  */
-public interface HyVisitor {
+public interface HyVisitor<TResult> {
 
-    void empty(HyEmpty empty);
-    void seq(HySequence seq);
+    TResult empty(HyEmpty empty);
+    TResult seq(HySequence seq);
 
-    void action(HyAction action);
-    void cond(HyConditional cond);
-    void loop(HyForLoop loop);
+    TResult action(HyAction action);
+    TResult cond(HyConditional cond);
+    TResult loop(HyForLoop loop);
 
 }

@@ -23,6 +23,7 @@ import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEventHandler;
+import com.github.noxchimaera.hydra.app.transformers.HydraToJavaTransformer;
 import com.github.noxchimaera.hydra.app.transformers.UmlToHydraTransformer;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
@@ -131,8 +132,12 @@ public class AppController {
         for (UmlNode root : roots) {
             root.accept(t);
         }
+
+        HydraToJavaTransformer t2 = new HydraToJavaTransformer();
         for (HySequence hySequence : t.getResult()) {
             System.out.println(hySequence);
+            t2.seq(hySequence);
+            System.out.println(t2.java());
         }
 
     }

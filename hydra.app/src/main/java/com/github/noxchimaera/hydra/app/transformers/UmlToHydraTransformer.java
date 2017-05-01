@@ -18,6 +18,7 @@ package com.github.noxchimaera.hydra.app.transformers;
 
 import com.github.noxchimaera.hydra.app.Log;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
 import com.github.noxchimaera.hydra.core.graph.Edge;
@@ -32,7 +33,7 @@ import java.util.function.Supplier;
 /**
  * @author Nox
  */
-public class UmlToHydraTransformer extends UmlTransformer<Void> {
+public class UmlToHydraTransformer implements UmlVisitor<Void> {
 
     private ArrayDeque<HySequence> sequences;
     private List<HySequence> result;
@@ -71,12 +72,6 @@ public class UmlToHydraTransformer extends UmlTransformer<Void> {
         sequence = new HySequence();
         sequences.push(sequence);
         return sequence;
-
-
-        // if (sequence != null) {
-        //     sequences.push(sequence);
-        // }
-        // return sequence = new HySequence();
     }
 
     private HySequence end() {
@@ -123,12 +118,6 @@ public class UmlToHydraTransformer extends UmlTransformer<Void> {
             Log.shared.warning("`Test` branch must be an action");
             return new HyAction("[ERROR]");
         });
-        // if (testSeq.size() == 0 || !Contracts.is(HyAction.class, testSeq.get(0))) {
-        //     test = new HyAction("false");
-        //     Log.shared.warning("`Test` branch must be an action");
-        // } else {
-        //     test = (HyAction)testSeq.get(0);
-        // }
 
         start();
         next(condition, ConditionalUmlNode.IfBranch);
