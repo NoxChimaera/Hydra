@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.transformers;
+package com.github.noxchimaera.hydra.core.transformers;
 
-import com.github.noxchimaera.hydra.app.Log;
+import com.github.noxchimaera.hydra.core.Log;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;

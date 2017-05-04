@@ -20,6 +20,7 @@ import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.gui.editors.ActionUmlNodeEditor;
 import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
+import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
@@ -30,13 +31,16 @@ import com.github.noxchimaera.hydra.utils.Contracts;
  */
 public class UmlGraphController {
 
+    private AppModule app;
+
     private UmlGraphView view;
 
     private UmlCellFactory factory;
 
-    public UmlGraphController(UmlGraphView view, UmlCellFactory factory) {
+    public UmlGraphController(UmlGraphView view, UmlCellFactory factory, AppModule app) {
         this.view = view;
         this.factory = factory;
+        this.app = app;
     }
 
     private void updateCell(UmlCell cell) {
@@ -47,7 +51,7 @@ public class UmlGraphController {
         // TODO: refactor
         Dialog editor = null;
         if (Contracts.is(ActionUmlNode.class, node)) {
-            editor = new ActionUmlNodeEditor(view.getOwner(), (ActionUmlNode)node);
+            editor = new ActionUmlNodeEditor(view.getOwner(), (ActionUmlNode)node, app);
             editor.setEventHandler(event -> {
                 if (DialogEvent.Status.CANCEL == event.getStatus()) {
                     return;

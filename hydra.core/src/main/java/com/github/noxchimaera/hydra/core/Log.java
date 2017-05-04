@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app;
+package com.github.noxchimaera.hydra.core;
 
 import java.util.logging.Logger;
 
@@ -25,7 +25,7 @@ public class Log {
 
     public static final Log shared = new Log();
 
-    private final Logger logger = Logger.getLogger("editor");
+    private final Logger logger = Logger.getLogger("hydra");
 
     public void warning(String message) {
         logger.warning(message);

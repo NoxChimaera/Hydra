@@ -18,6 +18,7 @@ package com.github.noxchimaera.hydra.app.gui.editors.components;
 
 import com.github.noxchimaera.hydra.app.swing.GridConstraint;
 import com.github.noxchimaera.hydra.app.swing.SelectGroup;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
@@ -52,6 +53,11 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
         addProperty(root, 0, new JLabel("Some prop: "), group);
 
         add(root);
+    }
+
+    @Override
+    public Class type() {
+        return DiversifiedStereotype.class;
     }
 
     @Override

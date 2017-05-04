@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.app.modules;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.app.repositories.genvoter.GenVoterRepository;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class DiversifyModule extends Module {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    private GenVoterRepository voters;
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
+    public DiversifyModule() {
+        voters = new GenVoterRepository();
     }
 
-    @Override
-    public Stereotype stereotype() {
-        return null;
+    public GenVoterRepository voters() {
+        return voters;
     }
 
 }

@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.app.modules;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypeComponentFactory;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class AppModule extends Module {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    private StereotypeComponentFactory stereotypeComponentFactory;
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
+    public AppModule() {
+        stereotypeComponentFactory = new StereotypeComponentFactory();
     }
 
-    @Override
-    public Stereotype stereotype() {
-        return null;
+    public StereotypeComponentFactory getStereotypeComponentFactory() {
+        return stereotypeComponentFactory;
     }
 
 }

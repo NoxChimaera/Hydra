@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.transformers;
+package com.github.noxchimaera.hydra.core.transformers;
 
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
 import com.github.noxchimaera.hydra.core.model.nodes.*;

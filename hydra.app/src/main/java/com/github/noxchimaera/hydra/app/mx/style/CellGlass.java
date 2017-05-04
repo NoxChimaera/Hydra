@@ -16,8 +16,6 @@
 
 package com.github.noxchimaera.hydra.app.mx.style;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.utils.Strings;
 import com.mxgraph.util.mxConstants;
 
 /**

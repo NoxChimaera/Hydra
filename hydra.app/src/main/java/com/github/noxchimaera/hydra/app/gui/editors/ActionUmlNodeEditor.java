@@ -16,7 +16,10 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors;
 
+import com.github.noxchimaera.hydra.app.gui.app.AppController;
+import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
 import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypePicker;
+import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotypes;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
@@ -33,11 +36,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.stream.Collectors;
+import java.util.List;
 
 /**
  * @author Nox
  */
-public class ActionUmlNodeEditor extends com.github.noxchimaera.hydra.app.gui.editors.base.Dialog<ActionUmlNode> {
+public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
+
+    private AppModule app;
 
     private ActionUmlNode node;
 
@@ -46,8 +52,10 @@ public class ActionUmlNodeEditor extends com.github.noxchimaera.hydra.app.gui.ed
     private JLabel statusIcon;
     private JLabel languageTitle;
 
-    public ActionUmlNodeEditor(Frame owner, ActionUmlNode node) {
+    public ActionUmlNodeEditor(Frame owner, ActionUmlNode node, AppModule app) {
         super(owner, "Action UML node", true);
+        this.app = app;
+
         if (node == null) {
             this.node = new ActionUmlNode(-1, "");
             applyButton.setEnabled(false);
@@ -65,10 +73,12 @@ public class ActionUmlNodeEditor extends com.github.noxchimaera.hydra.app.gui.ed
 
     private void initialize() {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
-        StereotypePicker stereotypes = new StereotypePicker(
-            Stereotypes.getAll(true).stream()
-                .filter(stereotype -> stereotype == null || stereotype.isAcceptable(node))
-                .collect(Collectors.toList()));
+
+        List<Stereotype> stereotypesList = Stereotypes.getAll(true).stream()
+            .filter(stereotype -> stereotype == null || stereotype.isAcceptable(node))
+            .collect(Collectors.toList());
+
+        StereotypePicker stereotypes = new StereotypePicker(stereotypesList, app.getStereotypeComponentFactory());
         stereotypes.SelectionChanged.register(this::OnStereotypeChanged);
 
         contentPanel.add(stereotypes);

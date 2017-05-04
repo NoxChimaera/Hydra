@@ -16,10 +16,8 @@
 
 package com.github.noxchimaera.hydra.app.mx.style.opacity;
 
-import com.github.noxchimaera.hydra.app.Log;
-import com.github.noxchimaera.hydra.app.mx.style.CellStyle;
+import com.github.noxchimaera.hydra.core.Log;
 import com.github.noxchimaera.hydra.app.mx.style.SimpleCellStyle;
-import com.github.noxchimaera.hydra.utils.Strings;
 import com.mxgraph.util.mxConstants;
 
 /**

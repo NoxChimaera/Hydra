@@ -23,8 +23,9 @@ import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEventHandler;
-import com.github.noxchimaera.hydra.app.transformers.HydraToJavaTransformer;
-import com.github.noxchimaera.hydra.app.transformers.UmlToHydraTransformer;
+import com.github.noxchimaera.hydra.app.modules.ModuleRepository;
+import com.github.noxchimaera.hydra.core.transformers.HydraToJavaTransformer;
+import com.github.noxchimaera.hydra.core.transformers.UmlToHydraTransformer;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
@@ -45,10 +46,16 @@ public class AppController {
 
     private AppWindowView view;
 
+    private ModuleRepository modules;
+
     public AppController(AppWindowView view) {
         this.view = view;
-
+        modules = new ModuleRepository();
         setupListeners();
+    }
+
+    public ModuleRepository modules() {
+        return modules;
     }
 
     private void setupListeners() {

@@ -63,6 +63,10 @@ public class AppWindowView extends JFrame {
         controller = new AppController(this);
     }
 
+    public AppController getController() {
+        return controller;
+    }
+
     private void exit(ActionEvent event) {
         Ask.Answer res = Ask.yesOrNo(this, "Are you really want to exit?", "");
         if (Ask.Answer.Yes == res) {

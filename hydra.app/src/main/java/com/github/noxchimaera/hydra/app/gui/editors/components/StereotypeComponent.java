@@ -26,6 +26,7 @@ import java.awt.*;
  */
 public abstract class StereotypeComponent extends JPanel {
 
+    public abstract Class type();
     public abstract Stereotype stereotype();
 
 }

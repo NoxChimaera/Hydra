@@ -16,7 +16,7 @@
 
 package com.github.noxchimaera.hydra.app.graph;
 
-import com.github.noxchimaera.hydra.app.Log;
+import com.github.noxchimaera.hydra.core.Log;
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.mx.DrawSection;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;

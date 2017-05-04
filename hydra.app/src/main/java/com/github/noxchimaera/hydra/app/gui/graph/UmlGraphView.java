@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.app.gui.graph;
 
+import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.app.mx.UmlMxGraph;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
@@ -49,7 +50,7 @@ public class UmlGraphView extends JPanel {
     private mxRubberband rubberbandSelection;
     private mxKeyboardHandler keyboardHandler;
 
-    public UmlGraphView(UmlGraphComponent graphComponent) {
+    public UmlGraphView(UmlGraphComponent graphComponent, AppModule app) {
         super(new BorderLayout());
         this.graphComponent = graphComponent;
         graph = (UmlMxGraph)graphComponent.getGraph();
@@ -60,7 +61,7 @@ public class UmlGraphView extends JPanel {
         installHandlers();
         installListeners();
 
-        controller = new UmlGraphController(this, graph.getCellFactory());
+        controller = new UmlGraphController(this, graph.getCellFactory(), app);
     }
 
     private void installHandlers() {

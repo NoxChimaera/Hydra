@@ -17,14 +17,22 @@
 package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.app.graph.GraphBuilder;
+import com.github.noxchimaera.hydra.app.gui.app.AppController;
 import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
+import com.github.noxchimaera.hydra.app.gui.editors.components.DiversifiedStereotypeComponent;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
+import com.github.noxchimaera.hydra.app.modules.AppModule;
+import com.github.noxchimaera.hydra.app.modules.DiversifyModule;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.mx.UmlMxGraph;
+import com.github.noxchimaera.hydra.app.repositories.genvoter.SimpleGenVoterDescription;
 import com.github.noxchimaera.hydra.core.activity2.UmlGraph;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
+import com.github.noxchimaera.zmok.voters.ConsensusVoter;
+import com.github.noxchimaera.zmok.voters.MajorityVoter;
 import com.mxgraph.layout.*;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -49,17 +57,22 @@ public class Main {
 
         IconFontSwing.register(FontAwesome.getIconFont());
 
+        AppModule app = new AppModule();
+        app.getStereotypeComponentFactory()
+            .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent());
+
         UmlGraph umlGraph = new UmlGraph();
         UmlMxGraph graph = new UmlMxGraph(umlGraph);
         graph.setResetViewOnRootChange(true);
 
         UmlGraphComponent graphComponent = new UmlGraphComponent(graph);
-        UmlGraphView umlGraphView = new UmlGraphView(graphComponent);
+        UmlGraphView umlGraphView = new UmlGraphView(graphComponent, app);
 
         LibraryPanel library = new LibraryPanel();
         setupLibrary(library, graph);
 
         AppWindowView view = new AppWindowView(umlGraphView, library);
+        view.getController().modules().register(app);
 
         view.setTitle("Hydra Modelling System");
         view.setSize(1280, 768);
@@ -91,24 +104,21 @@ public class Main {
         layout.setLevelDistance(100);
         layout.execute(graph.getDefaultParent());
 
-        junk();
+        setupModules(view.getController());
     }
 
-    private static void junk() {
-        // Dialog ed = new ActionUmlNodeEditor(null, null);
-        //
-        // ed.setSize(640, 480);
-        // ed.setLocationRelativeTo(null);
-        // ed.setVisible(false);
-
-
+    private static void setupModules(AppController app) {
+        DiversifyModule diversifyModule = new DiversifyModule();
+        diversifyModule.voters()
+            .register(new SimpleGenVoterDescription("NVP-MV", MajorityVoter.class))
+            .register(new SimpleGenVoterDescription("NVP-CV", ConsensusVoter.class));
+        app.modules()
+            .register(diversifyModule);
 
     }
 
     private static void setupLibrary(LibraryPanel lib, UmlMxGraph graph) {
-        Object dp = graph.getDefaultParent();
         UmlCellFactory cellFactory = graph.getCellFactory();
-        UmlGraph umlGraph = graph.getUmlGraph();
 
         PalettePanel uml = lib.createPalette("UML Activity 2");
         uml.addTemplate(

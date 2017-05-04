@@ -18,21 +18,34 @@ package com.github.noxchimaera.hydra.app.gui.editors.components;
 
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 
+import java.util.HashMap;
+import java.util.TimerTask;
+import java.util.function.Supplier;
+
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class StereotypeComponentFactory {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    private HashMap<Class, Supplier<? extends StereotypeComponent>> registry;
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
+    public StereotypeComponentFactory() {
+        registry = new HashMap<>();
     }
 
-    @Override
-    public Stereotype stereotype() {
-        return null;
+    public <TTy extends Stereotype, TCmpt extends StereotypeComponent>
+    StereotypeComponentFactory register(Class<TTy> type, Supplier<TCmpt> supplier) {
+        registry.put(type, supplier);
+        return this;
+    }
+
+    public <TTy extends Stereotype>
+    StereotypeComponent get(Class<TTy> type) {
+        if (registry.containsKey(type)) {
+            return registry.get(type).get();
+        } else {
+            return null;
+        }
     }
 
 }

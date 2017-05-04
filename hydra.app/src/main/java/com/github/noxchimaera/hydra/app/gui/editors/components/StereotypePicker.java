@@ -43,13 +43,16 @@ public class StereotypePicker extends JPanel {
     private WeakHashMap<Class, StereotypeComponent> componentCache;
     private StereotypeComponent component;
 
-    public StereotypePicker(List<Stereotype> stereotypes) {
+    private StereotypeComponentFactory factory;
+
+    public StereotypePicker(List<Stereotype> stereotypes, StereotypeComponentFactory factory) {
         super(new BorderLayout(4, 4));
         SelectionChanged = new ActionEventShim<>();
 
         this.stereotypes = stereotypes;
         componentCache = new WeakHashMap<>();
         component = EmptyStereotypeComponent.Shared;
+        this.factory = factory;
         initialize();
     }
 
@@ -69,8 +72,8 @@ public class StereotypePicker extends JPanel {
     }
 
     private void onItemChanged(ActionEvent event) {
-        Object selected = stereotypeInput.getSelectedItem();
-        if (selected == component) {
+        Stereotype selected = (Stereotype)stereotypeInput.getSelectedItem();
+        if (component.type().isInstance(selected)) {
             // Nothing was changed
             return;
         }
@@ -85,12 +88,10 @@ public class StereotypePicker extends JPanel {
             StereotypeComponent cached = componentCache.get(selected.getClass());
             if (null == cached) {
                 // TODO: Properly implement this feature. Now it only a stub
-                if (Contracts.is(DiversifiedStereotype.class, selected)) {
-                    cached = new DiversifiedStereotypeComponent();
-                } else {
-                    throw new UnsupportedOperationException("Not implemented yet");
+                cached = factory.get(selected.getClass());
+                if (null == cached) {
+                    throw new UnsupportedOperationException("There is no such stereotype editor");
                 }
-
                 remove(component);
                 component = cached;
             }

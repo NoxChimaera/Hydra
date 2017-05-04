@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.app.repositories.genvoter;
 
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class GenVoterRepository {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    private List<GenVoterDescription> voters;
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
+    public GenVoterRepository() {
+        voters = new ArrayList<>();
     }
 
-    @Override
-    public Stereotype stereotype() {
-        return null;
+    public GenVoterRepository register(GenVoterDescription voter) {
+        voters.add(voter);
+        return this;
+    }
+
+    public List<GenVoterDescription> all() {
+        return new ArrayList<>(voters);
     }
 
 }
