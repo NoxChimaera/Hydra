@@ -47,7 +47,11 @@ public class SelectGroup extends JPanel {
         add(textField, GUI.borderLayout_Centre());
 
         selectButton = new JButton(
-            IconFontSwing.buildIcon(FontAwesome.ELLIPSIS_H, textField.getFont().getSize()));
+            IconFontSwing.buildIcon(FontAwesome.CARET_DOWN, textField.getFont().getSize()));
+        Dimension min = selectButton.getMinimumSize();
+        Dimension size = new Dimension(60, (int)min.getHeight());
+        selectButton.setMinimumSize(size);
+        selectButton.setPreferredSize(size);
         add(selectButton, GUI.borderLayout_Right());
     }
 

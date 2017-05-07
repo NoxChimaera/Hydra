@@ -16,14 +16,20 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors.components;
 
+import com.github.noxchimaera.hydra.app.modules.DiversifyModule;
+import com.github.noxchimaera.hydra.app.repositories.genvoter.GenVoterDescription;
 import com.github.noxchimaera.hydra.app.swing.GridConstraint;
 import com.github.noxchimaera.hydra.app.swing.SelectGroup;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-import com.github.noxchimaera.hydra.utils.swing.GUI;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.Vector;
 
 import static com.github.noxchimaera.hydra.app.swing.GridConstraint.*;
 
@@ -32,8 +38,15 @@ import static com.github.noxchimaera.hydra.app.swing.GridConstraint.*;
  */
 public class DiversifiedStereotypeComponent extends StereotypeComponent {
 
-    public DiversifiedStereotypeComponent() {
+    private DiversifyModule module;
+
+    private JComboBox<GenVoterDescription> votersInput;
+    private SelectGroup algorithmInput;
+    private SelectGroup versionInput;
+
+    public DiversifiedStereotypeComponent(DiversifyModule module) {
         super();
+        this.module = module;
 
         initialize();
     }
@@ -47,10 +60,19 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
     }
 
     private void initialize() {
+        setLayout(new BorderLayout(4, 4));
+        setBorder(new TitledBorder("Parameters"));
+
         JPanel root = new JPanel(new GridBagLayout());
 
-        SelectGroup group = new SelectGroup();
-        addProperty(root, 0, new JLabel("Some prop: "), group);
+        votersInput = new JComboBox<>(new Vector<>(module.voters().all()));
+        addProperty(root, 0, new JLabel("Voter: "), votersInput);
+
+        algorithmInput = new SelectGroup();
+        addProperty(root, 1, new JLabel("Algorithm: "), algorithmInput);
+
+        versionInput = new SelectGroup();
+        addProperty(root, 2, new JLabel("Versions: "), versionInput);
 
         add(root);
     }
@@ -63,6 +85,15 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
     @Override
     public Stereotype stereotype() {
         return null;
+    }
+
+    @Override
+    public boolean test(UmlNode node) {
+        if (!Contracts.is(ActionUmlNode.class, node)) {
+            return false;
+        }
+        // TODO: is action effect consistent with selected algorithm.
+        return false;
     }
 
 }

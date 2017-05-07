@@ -20,6 +20,7 @@ import com.github.noxchimaera.hydra.app.gui.app.AppController;
 import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
 import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypePicker;
 import com.github.noxchimaera.hydra.app.modules.AppModule;
+import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotypes;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
@@ -46,6 +47,8 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
     private AppModule app;
 
     private ActionUmlNode node;
+
+    private StereotypePicker stereotypeInput;
 
     private RSyntaxTextArea effectInput;
 
@@ -78,10 +81,9 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             .filter(stereotype -> stereotype == null || stereotype.isAcceptable(node))
             .collect(Collectors.toList());
 
-        StereotypePicker stereotypes = new StereotypePicker(stereotypesList, app.getStereotypeComponentFactory());
-        stereotypes.SelectionChanged.register(this::OnStereotypeChanged);
-
-        contentPanel.add(stereotypes);
+        stereotypeInput = new StereotypePicker(stereotypesList, app.getStereotypeComponentFactory());
+        stereotypeInput.SelectionChanged.register(this::OnStereotypeChanged);
+        contentPanel.add(stereotypeInput);
 
         JPanel effectPanel = new JPanel(new BorderLayout());
         effectPanel.setBorder(new CompoundBorder(
@@ -109,6 +111,32 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
         effectPanel.add(langPanel, GUI.borderLayout_Bottom());
 
         contentPanel.add(effectPanel);
+    }
+
+    private void unsatisfiedConstraints() {
+        Warn.that(this,
+            "Node doesn't satisfy selected stereotype constraints. ",
+            "Unsatisfied stereotype constraint");
+    }
+
+    @Override
+    protected void ok(ActionUmlNode result) {
+        if (!stereotypeInput.isSelectedStereotypeAppliedTo(result)) {
+            unsatisfiedConstraints();
+            return;
+        }
+
+        super.ok(result);
+    }
+
+    @Override
+    protected void apply(ActionUmlNode result) {
+        if (!stereotypeInput.isSelectedStereotypeAppliedTo(result)) {
+            unsatisfiedConstraints();
+            return;
+        }
+
+        super.apply(result);
     }
 
     private void OnStereotypeChanged(Object sender, Stereotype stereotype) {

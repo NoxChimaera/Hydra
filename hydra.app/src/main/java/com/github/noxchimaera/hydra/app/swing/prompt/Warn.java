@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.app.swing.prompt;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class Warn {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
-
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
-    }
-
-    @Override
-    public Stereotype stereotype() {
-        return null;
-    }
-
-    @Override
-    public boolean test(UmlNode node) {
-        return true;
+    public static void that(Component parent, String message, String title) {
+        JOptionPane.showConfirmDialog(parent, message, title, JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
     }
 
 }

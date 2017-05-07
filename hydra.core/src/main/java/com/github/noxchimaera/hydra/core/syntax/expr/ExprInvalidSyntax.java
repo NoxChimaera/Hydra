@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.utils;
+package com.github.noxchimaera.hydra.core.syntax.expr;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-@FunctionalInterface
-public interface Proc2<T, U> {
+public class ExprInvalidSyntax extends RuntimeException {
 
-    void exec(T arg1, U arg2);
+    public ExprInvalidSyntax(String message) {
+        super(message);
+    }
 
 }

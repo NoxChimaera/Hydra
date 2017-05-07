@@ -14,31 +14,34 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.syntax.expr.ast;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class ExprAssignment extends ExprNode {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    private ExprArg lhs;
+    private ExprFuncall rhs;
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
+    public ExprAssignment(ExprArg lhs, ExprFuncall rhs) {
+        this.lhs = lhs;
+        this.rhs = rhs;
+    }
+
+    public ExprArg lhs() {
+        return lhs;
+    }
+
+    public ExprFuncall rhs() {
+        return rhs;
     }
 
     @Override
-    public Stereotype stereotype() {
-        return null;
-    }
-
-    @Override
-    public boolean test(UmlNode node) {
-        return true;
+    public String str() {
+        return Strings.$(lhs.str(), " = ", rhs.str());
     }
 
 }

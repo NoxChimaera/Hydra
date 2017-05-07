@@ -16,7 +16,9 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors.components;
 
+import com.alee.extended.layout.VerticalFlowLayout;
 import com.github.noxchimaera.hydra.app.events.explicit.ActionEventShim;
+import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.utils.Contracts;
@@ -39,6 +41,8 @@ public class StereotypePicker extends JPanel {
 
     private List<Stereotype> stereotypes;
     private JComboBox<Stereotype> stereotypeInput;
+
+    private JPanel placeholder;
 
     private WeakHashMap<Class, StereotypeComponent> componentCache;
     private StereotypeComponent component;
@@ -69,6 +73,12 @@ public class StereotypePicker extends JPanel {
         top.add(stereotypeInput, GUI.borderLayout_Centre());
 
         add(top, GUI.borderLayout_Top());
+
+        // placeholder = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 4));
+        placeholder = new JPanel(new BorderLayout(4, 4));
+        placeholder.setBackground(Color.CYAN);
+
+        add(placeholder, GUI.borderLayout_Centre());
     }
 
     private void onItemChanged(ActionEvent event) {
@@ -87,7 +97,6 @@ public class StereotypePicker extends JPanel {
         } else {
             StereotypeComponent cached = componentCache.get(selected.getClass());
             if (null == cached) {
-                // TODO: Properly implement this feature. Now it only a stub
                 cached = factory.get(selected.getClass());
                 if (null == cached) {
                     throw new UnsupportedOperationException("There is no such stereotype editor");
@@ -96,12 +105,23 @@ public class StereotypePicker extends JPanel {
                 component = cached;
             }
         }
-        add(component, GUI.borderLayout_Centre());
+        placeholder.removeAll();
+        placeholder.add(component, GUI.borderLayout_Centre());
 
-        validate();
+        placeholder.revalidate();
+        placeholder.repaint();
+        revalidate();
         repaint();
 
-        SelectionChanged.post(this, (Stereotype)selected);
+        SelectionChanged.post(this, selected);
+    }
+
+    public boolean isSelectedStereotypeAppliedTo(UmlNode node) {
+        return component.test(node);
+    }
+
+    public Stereotype getSelected() {
+        return component.stereotype();
     }
 
 }

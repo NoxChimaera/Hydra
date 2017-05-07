@@ -32,6 +32,9 @@ public enum ExprTokenType {
     Boolean,
 
     Assign,
+
+    LPar, RPar,
+    Comma,
     DoubleColon
 
 }

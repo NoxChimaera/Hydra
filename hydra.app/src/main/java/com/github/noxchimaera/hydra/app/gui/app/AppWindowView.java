@@ -27,6 +27,7 @@ import com.alee.laf.toolbar.WebToolBar;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.swing.prompt.Ask;
+import com.github.noxchimaera.hydra.utils.functional.Proc;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.swing.mxGraphOutline;
 import jiconfont.icons.FontAwesome;
@@ -68,10 +69,9 @@ public class AppWindowView extends JFrame {
     }
 
     private void exit(ActionEvent event) {
-        Ask.Answer res = Ask.yesOrNo(this, "Are you really want to exit?", "");
-        if (Ask.Answer.Yes == res) {
-            System.exit(0);
-        }
+        Ask.confirmation(this, "Are you really want to exit?", "Exit",
+            () -> System.exit(0),
+            Proc.Nothing);
     }
 
     private void initializeMenu() {

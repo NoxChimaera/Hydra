@@ -16,6 +16,17 @@
 
 package com.github.noxchimaera.hydra.core.syntax.expr;
 
+import com.github.noxchimaera.hydra.core.syntax.Parser;
+import com.github.noxchimaera.hydra.core.syntax.Token;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprArg;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprAssignment;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprFuncall;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprSymbol;
+import com.github.noxchimaera.hydra.utils.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Parses expressions: {@code type id = id LPAR [ value DCOLON type ]* RPAR}.
  * </p>
@@ -25,5 +36,77 @@ package com.github.noxchimaera.hydra.core.syntax.expr;
  *
  * @author Nox
  */
-public class ExprParser {
+public class ExprParser implements Parser<ExprAssignment> {
+
+    private ExprLexer lexer;
+
+    public ExprParser(ExprLexer lexer) {
+        this.lexer = lexer;
+    }
+
+    @Override
+    public ExprAssignment parse() {
+        return assignment();
+    }
+
+    private ExprAssignment assignment() {
+        // arg ASSIGN funcall
+
+        ExprArg lhs = arg();
+        ExprToken assign = lexer.next();
+        if (!is(ExprTokenType.Assign, assign)) {
+            throw expectedToken("'='");
+        }
+        ExprFuncall rhs = funcall();
+        return new ExprAssignment(lhs, rhs);
+    }
+
+    private ExprSymbol symbol() {
+        Token t = lexer.next();
+        if (ExprTokenType.Symbol.ordinal() != t.type()) {
+            throw expectedToken("Symbol");
+        }
+        return new ExprSymbol(t.lexeme());
+    }
+
+    private ExprFuncall funcall() {
+        // symbol LP (arg)* RP
+
+        ExprSymbol function = symbol();
+        Token par = lexer.next();
+        if (!is(ExprTokenType.LPar, par)) {
+            throw expectedToken("'('");
+        }
+        List<ExprArg> args = new ArrayList<>();
+        Token last = par;
+        while (!is(ExprTokenType.RPar, last)) {
+            ExprArg arg = arg();
+            args.add(arg);
+            last = lexer.next();
+            if (!is(ExprTokenType.Comma, last) && !is(ExprTokenType.RPar, last)) {
+                throw expectedToken("comma");
+            }
+        }
+        return new ExprFuncall(function, args);
+    }
+
+    private ExprArg arg() {
+        // symbol  :: symbol
+        ExprSymbol identifier = symbol();
+        ExprToken colons = lexer.next();
+        if (ExprTokenType.DoubleColon.ordinal() != colons.type()) {
+            throw expectedToken("'::'");
+        }
+        ExprSymbol type = symbol();
+        return new ExprArg(identifier, type);
+    }
+
+    private boolean is(ExprTokenType expectedType, Token actual) {
+        return expectedType.ordinal() == actual.type();
+    }
+
+    private ExprInvalidSyntax expectedToken(String expectedToken) {
+        return new ExprInvalidSyntax(Strings.$("Token expected: ", expectedToken));
+    }
+
 }

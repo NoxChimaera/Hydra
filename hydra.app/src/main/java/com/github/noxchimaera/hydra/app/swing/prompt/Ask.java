@@ -16,6 +16,9 @@
 
 package com.github.noxchimaera.hydra.app.swing.prompt;
 
+import com.github.noxchimaera.hydra.utils.functional.Action;
+import com.github.noxchimaera.hydra.utils.functional.Proc;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -49,6 +52,15 @@ public class Ask {
             case Cancel: return JOptionPane.CANCEL_OPTION;
             case Closed: return JOptionPane.CLOSED_OPTION;
             default: return -42;
+        }
+    }
+
+    public static void confirmation(Component parent, String message, String title, Proc onConfirm, Proc onCancel) {
+        int res = JOptionPane.showConfirmDialog(parent, message, title, JOptionPane.OK_CANCEL_OPTION);
+        if (JOptionPane.OK_OPTION == res) {
+            onConfirm.exec();
+        } else {
+            onCancel.exec();
         }
     }
 

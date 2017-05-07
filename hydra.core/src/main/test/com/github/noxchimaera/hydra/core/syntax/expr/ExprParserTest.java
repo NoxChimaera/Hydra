@@ -14,31 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
+package com.github.noxchimaera.hydra.core.syntax.expr;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprAssignment;
+import com.github.noxchimaera.hydra.utils.Strings;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Nox
  */
-public class EmptyStereotypeComponent extends StereotypeComponent {
+public class ExprParserTest {
 
-    public static final EmptyStereotypeComponent Shared = new EmptyStereotypeComponent();
+    @Test public void parse() throws Exception {
+        String src = "foo :: int[] = sort(data :: int[], asc :: bool)";
+        ExprLexer lexer = new ExprLexer(src);
+        ExprParser parser = new ExprParser(lexer);
 
-    @Override
-    public Class type() {
-        return EmptyStereotypeComponent.class;
-    }
-
-    @Override
-    public Stereotype stereotype() {
-        return null;
-    }
-
-    @Override
-    public boolean test(UmlNode node) {
-        return true;
+        ExprAssignment expr = parser.parse();
+        assertEquals(src, expr.str());
     }
 
 }

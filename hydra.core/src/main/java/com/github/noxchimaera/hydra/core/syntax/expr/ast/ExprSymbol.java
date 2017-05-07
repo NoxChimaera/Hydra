@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.utils;
+package com.github.noxchimaera.hydra.core.syntax.expr.ast;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-@FunctionalInterface
-public interface Proc<T> {
+public class ExprSymbol extends ExprNode {
 
-    void exec(T arg);
+    private String symbol;
+
+    public ExprSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String symbol() {
+        return symbol;
+    }
+
+    @Override
+    public String str() {
+        return symbol;
+    }
 
 }

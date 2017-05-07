@@ -58,8 +58,6 @@ public class Main {
         IconFontSwing.register(FontAwesome.getIconFont());
 
         AppModule app = new AppModule();
-        app.getStereotypeComponentFactory()
-            .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent());
 
         UmlGraph umlGraph = new UmlGraph();
         UmlMxGraph graph = new UmlMxGraph(umlGraph);
@@ -104,16 +102,23 @@ public class Main {
         layout.setLevelDistance(100);
         layout.execute(graph.getDefaultParent());
 
-        setupModules(view.getController());
+        setupModules(view.getController(), app);
     }
 
-    private static void setupModules(AppController app) {
+    private static void setupModules(AppController app, AppModule module) {
         DiversifyModule diversifyModule = new DiversifyModule();
         diversifyModule.voters()
             .register(new SimpleGenVoterDescription("NVP-MV", MajorityVoter.class))
             .register(new SimpleGenVoterDescription("NVP-CV", ConsensusVoter.class));
         app.modules()
             .register(diversifyModule);
+
+        module.getStereotypeComponentFactory()
+            .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent(diversifyModule));
+
+        // app.getStereotypeComponentFactory()
+        //     .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent());
+
 
     }
 

@@ -20,7 +20,9 @@ import com.github.noxchimaera.hydra.core.syntax.Lexer;
 import com.github.noxchimaera.hydra.core.syntax.LexerError;
 import com.github.noxchimaera.hydra.utils.Strings;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -35,22 +37,68 @@ public class ExprLexer implements Lexer<ExprToken> {
 
     private List<LexerError> errors;
 
+    private Deque<ExprToken> stack;
+
     public ExprLexer(String source) {
         this.source = source;
         len = source.length();
 
         pos = 0;
         errors = new ArrayList<>();
+        stack = new ArrayDeque<>();
     }
 
     @Override
     public ExprToken lookup(int k) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!stack.isEmpty()) {
+            pos = stack.getLast().column();
+            stack.clear();
+        }
+
+        for (int i = 0; i <= k; ++i) {
+            ExprToken t = unsafeNext();
+            stack.push(t);
+        }
+        return stack.peek();
+    }
+
+    private ExprToken unsafeNext() {
+        while (Character.isWhitespace(at(pos))) {
+            ++pos;
+        }
+        if (pos >= source.length()) {
+            return ExprToken.eol(0, pos);
+        }
+
+        char ch = at(pos);
+        if (Character.isJavaIdentifierStart(ch)) {
+            return identifier();
+        }
+
+        if (ch == '(') {
+            return new ExprToken(ExprTokenType.LPar, "(", 0, pos++);
+        } else if (ch == ')') {
+            return new ExprToken(ExprTokenType.RPar, ")", 0, pos++);
+        } else if (ch == ':') {
+            if (at(pos + 1) == ':') {
+                pos += 2;
+                return new ExprToken(ExprTokenType.DoubleColon, "::", 0, pos - 2);
+            }
+        } else if (ch == '=') {
+            return new ExprToken(ExprTokenType.Assign, "=", 0, pos++);
+        } else if (ch == ',') {
+            return new ExprToken(ExprTokenType.Comma, ",", 0, pos++);
+        }
+
+        return new ExprToken(ExprTokenType.Error, "", 0, pos);
     }
 
     @Override
     public ExprToken next() {
-        return null;
+        if (!stack.isEmpty()) {
+            return stack.pollLast();
+        }
+        return unsafeNext();
     }
 
     @Override
@@ -77,9 +125,17 @@ public class ExprLexer implements Lexer<ExprToken> {
             return error("Unexpected character", current);
         }
         ++current;
-        while (Character.isJavaIdentifierPart(at(current))) {
-            b.append(at(current));
-            ++current;
+        while (current < source.length()) {
+            char ch = at(current);
+            if (ch == '['
+                || ch == ']'
+                || Character.isJavaIdentifierPart(ch)) {
+
+                b.append(ch);
+                ++current;
+            } else {
+                break;
+            }
         }
 
         String lexeme = b.toString();

@@ -14,46 +14,40 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.syntax;
+package com.github.noxchimaera.hydra.core.syntax.expr.ast;
 
 import com.github.noxchimaera.hydra.utils.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Nox
  */
-public abstract class Token {
+public class ExprFuncall extends ExprNode {
 
-    protected int tokenType;
+    private ExprSymbol function;
+    private List<ExprArg> args;
 
-    protected String lexeme;
-    protected int line, col;
-
-    public Token(int tokenType, String lexeme, int line, int col) {
-        this.tokenType = tokenType;
-        this.lexeme = lexeme;
-        this.line = line;
-        this.col = col;
+    public ExprFuncall(ExprSymbol function, List<ExprArg> args) {
+        this.function = function;
+        this.args = args;
     }
 
-    public int type() {
-        return tokenType;
+    public ExprSymbol function() {
+        return function;
     }
 
-    public String lexeme() {
-        return lexeme;
+    public List<ExprArg> args() {
+        return new ArrayList<>(args);
     }
 
-    public int line() {
-        return line;
-    }
 
-    public int column() {
-        return col;
-    }
 
     @Override
-    public String toString() {
-        return Strings.$(lexeme, "(", col, ":", line, ")");
+    public String str() {
+        return Strings.$(function.str(),
+            "(", Strings.joined(", ", args, i -> i.str()), ")");
     }
 
 }

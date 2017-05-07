@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.components;
-
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-
-import javax.swing.*;
-import java.awt.*;
+package com.github.noxchimaera.hydra.utils.functional;
 
 /**
- * @author Nox
+ * @author Max Balushkin
  */
-public abstract class StereotypeComponent extends JPanel {
+@FunctionalInterface
+public interface Action<T> {
 
-    public abstract Class type();
-    public abstract Stereotype stereotype();
-
-    public abstract boolean test(UmlNode node);
+    void exec(T arg);
 
 }

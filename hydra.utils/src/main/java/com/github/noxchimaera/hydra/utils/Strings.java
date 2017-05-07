@@ -16,6 +16,9 @@
 
 package com.github.noxchimaera.hydra.utils;
 
+import java.util.List;
+import java.util.function.Function;
+
 /**
  * @author Nox
  */
@@ -29,6 +32,24 @@ public class Strings {
         StringBuilder b = new StringBuilder();
         for (Object arg : args) {
             b.append(arg);
+        }
+        return b.toString();
+    }
+
+    public static <T extends Object>
+    String joined(String separator, List<T> args) {
+        return joined(separator, args, i -> i.toString());
+    }
+
+    public static <T extends Object>
+    String joined(String separator, List<T> args, Function<T, String> map) {
+        StringBuilder b = new StringBuilder();
+        final int n = args.size();
+        for (int i = 0; i < n; ++i) {
+            b.append(map.apply(args.get(i)));
+            if (i < n - 1) {
+                b.append(separator);
+            }
         }
         return b.toString();
     }
