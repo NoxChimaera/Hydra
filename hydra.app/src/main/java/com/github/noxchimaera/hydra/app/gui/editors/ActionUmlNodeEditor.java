@@ -21,6 +21,7 @@ import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypePicker;
 import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotypes;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
@@ -76,7 +77,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
     private void initialize() {
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.PAGE_AXIS));
 
-        List<Stereotype> stereotypesList = Stereotypes.getAll(true).stream()
+        List<StereotypeDescriptor> stereotypesList = Stereotypes.getAll(true).stream()
             .filter(stereotype -> stereotype == null || stereotype.isAcceptable(node))
             .collect(Collectors.toList());
 
@@ -114,7 +115,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
 
     private void unsatisfiedConstraints() {
         Warn.that(this,
-            "Node doesn't satisfy selected stereotype constraints. ",
+            "Node doesn't satisfy create stereotype constraints. ",
             "Unsatisfied stereotype constraint");
     }
 
@@ -124,7 +125,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             unsatisfiedConstraints();
             return;
         }
-        Stereotype s = stereotypeInput.selected();
+        Stereotype s = stereotypeInput.create();
         result.addStereotype(s);
 
         super.ok(result);
@@ -136,13 +137,13 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             unsatisfiedConstraints();
             return;
         }
-        Stereotype s = stereotypeInput.selected();
+        Stereotype s = stereotypeInput.create();
         result.addStereotype(s);
 
         super.apply(result);
     }
 
-    private void OnStereotypeChanged(Object sender, Stereotype stereotype) {
+    private void OnStereotypeChanged(Object sender, StereotypeDescriptor stereotype) {
         validate();
         repaint();
     }

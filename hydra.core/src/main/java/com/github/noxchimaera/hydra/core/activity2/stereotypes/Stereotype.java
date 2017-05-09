@@ -16,33 +16,19 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraint;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraintSequence;
-
-import java.util.HashSet;
-
 /**
  * @author Nox
  */
 public abstract class Stereotype {
 
-    protected String name;
+    private StereotypeDescriptor descriptor;
 
-    protected StereotypeConstraintSequence constraints;
-
-    public Stereotype(String name) {
-        this.name = name;
-        constraints = new StereotypeConstraintSequence();
+    public Stereotype(StereotypeDescriptor descriptor) {
+        this.descriptor = descriptor;
     }
 
-    public boolean isAcceptable(UmlNode node) {
-        return constraints.checkConstraint(node);
-    }
-
-    @Override
-    public String toString() {
-        return name;
+    public StereotypeDescriptor descriptor() {
+        return descriptor;
     }
 
 }

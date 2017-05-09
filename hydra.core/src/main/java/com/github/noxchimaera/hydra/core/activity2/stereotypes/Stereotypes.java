@@ -16,6 +16,9 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
+import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.NodeTypeConstraint;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraintSequence;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.List;
@@ -25,10 +28,15 @@ import java.util.List;
  */
 public class Stereotypes {
 
-    public final static DiversifiedStereotype Diversified = new DiversifiedStereotype();
+    public final static StereotypeDescriptor Diversified;
 
-    public static List<Stereotype> getAll(boolean withEmpty) {
-        return ListUtils.<Stereotype>toList(!withEmpty, null, Diversified);
+    static {
+        Diversified = new StereotypeDescriptor("Diversified", DiversifiedStereotype.class,
+            new StereotypeConstraintSequence(new NodeTypeConstraint(ActionUmlNode.class)));
+    }
+
+    public static List<StereotypeDescriptor> getAll(boolean withEmpty) {
+        return ListUtils.<StereotypeDescriptor>toList(!withEmpty, null, Diversified);
     }
 
 }

@@ -17,9 +17,9 @@
 package com.github.noxchimaera.hydra.app.gui.editors.components;
 
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 
 import java.util.HashMap;
-import java.util.TimerTask;
 import java.util.function.Supplier;
 
 /**

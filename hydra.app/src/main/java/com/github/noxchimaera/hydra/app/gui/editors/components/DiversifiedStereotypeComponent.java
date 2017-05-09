@@ -25,6 +25,7 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprInvalidSyntax;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprLexer;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprParser;
@@ -92,7 +93,7 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
 
         GenVoterDescription voter = (GenVoterDescription)votersInput.getSelectedItem();
         if (voter == null) {
-            errors.append("A voter algorithm wasn't selected. ").append(System.lineSeparator());
+            errors.append("A voter algorithm wasn't create. ").append(System.lineSeparator());
         }
 
         if (errors.length() > 0) {

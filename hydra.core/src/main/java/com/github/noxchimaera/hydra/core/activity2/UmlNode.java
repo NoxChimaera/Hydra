@@ -18,6 +18,7 @@ package com.github.noxchimaera.hydra.core.activity2;
 
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 import com.github.noxchimaera.hydra.core.graph.Node;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
 
@@ -62,12 +63,13 @@ public abstract class UmlNode extends Node<String> {
     }
 
     public <TStereotype extends Stereotype>
-    Optional<TStereotype> getStereotype(Class<TStereotype> stereotypeClass) {
+    TStereotype getStereotype(StereotypeDescriptor descriptor, Class<TStereotype> type) {
         return stereotypes
             .stream()
-            .filter(st -> stereotypeClass.isInstance(st))
+            .filter(s -> s.descriptor().equals(descriptor))
             .findFirst()
-            .map(st -> stereotypeClass.cast(st));
+            .map(s -> type.cast(s))
+            .orElse(null);
     }
 
     @Override

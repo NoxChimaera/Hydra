@@ -18,9 +18,9 @@ package com.github.noxchimaera.hydra.app.gui.editors.components;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * @author Nox

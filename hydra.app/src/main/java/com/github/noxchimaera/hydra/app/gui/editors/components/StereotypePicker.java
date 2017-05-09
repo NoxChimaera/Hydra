@@ -16,12 +16,10 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors.components;
 
-import com.alee.extended.layout.VerticalFlowLayout;
 import com.github.noxchimaera.hydra.app.events.explicit.ActionEventShim;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-import com.github.noxchimaera.hydra.utils.Contracts;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
@@ -37,10 +35,10 @@ import java.util.WeakHashMap;
  */
 public class StereotypePicker extends JPanel {
 
-    public final ActionEventShim<Stereotype> SelectionChanged;
+    public final ActionEventShim<StereotypeDescriptor> SelectionChanged;
 
-    private List<Stereotype> stereotypes;
-    private JComboBox<Stereotype> stereotypeInput;
+    private List<StereotypeDescriptor> stereotypes;
+    private JComboBox<StereotypeDescriptor> stereotypeInput;
 
     private JPanel placeholder;
 
@@ -49,7 +47,7 @@ public class StereotypePicker extends JPanel {
 
     private StereotypeComponentFactory factory;
 
-    public StereotypePicker(List<Stereotype> stereotypes, StereotypeComponentFactory factory) {
+    public StereotypePicker(List<StereotypeDescriptor> stereotypes, StereotypeComponentFactory factory) {
         super(new BorderLayout(4, 4));
         SelectionChanged = new ActionEventShim<>();
 
@@ -63,13 +61,13 @@ public class StereotypePicker extends JPanel {
     private void initialize() {
         setBorder(new EmptyBorder(8, 8, 8, 8));
 
-        DefaultComboBoxModel<Stereotype> model
-            = new DefaultComboBoxModel<>(ListUtils.toArray(stereotypes, Stereotype[]::new));
+        DefaultComboBoxModel<StereotypeDescriptor> model
+            = new DefaultComboBoxModel<>(ListUtils.toArray(stereotypes, StereotypeDescriptor[]::new));
         stereotypeInput = new JComboBox<>(model);
         stereotypeInput.addActionListener(this::onItemChanged);
 
         JPanel top = new JPanel(new BorderLayout(4, 4));
-        top.add(new JLabel("Stereotype: "), GUI.borderLayout_Left());
+        top.add(new JLabel("StereotypeDescriptor: "), GUI.borderLayout_Left());
         top.add(stereotypeInput, GUI.borderLayout_Centre());
 
         add(top, GUI.borderLayout_Top());
@@ -82,7 +80,7 @@ public class StereotypePicker extends JPanel {
     }
 
     private void onItemChanged(ActionEvent event) {
-        Stereotype selected = (Stereotype)stereotypeInput.getSelectedItem();
+        StereotypeDescriptor selected = (StereotypeDescriptor)stereotypeInput.getSelectedItem();
         if (component.type().isInstance(selected)) {
             // Nothing was changed
             return;
@@ -97,7 +95,7 @@ public class StereotypePicker extends JPanel {
         } else {
             StereotypeComponent cached = componentCache.get(selected.getClass());
             if (null == cached) {
-                cached = factory.get(selected.getClass());
+                cached = factory.get(selected.stereotypeClass());
                 if (null == cached) {
                     throw new UnsupportedOperationException("There is no such stereotype editor");
                 }
@@ -120,7 +118,7 @@ public class StereotypePicker extends JPanel {
         return component.test(node);
     }
 
-    public Stereotype selected() {
+    public Stereotype create() {
         return component.stereotype();
     }
 

@@ -16,23 +16,13 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.NodeTypeConstraint;
-import com.github.noxchimaera.zmok.GenVoter;
-
 /**
  * @author Nox
  */
 public class DiversifiedStereotype extends Stereotype {
 
-    private Class voterClass;
-
-    public DiversifiedStereotype(/*Class<? extends GenVoter> voterClass*/) {
-        super("Diversified");
-        constraints.add(new NodeTypeConstraint(ActionUmlNode.class));
-
-        // this.voterClass = voterClass;
+    public DiversifiedStereotype() {
+        super(Stereotypes.Diversified);
     }
 
 }
