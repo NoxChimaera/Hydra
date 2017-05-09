@@ -14,35 +14,24 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.repositories.genvoter;
+package com.github.noxchimaera.hydra.app.gui.algorithms;
+
+import com.alee.laf.rootpane.WebDialog;
+import com.github.noxchimaera.hydra.app.gui.base.Dialog;
+
+import java.awt.*;
 
 /**
  * @author Nox
  */
-public abstract class GenVoterDescription {
+public class AlgorithmLibraryView extends Dialog<Object> {
 
-    private String name;
-
-    private Class voterClass;
-
-    protected GenVoterDescription(String name, Class voterClass) {
-        this.name = name;
-        this.voterClass = voterClass;
+    public AlgorithmLibraryView(Frame owner, String title, boolean modal) {
+        super(owner, title, modal);
     }
-
-    public String name() {
-        return name;
-    }
-
-    public Class voterClass() {
-        return voterClass;
-    }
-
-    public abstract String java();
 
     @Override
-    public String toString() {
-        return name;
+    protected Object result() {
+        return null;
     }
-
 }

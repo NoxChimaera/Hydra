@@ -26,7 +26,6 @@ import com.github.noxchimaera.hydra.core.graph.Edge;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,13 +48,13 @@ public class FinUmlNode extends UmlNode implements HasInput {
     }
 
     @Override
-    public List<Edge> getEdges() {
+    public List<Edge> edges() {
         return ListUtils.<Edge>toList(true, input);
     }
 
     @Override
     public UmlNode deepClone() {
-        FinUmlNode clone = new FinUmlNode(getId());
+        FinUmlNode clone = new FinUmlNode(id());
         clone.value = value;
         clone.input = input;
 

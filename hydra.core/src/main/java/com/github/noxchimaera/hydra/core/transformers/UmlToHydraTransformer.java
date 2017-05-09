@@ -95,7 +95,7 @@ public class UmlToHydraTransformer implements UmlVisitor<Void> {
 
     @Override
     public Void action(ActionUmlNode action) {
-        seq(new HyAction(action.getValue()));
+        seq(new HyAction(action.value()));
         next(action);
         return null;
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.base;
+package com.github.noxchimaera.hydra.app.gui.base;
 
 /**
  * @author Nox

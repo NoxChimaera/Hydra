@@ -39,19 +39,19 @@ public abstract class Node<TVal> implements Serializable {
         marks = new ArrayList<>();
     }
 
-    public long getId() {
+    public long id() {
         return id;
     }
 
-    public NodeType getType() {
+    public NodeType type() {
         return type;
     }
 
-    public TVal getValue() {
+    public TVal value() {
         return value;
     }
 
-    public Node<TVal> setValue(TVal value) {
+    public Node<TVal> value(TVal value) {
         this.value = value;
         return this;
     }
@@ -74,6 +74,6 @@ public abstract class Node<TVal> implements Serializable {
 
     // public abstract boolean addEdge(Edge edge);
 
-    public abstract List<Edge> getEdges();
+    public abstract List<Edge> edges();
 
 }

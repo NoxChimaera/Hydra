@@ -18,8 +18,8 @@ package com.github.noxchimaera.hydra.app.gui.graph;
 
 import com.github.noxchimaera.hydra.app.UmlCellFactory;
 import com.github.noxchimaera.hydra.app.gui.editors.ActionUmlNodeEditor;
-import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
-import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
+import com.github.noxchimaera.hydra.app.gui.base.Dialog;
+import com.github.noxchimaera.hydra.app.gui.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
@@ -59,7 +59,7 @@ public class UmlGraphController {
 
                 ActionUmlNode action = (ActionUmlNode)node;
                 ActionUmlNode result = (ActionUmlNode)event.getValue();
-                action.setValue(result.getValue());
+                action.value(result.value());
 
                 updateCell(cell);
             });

@@ -45,7 +45,7 @@ public class ForLoopUmlNode extends StructuredUmlNode {
 
     @Override
     public UmlNode deepClone() {
-        ForLoopUmlNode clone = new ForLoopUmlNode(getId());
+        ForLoopUmlNode clone = new ForLoopUmlNode(id());
         clone.input = input;
         clone.output = output;
         clone.regions = new HashSet<>(regions);
@@ -63,7 +63,7 @@ public class ForLoopUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public List<Edge> getEdges() {
+    public List<Edge> edges() {
         return ListUtils.<Edge>toList(true,
             input, output,
             regionRoots.get(Setup), regionRoots.get(Test), regionRoots.get(Step), regionRoots.get(Body));

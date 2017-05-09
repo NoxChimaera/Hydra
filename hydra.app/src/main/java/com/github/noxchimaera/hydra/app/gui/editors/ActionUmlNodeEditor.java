@@ -16,8 +16,7 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors;
 
-import com.github.noxchimaera.hydra.app.gui.app.AppController;
-import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
+import com.github.noxchimaera.hydra.app.gui.base.Dialog;
 import com.github.noxchimaera.hydra.app.gui.editors.components.StereotypePicker;
 import com.github.noxchimaera.hydra.app.modules.AppModule;
 import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
@@ -71,7 +70,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
     }
 
     private void fill(ActionUmlNode source) {
-        effectInput.setText(source.getValue());
+        effectInput.setText(source.value());
     }
 
     private void initialize() {
@@ -125,6 +124,8 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             unsatisfiedConstraints();
             return;
         }
+        Stereotype s = stereotypeInput.selected();
+        result.addStereotype(s);
 
         super.ok(result);
     }
@@ -135,6 +136,8 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             unsatisfiedConstraints();
             return;
         }
+        Stereotype s = stereotypeInput.selected();
+        result.addStereotype(s);
 
         super.apply(result);
     }

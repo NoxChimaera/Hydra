@@ -53,7 +53,16 @@ public class MajorityVoter<T extends Number> implements GenVoter<T> {
                         ++len;
                     }
                 }
-                return Option.some((T)(Double)(sum / len));
+
+                // TODO: please, stop crying.
+                Class t = results.get(0).getClass();
+                if (Double.class == t) {
+                    return Option.some((T)(Double)(sum / len));
+                } else if (Integer.class == t) {
+                    return Option.some((T)(Integer)(int)(sum / len));
+                } else if (Long.class == t) {
+                    return Option.some((T)(Long)(long)(sum / len));
+                }
             }
         }
 

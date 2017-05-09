@@ -14,35 +14,24 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.repositories.genvoter;
+package com.github.noxchimaera.hydra.utils.formatters;
+
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
  * @author Nox
  */
-public abstract class GenVoterDescription {
+public class Parenthesised {
 
-    private String name;
+    private Object str;
 
-    private Class voterClass;
-
-    protected GenVoterDescription(String name, Class voterClass) {
-        this.name = name;
-        this.voterClass = voterClass;
+    public Parenthesised(Object str) {
+        this.str = str;
     }
-
-    public String name() {
-        return name;
-    }
-
-    public Class voterClass() {
-        return voterClass;
-    }
-
-    public abstract String java();
 
     @Override
     public String toString() {
-        return name;
+        return Strings.$("(", str, ")");
     }
 
 }

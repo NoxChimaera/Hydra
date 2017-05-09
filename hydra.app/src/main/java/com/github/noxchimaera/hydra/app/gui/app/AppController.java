@@ -21,8 +21,8 @@ import com.github.noxchimaera.hydra.app.events.EventBus;
 import com.github.noxchimaera.hydra.app.events.NodeImportEvent;
 import com.github.noxchimaera.hydra.app.events.RegionConnectionEvent;
 import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
-import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEvent;
-import com.github.noxchimaera.hydra.app.gui.editors.base.DialogEventHandler;
+import com.github.noxchimaera.hydra.app.gui.base.DialogEvent;
+import com.github.noxchimaera.hydra.app.gui.base.DialogEventHandler;
 import com.github.noxchimaera.hydra.app.modules.ModuleRepository;
 import com.github.noxchimaera.hydra.core.transformers.HydraToJavaTransformer;
 import com.github.noxchimaera.hydra.core.transformers.UmlToHydraTransformer;
@@ -68,7 +68,7 @@ public class AppController {
     }
 
     private void onRegionConnect(RegionConnectionEvent event) {
-        if (UmlNodeTypes.RegionHeader != event.getSource().getUmlNode().getType()) {
+        if (UmlNodeTypes.RegionHeader != event.getSource().getUmlNode().type()) {
             event.consume();
             return;
         }

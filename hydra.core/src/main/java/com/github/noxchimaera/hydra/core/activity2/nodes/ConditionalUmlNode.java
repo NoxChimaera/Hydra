@@ -19,10 +19,8 @@ package com.github.noxchimaera.hydra.core.activity2.nodes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
-import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.core.graph.NodeType;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
@@ -48,7 +46,7 @@ public class ConditionalUmlNode extends StructuredUmlNode {
 
     @Override
     public UmlNode deepClone() {
-        ConditionalUmlNode clone = new ConditionalUmlNode(getId());
+        ConditionalUmlNode clone = new ConditionalUmlNode(id());
         clone.input = input;
         clone.output = output;
         clone.regions = new HashSet<>(regions);
@@ -66,7 +64,7 @@ public class ConditionalUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public List<Edge> getEdges() {
+    public List<Edge> edges() {
         return ListUtils.<Edge>toList(true,
             input, output,
             regionRoots.get(Test), regionRoots.get(IfBranch), regionRoots.get(ElseBranch));

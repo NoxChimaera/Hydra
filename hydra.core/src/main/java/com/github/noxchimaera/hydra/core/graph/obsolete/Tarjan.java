@@ -100,7 +100,7 @@ public class Tarjan<T> {
 //        node.mark(new Root(idxValue));
 //        stack.push(node);
 //
-//        for (ObsoleteEdge<T> edge : node.getEdges()) {
+//        for (ObsoleteEdge<T> edge : node.edges()) {
 //            ObsoleteNode<T> next = edge.getTarget();
 //            if (ignoringEdges.contains(edge)) {
 //                continue;

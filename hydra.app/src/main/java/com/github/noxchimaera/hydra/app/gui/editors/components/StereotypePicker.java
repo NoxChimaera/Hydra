@@ -120,7 +120,7 @@ public class StereotypePicker extends JPanel {
         return component.test(node);
     }
 
-    public Stereotype getSelected() {
+    public Stereotype selected() {
         return component.stereotype();
     }
 

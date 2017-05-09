@@ -16,24 +16,16 @@
 
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
-import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
-import com.github.noxchimaera.hydra.core.activity2.specification.cardinality.ControlflowUmlCardinalitySpecification;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.core.graph.EdgeDirection;
-import com.github.noxchimaera.hydra.core.graph.EdgeFlowDirection;
-import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
-import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
 import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -58,13 +50,13 @@ public class InitUmlNode extends UmlNode implements HasOutput {
     }
 
     @Override
-    public List<Edge> getEdges() {
+    public List<Edge> edges() {
         return ListUtils.<Edge>toList(true, output);
     }
 
     @Override
     public UmlNode deepClone() {
-        InitUmlNode clone = new InitUmlNode(getId());
+        InitUmlNode clone = new InitUmlNode(id());
         clone.value = value;
         clone.output = output;
 

@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.gui.editors.base;
+package com.github.noxchimaera.hydra.core.nvp;
 
 /**
  * @author Nox
  */
-public interface DialogEventHandler<T> {
-
-    void handleEvent(DialogEvent<T> event);
-
+public class GenVersionDescriptor {
 }

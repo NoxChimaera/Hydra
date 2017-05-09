@@ -97,7 +97,7 @@ public class UmlMxGraph extends mxGraph {
         UmlCell target = (UmlCell)edge.getTarget();
 
         // Hello darkness, my old friend...
-        if (UmlNodeTypes.RegionHeader == source.getUmlNode().getType()) {
+        if (UmlNodeTypes.RegionHeader == source.getUmlNode().type()) {
             if (!Contracts.is(UmlEdge.class, edge.getValue())) {
                 EventBus.Shared.post(new RegionConnectionEvent(source, target, CurrentEdgeType.get(), cellFactory));
                 model.remove(edge);
@@ -118,7 +118,7 @@ public class UmlMxGraph extends mxGraph {
             UmlNode umlSource = source.getUserObject();
             UmlNode umlTarget = target.getUserObject();
 
-            umlSource.getEdges().stream()
+            umlSource.edges().stream()
                 .filter(edge -> edge.getSource() == umlSource && edge.getDestination() == umlTarget)
                 .findFirst()
                 .ifPresent(edge -> {

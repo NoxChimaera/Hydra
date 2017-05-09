@@ -19,9 +19,7 @@ package com.github.noxchimaera.hydra.app.gui.editors;
 import com.alee.laf.combobox.WebComboBox;
 import com.alee.laf.label.WebLabel;
 import com.alee.laf.panel.WebPanel;
-import com.github.noxchimaera.hydra.app.gui.editors.base.Dialog;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.app.gui.base.Dialog;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
 import javax.swing.*;

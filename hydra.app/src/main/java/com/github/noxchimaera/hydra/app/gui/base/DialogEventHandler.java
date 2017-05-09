@@ -14,35 +14,13 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.repositories.genvoter;
+package com.github.noxchimaera.hydra.app.gui.base;
 
 /**
  * @author Nox
  */
-public abstract class GenVoterDescription {
+public interface DialogEventHandler<T> {
 
-    private String name;
-
-    private Class voterClass;
-
-    protected GenVoterDescription(String name, Class voterClass) {
-        this.name = name;
-        this.voterClass = voterClass;
-    }
-
-    public String name() {
-        return name;
-    }
-
-    public Class voterClass() {
-        return voterClass;
-    }
-
-    public abstract String java();
-
-    @Override
-    public String toString() {
-        return name;
-    }
+    void handleEvent(DialogEvent<T> event);
 
 }

@@ -17,7 +17,6 @@
 package com.github.noxchimaera.hydra.core.activity2.specification.cardinality;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlEdgeTypes;
-import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.graph.*;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinality;
 import com.github.noxchimaera.hydra.core.specification.cardinality.ConnectionCardinalitySpecification;
@@ -43,19 +42,19 @@ public class ControlflowUmlCardinalitySpecification extends ConnectionCardinalit
             return false;
         }
         ConnectionCardinality cardinality = cardinality_opt.get();
-        long count = node.getEdges().stream()
+        long count = node.edges().stream()
             .filter(edge -> edge.getType() == edgeType)
             .filter((Edge edge) -> EdgeFlowDirection.get(node, edge) == dir)
-            // .filter((Edge edge) -> edge.getType() == edgeType)
+            // .filter((Edge edge) -> edge.type() == edgeType)
             .count();
         return cardinality.test(count);
 
 
         // return specs.get(dir).map(cardinality
         //     -> cardinality.test(
-        //     node.getEdges().stream()
+        //     node.edges().stream()
         //         .filter(edge -> EdgeFlowDirection.get(node, edge) == dir)
-        //         .filter(edge -> edge.getType() == edgeType)
+        //         .filter(edge -> edge.type() == edgeType)
         //         .count()))
         //     .orElse(false);
     }

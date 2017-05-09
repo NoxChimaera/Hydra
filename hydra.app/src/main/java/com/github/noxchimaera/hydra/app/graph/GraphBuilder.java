@@ -116,7 +116,7 @@ public class GraphBuilder implements UmlVisitor<Void> {
 
     private void connectAll() {
         for (Map.Entry<UmlNode, UmlCell> entry : cells.entrySet()) {
-            for (Edge edge : entry.getKey().getEdges()) {
+            for (Edge edge : entry.getKey().edges()) {
                 if (edge.getSource() != entry.getKey()) {
                     continue;
                 }
@@ -124,7 +124,7 @@ public class GraphBuilder implements UmlVisitor<Void> {
                 UmlCell target = cells.get(edge.getDestination());
                 if (null == target) {
                     Log.shared.error(
-                        Strings.$("Unknown edge target from ", entry.getKey(), " (", entry.getKey().getId(), ")"));
+                        Strings.$("Unknown edge target from ", entry.getKey(), " (", entry.getKey().id(), ")"));
                     continue;
                 }
                 factory.connect(source, target, (UmlEdge)edge);

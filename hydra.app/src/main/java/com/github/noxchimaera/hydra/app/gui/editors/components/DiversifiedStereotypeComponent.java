@@ -20,10 +20,14 @@ import com.github.noxchimaera.hydra.app.modules.DiversifyModule;
 import com.github.noxchimaera.hydra.app.repositories.genvoter.GenVoterDescription;
 import com.github.noxchimaera.hydra.app.swing.GridConstraint;
 import com.github.noxchimaera.hydra.app.swing.SelectGroup;
+import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
+import com.github.noxchimaera.hydra.core.syntax.expr.ExprInvalidSyntax;
+import com.github.noxchimaera.hydra.core.syntax.expr.ExprLexer;
+import com.github.noxchimaera.hydra.core.syntax.expr.ExprParser;
 import com.github.noxchimaera.hydra.utils.Contracts;
 
 import javax.swing.*;
@@ -84,7 +88,19 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
 
     @Override
     public Stereotype stereotype() {
-        return null;
+        StringBuilder errors = new StringBuilder();
+
+        GenVoterDescription voter = (GenVoterDescription)votersInput.getSelectedItem();
+        if (voter == null) {
+            errors.append("A voter algorithm wasn't selected. ").append(System.lineSeparator());
+        }
+
+        if (errors.length() > 0) {
+            Warn.that(this, errors.toString(), "Error");
+            return null;
+        } else {
+            return new DiversifiedStereotype(/*voter.voterClass()*/);
+        }
     }
 
     @Override
@@ -92,8 +108,15 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
         if (!Contracts.is(ActionUmlNode.class, node)) {
             return false;
         }
-        // TODO: is action effect consistent with selected algorithm.
-        return false;
+
+        ExprParser p = new ExprParser(new ExprLexer(node.value()));
+        try {
+            p.parse();
+        } catch (ExprInvalidSyntax ex) {
+            Warn.that(this, ex.getMessage(), "Syntax error");
+            return false;
+        }
+        return true;
     }
 
 }
