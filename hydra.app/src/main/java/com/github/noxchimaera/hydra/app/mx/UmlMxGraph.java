@@ -153,7 +153,7 @@ public class UmlMxGraph extends mxGraph {
         UmlEdgeType edgeType = CurrentEdgeType.get();
         ConnectionCardinalitySpecification spec = null;
         if (edgeType == UmlEdgeTypes.Controlflow) {
-            spec = umlNode.getSpecification().ControlflowCardinality.get();
+            spec = umlNode.specification().ControlflowCardinality.get();
         }
 
         if (spec == null) {
@@ -177,7 +177,7 @@ public class UmlMxGraph extends mxGraph {
         UmlEdgeType edgeType = CurrentEdgeType.get();
         ConnectionCardinalitySpecification spec = null;
         if (edgeType == UmlEdgeTypes.Controlflow) {
-            spec = umlNode.getSpecification().ControlflowCardinality.get();
+            spec = umlNode.specification().ControlflowCardinality.get();
         }
 
         if (spec == null) {

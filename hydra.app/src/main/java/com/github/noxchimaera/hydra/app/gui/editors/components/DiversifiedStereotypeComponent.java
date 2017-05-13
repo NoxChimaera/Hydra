@@ -16,8 +16,11 @@
 
 package com.github.noxchimaera.hydra.app.gui.editors.components;
 
-import com.github.noxchimaera.hydra.app.modules.DiversifyModule;
-import com.github.noxchimaera.hydra.app.repositories.genvoter.GenVoterDescription;
+import com.alee.laf.text.WebTextField;
+import com.github.noxchimaera.hydra.app.gui.algorithms.AlgorithmLibraryModel;
+import com.github.noxchimaera.hydra.app.gui.algorithms.AlgorithmLibraryView;
+import com.github.noxchimaera.hydra.app.gui.base.DialogEvent;
+import com.github.noxchimaera.hydra.app.modules.diversify.DiversifyModule;
 import com.github.noxchimaera.hydra.app.swing.GridConstraint;
 import com.github.noxchimaera.hydra.app.swing.SelectGroup;
 import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
@@ -25,32 +28,40 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
-import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
+import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
+import com.github.noxchimaera.hydra.core.modules.diversify.GenVoterConfiguration;
+import com.github.noxchimaera.hydra.core.modules.diversify.VersionConfiguration;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprInvalidSyntax;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprLexer;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprParser;
 import com.github.noxchimaera.hydra.utils.Contracts;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Vector;
 
-import static com.github.noxchimaera.hydra.app.swing.GridConstraint.*;
+import static com.github.noxchimaera.hydra.app.swing.GridConstraint.AnchorAbsolute;
+import static com.github.noxchimaera.hydra.app.swing.GridConstraint.Fill;
 
 /**
  * @author Nox
  */
 public class DiversifiedStereotypeComponent extends StereotypeComponent {
 
+    private Frame owner;
     private DiversifyModule module;
 
-    private JComboBox<GenVoterDescription> votersInput;
+    private JComboBox<GenVoterConfiguration> votersInput;
     private SelectGroup algorithmInput;
-    private SelectGroup versionInput;
+    private WebTextField versionInput;
 
-    public DiversifiedStereotypeComponent(DiversifyModule module) {
+    private DiversifyContext context;
+
+    public DiversifiedStereotypeComponent(Frame owner, DiversifyModule module) {
         super();
+        this.owner = owner;
         this.module = module;
 
         initialize();
@@ -75,11 +86,29 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
 
         algorithmInput = new SelectGroup();
         addProperty(root, 1, new JLabel("Algorithm: "), algorithmInput);
+        algorithmInput.onSelectButtonClick(this::onAlgorithmSelectButtonClick);
 
-        versionInput = new SelectGroup();
+        versionInput = new WebTextField();
+        versionInput.setEditable(false);
         addProperty(root, 2, new JLabel("Versions: "), versionInput);
 
         add(root);
+    }
+
+    private void onAlgorithmSelectButtonClick() {
+        AlgorithmLibraryModel model = new AlgorithmLibraryModel(module.configuration());
+        AlgorithmLibraryView view = new AlgorithmLibraryView(owner, "Algorithm library", true, model);
+        view.setEventHandler(event -> {
+            if (DialogEvent.Status.CANCEL == event.getStatus()) {
+                return;
+            }
+            context = event.getValue();
+            algorithmInput.setText(context.algorithm().name());
+            versionInput.setText(Strings.joined(", ", context.versions(), VersionConfiguration::name));
+        });
+        view.fill(context);
+        view.setLocationRelativeTo(owner);
+        view.setVisible(true);
     }
 
     @Override
@@ -88,19 +117,37 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
     }
 
     @Override
+    public void fill(Stereotype stereotype) {
+        if (!Contracts.is(DiversifiedStereotype.class, stereotype)) {
+            return;
+        }
+
+        DiversifiedStereotype diversify = (DiversifiedStereotype)stereotype;
+        context = diversify.context();
+
+        votersInput.setSelectedItem(context.genvoter());
+        algorithmInput.setText(context.algorithm().name());
+        versionInput.setText(Strings.joined(", ", context.versions(), VersionConfiguration::name));
+    }
+
+    @Override
     public Stereotype stereotype() {
         StringBuilder errors = new StringBuilder();
 
-        GenVoterDescription voter = (GenVoterDescription)votersInput.getSelectedItem();
-        if (voter == null) {
-            errors.append("A voter algorithm wasn't create. ").append(System.lineSeparator());
+        GenVoterConfiguration voter = (GenVoterConfiguration)votersInput.getSelectedItem();
+        if (null == voter) {
+            errors.append("A voter algorithm wasn't selected. ").append(System.lineSeparator());
+        }
+
+        if (null == context) {
+            errors.append("A diversification context wasn't set. ").append(System.lineSeparator());
         }
 
         if (errors.length() > 0) {
             Warn.that(this, errors.toString(), "Error");
             return null;
         } else {
-            return new DiversifiedStereotype(/*voter.voterClass()*/);
+            return new DiversifiedStereotype(new DiversifyContext(voter, context.algorithm(), context.versions()));
         }
     }
 

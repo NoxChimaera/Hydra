@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.hydra.app.swing;
 
+import com.github.noxchimaera.hydra.utils.functional.*;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -53,6 +54,14 @@ public class SelectGroup extends JPanel {
         selectButton.setMinimumSize(size);
         selectButton.setPreferredSize(size);
         add(selectButton, GUI.borderLayout_Right());
+    }
+
+    public void onSelectButtonClick(Proc handler) {
+        selectButton.addActionListener(e -> handler.exec());
+    }
+
+    public void setText(String text) {
+        textField.setText(text);
     }
 
 }

@@ -33,7 +33,7 @@ public abstract class UmlNode extends Node<String> {
 
     protected UmlView view;
 
-    protected List<Stereotype> stereotypes;
+    protected Stereotype stereotype;
 
     protected final UmlNodeSpecification specification;
 
@@ -41,35 +41,27 @@ public abstract class UmlNode extends Node<String> {
         super(id, type);
         this.value = value;
         view = new UmlView();
-        stereotypes = new ArrayList<>();
         this.specification = specification;
     }
 
-    public UmlView getView() {
+    public UmlView view() {
         return view;
     }
 
-    public void setView(UmlView view) {
+    public void view(UmlView view) {
         this.view = view;
     }
 
-    public UmlNodeSpecification getSpecification() {
+    public UmlNodeSpecification specification() {
         return specification;
     }
 
-    public UmlNode addStereotype(Stereotype aStereotype) {
-        stereotypes.add(aStereotype);
-        return this;
+    public Stereotype stereotype() {
+        return stereotype;
     }
 
-    public <TStereotype extends Stereotype>
-    TStereotype getStereotype(StereotypeDescriptor descriptor, Class<TStereotype> type) {
-        return stereotypes
-            .stream()
-            .filter(s -> s.descriptor().equals(descriptor))
-            .findFirst()
-            .map(s -> type.cast(s))
-            .orElse(null);
+    public void stereotype(Stereotype stereotype) {
+        this.stereotype = stereotype;
     }
 
     @Override
@@ -77,7 +69,7 @@ public abstract class UmlNode extends Node<String> {
         return value;
     }
 
-    public abstract UmlNode deepClone();
+    public abstract UmlNode copy();
 
     public abstract <T> T accept(UmlVisitor<T> visitor);
 

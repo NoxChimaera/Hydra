@@ -71,6 +71,10 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
     }
 
     private void fill(ActionUmlNode source) {
+        if (null != source.stereotype()) {
+            stereotypeInput.select(source.stereotype().descriptor());
+            stereotypeInput.fill(source.stereotype());
+        }
         effectInput.setText(source.value());
     }
 
@@ -82,7 +86,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             .collect(Collectors.toList());
 
         stereotypeInput = new StereotypePicker(stereotypesList, app.getStereotypeComponentFactory());
-        stereotypeInput.SelectionChanged.register(this::OnStereotypeChanged);
+        stereotypeInput.SelectionChanged.register(this::onStereotypeChanged);
         contentPanel.add(stereotypeInput);
 
         JPanel effectPanel = new JPanel(new BorderLayout());
@@ -126,7 +130,7 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             return;
         }
         Stereotype s = stereotypeInput.create();
-        result.addStereotype(s);
+        result.stereotype(s);
 
         super.ok(result);
     }
@@ -138,12 +142,17 @@ public class ActionUmlNodeEditor extends Dialog<ActionUmlNode> {
             return;
         }
         Stereotype s = stereotypeInput.create();
-        result.addStereotype(s);
+        result.stereotype(s);
 
         super.apply(result);
     }
 
-    private void OnStereotypeChanged(Object sender, StereotypeDescriptor stereotype) {
+    private void onStereotypeChanged(Object sender, StereotypeDescriptor stereotype) {
+        if (null != node) {
+            Stereotype s = node.stereotype();
+            stereotypeInput.fill(s);
+        }
+
         validate();
         repaint();
     }

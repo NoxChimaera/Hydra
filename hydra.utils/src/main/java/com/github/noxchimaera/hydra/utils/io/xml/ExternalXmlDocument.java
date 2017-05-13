@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
+package com.github.noxchimaera.hydra.utils.io.xml;
 
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.utils.Collections;
-
-import java.util.HashSet;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
+ * Represents external XML document.
+ *
+ * @param <T> internal XML document type
  * @author Nox
  */
-public class NodeTypeConstraint<T extends UmlNode> implements StereotypeConstraint<T> {
+public interface ExternalXmlDocument<T> {
 
-    private HashSet<Class> types;
+    /**
+     * Parses XML document from stream.
+     *
+     * @param in input stream
+     * @return parsed document
+     */
+    T load(InputStream in);
 
-    public NodeTypeConstraint(Class<? extends UmlNode>... types) {
-        this.types = Collections.toHashSet(types);
-    }
-
-    @Override
-    public boolean checkConstraint(UmlNode node) {
-        return false;
-    }
+    /**
+     * Saves XML document to stream.
+     *
+     * @param obj internal XML document
+     * @param out output stream
+     */
+    void save(T obj, OutputStream out);
 
 }

@@ -20,8 +20,10 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +47,7 @@ public class ConditionalUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public UmlNode deepClone() {
+    public UmlNode copy() {
         ConditionalUmlNode clone = new ConditionalUmlNode(id());
         clone.input = input;
         clone.output = output;
@@ -54,7 +56,7 @@ public class ConditionalUmlNode extends StructuredUmlNode {
 
         clone.view = view;
 
-        clone.stereotypes = new ArrayList<>(stereotypes);
+        clone.stereotype = Stereotype.from(stereotype);
         return clone;
     }
 
@@ -65,7 +67,7 @@ public class ConditionalUmlNode extends StructuredUmlNode {
 
     @Override
     public List<Edge> edges() {
-        return ListUtils.<Edge>toList(true,
+        return Collections.<Edge>toList(true,
             input, output,
             regionRoots.get(Test), regionRoots.get(IfBranch), regionRoots.get(ElseBranch));
     }

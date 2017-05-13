@@ -17,7 +17,7 @@
 package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class StereotypeConstraintSequence implements StereotypeConstraint {
     }
 
     public StereotypeConstraintSequence(StereotypeConstraint... constraints) {
-        this.constraints = ListUtils.toList(constraints);
+        this.constraints = Collections.toList(constraints);
     }
 
     public StereotypeConstraintSequence add(StereotypeConstraint constraint) {
@@ -44,7 +44,7 @@ public class StereotypeConstraintSequence implements StereotypeConstraint {
 
     @Override
     public boolean checkConstraint(UmlNode node) {
-        return ListUtils.every(constraint -> constraint.checkConstraint(node), constraints);
+        return Collections.every(constraint -> constraint.checkConstraint(node), constraints);
     }
 
 }

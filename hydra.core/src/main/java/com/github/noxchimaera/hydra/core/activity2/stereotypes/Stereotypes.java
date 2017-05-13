@@ -19,7 +19,7 @@ package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.NodeTypeConstraint;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraintSequence;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class Stereotypes {
     }
 
     public static List<StereotypeDescriptor> getAll(boolean withEmpty) {
-        return ListUtils.<StereotypeDescriptor>toList(!withEmpty, null, Diversified);
+        return Collections.<StereotypeDescriptor>toList(!withEmpty, null, Diversified);
     }
 
 }

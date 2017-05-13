@@ -23,10 +23,11 @@ import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,18 +60,18 @@ public class ActionUmlNode extends UmlNode implements HasInput, HasOutput {
 
     @Override
     public List<Edge> edges() {
-        return ListUtils.<Edge>toList(true, input, output);
+        return Collections.<Edge>toList(true, input, output);
     }
 
     @Override
-    public UmlNode deepClone() {
+    public UmlNode copy() {
         ActionUmlNode clone = new ActionUmlNode(id(), value);
         clone.input = input;
         clone.output = output;
 
         clone.view = view;
 
-        clone.stereotypes = new ArrayList<>(stereotypes);
+        clone.stereotype = Stereotype.from(stereotype);
         return clone;
     }
 

@@ -33,6 +33,9 @@ public class EmptyStereotypeComponent extends StereotypeComponent {
     }
 
     @Override
+    public void fill(Stereotype stereotype) { }
+
+    @Override
     public Stereotype stereotype() {
         return null;
     }

@@ -20,8 +20,10 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlNodeTypes;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
 import java.util.*;
 
@@ -44,7 +46,7 @@ public class ForLoopUmlNode extends StructuredUmlNode {
     }
 
     @Override
-    public UmlNode deepClone() {
+    public UmlNode copy() {
         ForLoopUmlNode clone = new ForLoopUmlNode(id());
         clone.input = input;
         clone.output = output;
@@ -53,7 +55,7 @@ public class ForLoopUmlNode extends StructuredUmlNode {
 
         clone.view = view;
 
-        clone.stereotypes = new ArrayList<>(stereotypes);
+        clone.stereotype = Stereotype.from(stereotype);
         return clone;
     }
 
@@ -64,7 +66,7 @@ public class ForLoopUmlNode extends StructuredUmlNode {
 
     @Override
     public List<Edge> edges() {
-        return ListUtils.<Edge>toList(true,
+        return Collections.<Edge>toList(true,
             input, output,
             regionRoots.get(Setup), regionRoots.get(Test), regionRoots.get(Step), regionRoots.get(Body));
     }

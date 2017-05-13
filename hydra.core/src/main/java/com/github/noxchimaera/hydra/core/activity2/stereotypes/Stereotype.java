@@ -31,4 +31,12 @@ public abstract class Stereotype {
         return descriptor;
     }
 
+    public abstract Stereotype copy();
+
+    public static Stereotype from(Stereotype stereotype) {
+        return stereotype != null
+            ? stereotype.copy()
+            : null;
+    }
+
 }

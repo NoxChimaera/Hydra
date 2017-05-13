@@ -16,17 +16,14 @@
 
 package com.github.noxchimaera.hydra.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.IntFunction;
 import java.util.function.Predicate;
 
 /**
  * @author Max Balushkin
  */
-public class ListUtils {
+public class Collections {
 
     public static <T> boolean any(Predicate<T> predicate, List<T> lst) {
         for (T item : lst) {
@@ -60,6 +57,10 @@ public class ListUtils {
             lst.add(item);
         }
         return lst;
+    }
+
+    public static <T> ArrayList<T> asList(Collection<T> items) {
+        return new ArrayList<>(items);
     }
 
     public static <T> ArrayList<T> toList(T... items) {

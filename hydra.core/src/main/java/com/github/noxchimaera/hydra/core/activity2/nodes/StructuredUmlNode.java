@@ -17,14 +17,11 @@
 package com.github.noxchimaera.hydra.core.activity2.nodes;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecification;
-import com.github.noxchimaera.hydra.core.graph.Edge;
 import com.github.noxchimaera.hydra.core.graph.NodeType;
-import com.github.noxchimaera.hydra.utils.ListUtils;
 
 import java.io.Serializable;
 import java.util.*;

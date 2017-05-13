@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.nvp;
+package com.github.noxchimaera.hydra.utils.io.xml;
 
 /**
  * @author Nox
  */
-public class GenVersionDescriptor {
+public class ExternalDocumentException extends RuntimeException {
+
+    public ExternalDocumentException(Throwable cause) {
+        super(cause);
+    }
+
 }

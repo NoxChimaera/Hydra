@@ -22,8 +22,10 @@ import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasInput;
 import com.github.noxchimaera.hydra.core.activity2.edges.ControlflowUmlEdge;
 import com.github.noxchimaera.hydra.core.activity2.specification.UmlNodeSpecifications;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.graph.Edge;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
+import com.github.noxchimaera.hydra.utils.Contracts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,18 +51,18 @@ public class FinUmlNode extends UmlNode implements HasInput {
 
     @Override
     public List<Edge> edges() {
-        return ListUtils.<Edge>toList(true, input);
+        return Collections.<Edge>toList(true, input);
     }
 
     @Override
-    public UmlNode deepClone() {
+    public UmlNode copy() {
         FinUmlNode clone = new FinUmlNode(id());
         clone.value = value;
         clone.input = input;
 
         clone.view = view;
 
-        clone.stereotypes = new ArrayList<>(stereotypes);
+        clone.stereotype = Stereotype.from(stereotype);
         return clone;
     }
 

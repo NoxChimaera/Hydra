@@ -16,10 +16,12 @@
 
 package com.github.noxchimaera.hydra.app.repositories.genvoter;
 
+import com.github.noxchimaera.hydra.core.modules.diversify.GenVoterConfiguration;
+
 /**
  * @author Nox
  */
-public class SimpleGenVoterDescription extends GenVoterDescription {
+public class SimpleGenVoterDescription extends GenVoterConfiguration {
 
     public SimpleGenVoterDescription(String name, Class voterClass) {
         super(name, voterClass);

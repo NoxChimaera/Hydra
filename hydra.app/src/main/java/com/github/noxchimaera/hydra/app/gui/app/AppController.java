@@ -112,7 +112,7 @@ public class AppController {
     }
 
     private void commitImport(NodeImportEvent event, UmlCell cell) {
-        UmlNode node = ((UmlNode)cell.getValue()).deepClone();
+        UmlNode node = ((UmlNode)cell.getValue()).copy();
         cell.setValue(node);
 
         EventBus.Shared

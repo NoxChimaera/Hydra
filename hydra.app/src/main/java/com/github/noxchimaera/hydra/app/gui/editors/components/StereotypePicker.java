@@ -20,7 +20,7 @@ import com.github.noxchimaera.hydra.app.events.explicit.ActionEventShim;
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.StereotypeDescriptor;
-import com.github.noxchimaera.hydra.utils.ListUtils;
+import com.github.noxchimaera.hydra.utils.Collections;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
 import javax.swing.*;
@@ -62,7 +62,7 @@ public class StereotypePicker extends JPanel {
         setBorder(new EmptyBorder(8, 8, 8, 8));
 
         DefaultComboBoxModel<StereotypeDescriptor> model
-            = new DefaultComboBoxModel<>(ListUtils.toArray(stereotypes, StereotypeDescriptor[]::new));
+            = new DefaultComboBoxModel<>(Collections.toArray(stereotypes, StereotypeDescriptor[]::new));
         stereotypeInput = new JComboBox<>(model);
         stereotypeInput.addActionListener(this::onItemChanged);
 
@@ -114,12 +114,21 @@ public class StereotypePicker extends JPanel {
         SelectionChanged.post(this, selected);
     }
 
+    public void fill(Stereotype stereotype) {
+        component.fill(stereotype);
+    }
+
     public boolean isSelectedStereotypeAppliedTo(UmlNode node) {
         return component.test(node);
     }
 
     public Stereotype create() {
         return component.stereotype();
+    }
+
+    public void select(StereotypeDescriptor descriptor) {
+        stereotypeInput.setSelectedItem(descriptor);
+        onItemChanged(null);
     }
 
 }

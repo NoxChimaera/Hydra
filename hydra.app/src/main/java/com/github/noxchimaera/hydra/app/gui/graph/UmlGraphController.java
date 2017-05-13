@@ -59,7 +59,9 @@ public class UmlGraphController {
 
                 ActionUmlNode action = (ActionUmlNode)node;
                 ActionUmlNode result = (ActionUmlNode)event.getValue();
+
                 action.value(result.value());
+                action.stereotype(result.stereotype());
 
                 updateCell(cell);
             });

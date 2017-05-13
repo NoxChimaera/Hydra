@@ -17,6 +17,8 @@
 package com.github.noxchimaera.hydra.app;
 
 import com.github.noxchimaera.hydra.app.graph.GraphBuilder;
+import com.github.noxchimaera.hydra.app.gui.algorithms.AlgorithmLibraryModel;
+import com.github.noxchimaera.hydra.app.gui.algorithms.AlgorithmLibraryView;
 import com.github.noxchimaera.hydra.app.gui.app.AppController;
 import com.github.noxchimaera.hydra.app.gui.app.AppWindowView;
 import com.github.noxchimaera.hydra.app.gui.editors.components.DiversifiedStereotypeComponent;
@@ -24,7 +26,7 @@ import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
 import com.github.noxchimaera.hydra.app.gui.library.PalettePanel;
 import com.github.noxchimaera.hydra.app.modules.AppModule;
-import com.github.noxchimaera.hydra.app.modules.DiversifyModule;
+import com.github.noxchimaera.hydra.app.modules.diversify.DiversifyModule;
 import com.github.noxchimaera.hydra.app.mx.UmlGraphComponent;
 import com.github.noxchimaera.hydra.app.mx.UmlMxGraph;
 import com.github.noxchimaera.hydra.app.repositories.genvoter.SimpleGenVoterDescription;
@@ -38,6 +40,10 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,7 +52,7 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try {
             UIManager.setLookAndFeel("com.alee.laf.WebLookAndFeel");
             // UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -83,7 +89,7 @@ public class Main {
         ActionUmlNode setup = umlGraph.action("int i = 0");
         ActionUmlNode test = umlGraph.action("i < 10");
         ActionUmlNode step = umlGraph.action("++i");
-        ActionUmlNode body = umlGraph.action("System.out.println(i)");
+        ActionUmlNode body = umlGraph.action("foo :: int = bar(baz :: int[])");
         FinUmlNode fin = umlGraph.fin();
 
         umlGraph.flow(init, loop, "");
@@ -102,24 +108,28 @@ public class Main {
         layout.setLevelDistance(100);
         layout.execute(graph.getDefaultParent());
 
-        setupModules(view.getController(), app);
+        setupModules(view.getController(), app, view);
     }
 
-    private static void setupModules(AppController app, AppModule module) {
-        DiversifyModule diversifyModule = new DiversifyModule();
-        diversifyModule.voters()
-            .register(new SimpleGenVoterDescription("NVP-MV", MajorityVoter.class))
-            .register(new SimpleGenVoterDescription("NVP-CV", ConsensusVoter.class));
+    private static void setupModules(AppController app, AppModule module, Frame owner) throws FileNotFoundException {
+        DiversifyModule diversifyModule = setupDiversifyModule();
         app.modules()
             .register(diversifyModule);
 
         module.getStereotypeComponentFactory()
-            .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent(diversifyModule));
+            .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent(owner, diversifyModule));
+    }
 
-        // app.getStereotypeComponentFactory()
-        //     .register(DiversifiedStereotype.class, () -> new DiversifiedStereotypeComponent());
+    private static DiversifyModule setupDiversifyModule() throws FileNotFoundException {
+        DiversifyModule module = new DiversifyModule();
+        module.voters()
+            .register(new SimpleGenVoterDescription("NVP-MV", MajorityVoter.class))
+            .register(new SimpleGenVoterDescription("NVP-CV", ConsensusVoter.class));
 
+        File f = new File(System.getProperty("user.dir") + "/config/modules/diversify/diversify.config");
+        module.configuration().load(new FileInputStream(f));
 
+        return module;
     }
 
     private static void setupLibrary(LibraryPanel lib, UmlMxGraph graph) {

@@ -140,6 +140,9 @@ public class AppWindowView extends JFrame {
 
         add(menu, GUI.borderLayout_Top());
         add(root, GUI.borderLayout_Centre());
+
+        whole.setBackground(root.getBackground());
+        rightPart.setBackground(root.getBackground());
     }
 
     public UmlGraphView getGraphView() {

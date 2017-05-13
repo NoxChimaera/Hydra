@@ -67,11 +67,11 @@ public class GraphBuilder implements UmlVisitor<Void> {
     }
 
     private double x(UmlNode node) {
-        return node.getView().getX();
+        return node.view().getX();
     }
 
     private double y(UmlNode node) {
-        return node.getView().getY();
+        return node.view().getY();
     }
 
     @Override

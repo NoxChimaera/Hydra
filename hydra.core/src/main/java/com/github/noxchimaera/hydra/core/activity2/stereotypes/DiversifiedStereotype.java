@@ -16,13 +16,31 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
+import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
+
 /**
  * @author Nox
  */
 public class DiversifiedStereotype extends Stereotype {
 
-    public DiversifiedStereotype() {
+    private DiversifyContext context;
+
+    public DiversifiedStereotype(DiversifyContext context) {
         super(Stereotypes.Diversified);
+        this.context = context;
+    }
+
+    public DiversifyContext context() {
+        return context;
+    }
+
+    @Override
+    public Stereotype copy() {
+        return new DiversifiedStereotype(new DiversifyContext(
+            context.genvoter(),
+            context.algorithm(),
+            context.versions()
+        ));
     }
 
 }

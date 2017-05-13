@@ -14,27 +14,34 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
-
-import com.github.noxchimaera.hydra.core.activity2.UmlNode;
-import com.github.noxchimaera.hydra.utils.Collections;
-
-import java.util.HashSet;
+package com.github.noxchimaera.hydra.core.modules.diversify;
 
 /**
  * @author Nox
  */
-public class NodeTypeConstraint<T extends UmlNode> implements StereotypeConstraint<T> {
+public abstract class GenVoterConfiguration {
+    private String name;
 
-    private HashSet<Class> types;
+    private Class voterClass;
 
-    public NodeTypeConstraint(Class<? extends UmlNode>... types) {
-        this.types = Collections.toHashSet(types);
+    protected GenVoterConfiguration(String name, Class voterClass) {
+        this.name = name;
+        this.voterClass = voterClass;
     }
 
+    public String name() {
+        return name;
+    }
+
+    public Class voterClass() {
+        return voterClass;
+    }
+
+    public abstract String java();
+
     @Override
-    public boolean checkConstraint(UmlNode node) {
-        return false;
+    public String toString() {
+        return name;
     }
 
 }

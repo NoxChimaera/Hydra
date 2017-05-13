@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.modules;
+package com.github.noxchimaera.hydra.utils.annotations;
 
-import com.github.noxchimaera.hydra.app.repositories.genvoter.GenVoterRepository;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author Nox
  */
-public class DiversifyModule extends Module {
+@Retention(value = RetentionPolicy.SOURCE)
+public @interface ImplicitUsage {
 
-    private GenVoterRepository voters;
-
-    public DiversifyModule() {
-        voters = new GenVoterRepository();
-    }
-
-    public GenVoterRepository voters() {
-        return voters;
-    }
+    String cause() default "";
 
 }

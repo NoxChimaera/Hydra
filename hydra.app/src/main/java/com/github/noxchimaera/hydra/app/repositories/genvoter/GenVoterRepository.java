@@ -16,6 +16,8 @@
 
 package com.github.noxchimaera.hydra.app.repositories.genvoter;
 
+import com.github.noxchimaera.hydra.core.modules.diversify.GenVoterConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +26,18 @@ import java.util.List;
  */
 public class GenVoterRepository {
 
-    private List<GenVoterDescription> voters;
+    private List<GenVoterConfiguration> voters;
 
     public GenVoterRepository() {
         voters = new ArrayList<>();
     }
 
-    public GenVoterRepository register(GenVoterDescription voter) {
+    public GenVoterRepository register(GenVoterConfiguration voter) {
         voters.add(voter);
         return this;
     }
 
-    public List<GenVoterDescription> all() {
+    public List<GenVoterConfiguration> all() {
         return new ArrayList<>(voters);
     }
 

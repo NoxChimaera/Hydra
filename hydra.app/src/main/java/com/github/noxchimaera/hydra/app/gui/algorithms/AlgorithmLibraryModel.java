@@ -14,35 +14,27 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.app.repositories.genvoter;
+package com.github.noxchimaera.hydra.app.gui.algorithms;
+
+import com.github.noxchimaera.hydra.core.modules.diversify.AlgorithmConfiguration;
+import com.github.noxchimaera.hydra.core.modules.diversify.DiversifyConfiguration;
+import com.github.noxchimaera.hydra.utils.Collections;
+
+import java.util.List;
 
 /**
  * @author Nox
  */
-public abstract class GenVoterDescription {
+public class AlgorithmLibraryModel {
 
-    private String name;
+    private DiversifyConfiguration configuration;
 
-    private Class voterClass;
-
-    protected GenVoterDescription(String name, Class voterClass) {
-        this.name = name;
-        this.voterClass = voterClass;
+    public AlgorithmLibraryModel(DiversifyConfiguration configuration) {
+        this.configuration = configuration;
     }
 
-    public String name() {
-        return name;
-    }
-
-    public Class voterClass() {
-        return voterClass;
-    }
-
-    public abstract String java();
-
-    @Override
-    public String toString() {
-        return name;
+    public List<AlgorithmConfiguration> algorithms() {
+        return Collections.asList(configuration.algorithms());
     }
 
 }

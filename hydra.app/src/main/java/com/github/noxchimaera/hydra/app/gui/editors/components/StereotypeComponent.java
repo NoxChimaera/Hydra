@@ -28,6 +28,8 @@ import javax.swing.*;
 public abstract class StereotypeComponent extends JPanel {
 
     public abstract Class type();
+
+    public abstract void fill(Stereotype stereotype);
     public abstract Stereotype stereotype();
 
     public abstract boolean test(UmlNode node);
