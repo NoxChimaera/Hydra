@@ -83,6 +83,11 @@ public class ExprParser implements Parser<ExprAssignment> {
         List<ExprArg> args = new ArrayList<>();
         Token last = par;
         while (!is(ExprTokenType.RPar, last)) {
+            if (is(ExprTokenType.RPar, lexer.lookup(0))) {
+                lexer.next();
+                break;
+            }
+
             ExprArg arg = arg();
             args.add(arg);
             last = lexer.next();

@@ -29,17 +29,22 @@ import com.github.noxchimaera.hydra.core.activity2.nodes.ActionUmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotype;
 import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
+import com.github.noxchimaera.hydra.core.modules.diversify.Argument;
 import com.github.noxchimaera.hydra.core.modules.diversify.GenVoterConfiguration;
+import com.github.noxchimaera.hydra.core.modules.diversify.Signature;
 import com.github.noxchimaera.hydra.core.modules.diversify.VersionConfiguration;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprInvalidSyntax;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprLexer;
 import com.github.noxchimaera.hydra.core.syntax.expr.ExprParser;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprArg;
+import com.github.noxchimaera.hydra.core.syntax.expr.ast.ExprAssignment;
 import com.github.noxchimaera.hydra.utils.Contracts;
 import com.github.noxchimaera.hydra.utils.Strings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.util.List;
 import java.util.Vector;
 
 import static com.github.noxchimaera.hydra.app.swing.GridConstraint.AnchorAbsolute;
@@ -151,15 +156,60 @@ public class DiversifiedStereotypeComponent extends StereotypeComponent {
         }
     }
 
+    private boolean checkSignature(Signature signature, ExprAssignment expr) {
+        StringBuilder error = new StringBuilder();
+
+        String expectedReturnType = signature.returnType();
+        String actualReturnType = expr.lhs().type().symbol();
+        if (!actualReturnType.equals(expectedReturnType)) {
+            error.append(Strings.$("Expected return type is ", expectedReturnType,
+                " but given ", actualReturnType , ". ", System.lineSeparator()));
+        }
+
+        List<Argument> expectedArgs = signature.arguments();
+        List<ExprArg> actualArgs = expr.rhs().args();
+        if (expectedArgs.size() != actualArgs.size()) {
+            error.append(Strings.$("Expected count of arguments is ", expectedArgs.size(),
+                " but given ", actualArgs.size(), ". ", System.lineSeparator()));
+        } else {
+            final int n = actualArgs.size();
+            for (int i = 0; i < n; ++i) {
+                Argument expectedArg = expectedArgs.get(i);
+                ExprArg actualArg = actualArgs.get(i);
+
+                if (!expectedArg.type().equals(actualArg.type().symbol())) {
+                    error.append(Strings.$("Expected argument '", actualArg.identifier().symbol(), "'",
+                        " type is ", expectedArg.type(),
+                        " but given ", actualArg.type(), ". ", System.lineSeparator()));
+                }
+            }
+        }
+
+        if (error.length() > 0) {
+            // Show message
+            Warn.that(this, error.toString(), "Uncompliable signature");
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean test(UmlNode node) {
         if (!Contracts.is(ActionUmlNode.class, node)) {
             return false;
         }
 
+        if (null == context) {
+            Warn.that(this, "Diversification context can't be empty. ", "Empty context");
+            return false;
+        }
+
         ExprParser p = new ExprParser(new ExprLexer(node.value()));
         try {
-            p.parse();
+            ExprAssignment assign = p.parse();
+            if (!checkSignature(context.algorithm().signature(), assign)) {
+                return false;
+            }
         } catch (ExprInvalidSyntax ex) {
             Warn.that(this, ex.getMessage(), "Syntax error");
             return false;

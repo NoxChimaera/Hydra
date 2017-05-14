@@ -27,8 +27,17 @@ import static org.junit.Assert.*;
  */
 public class ExprParserTest {
 
-    @Test public void parse() throws Exception {
+    @Test public void test__parse_with_arguments() throws Exception {
         String src = "foo :: int[] = sort(data :: int[], asc :: bool)";
+        ExprLexer lexer = new ExprLexer(src);
+        ExprParser parser = new ExprParser(lexer);
+
+        ExprAssignment expr = parser.parse();
+        assertEquals(src, expr.str());
+    }
+
+    @Test public void test__parse_nullary_call() throws Exception {
+        String src = "foo :: int = fn()";
         ExprLexer lexer = new ExprLexer(src);
         ExprParser parser = new ExprParser(lexer);
 
