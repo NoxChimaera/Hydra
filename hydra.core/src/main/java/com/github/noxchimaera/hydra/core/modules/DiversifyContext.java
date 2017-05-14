@@ -22,12 +22,13 @@ import com.github.noxchimaera.hydra.core.modules.diversify.VersionConfiguration;
 import com.github.noxchimaera.hydra.utils.Collections;
 import com.github.noxchimaera.zmok.GenVoter;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Nox
  */
-public class DiversifyContext {
+public class DiversifyContext implements Serializable {
 
     private GenVoterConfiguration genvoter;
 

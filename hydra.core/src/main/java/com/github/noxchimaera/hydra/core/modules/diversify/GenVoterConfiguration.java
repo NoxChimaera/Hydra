@@ -16,10 +16,12 @@
 
 package com.github.noxchimaera.hydra.core.modules.diversify;
 
+import java.io.Serializable;
+
 /**
  * @author Nox
  */
-public abstract class GenVoterConfiguration {
+public abstract class GenVoterConfiguration implements Serializable {
     private String name;
 
     private Class voterClass;

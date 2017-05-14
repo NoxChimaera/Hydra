@@ -16,10 +16,12 @@
 
 package com.github.noxchimaera.hydra.core.activity2.stereotypes;
 
+import java.io.Serializable;
+
 /**
  * @author Nox
  */
-public abstract class Stereotype {
+public abstract class Stereotype implements Serializable {
 
     private StereotypeDescriptor descriptor;
 

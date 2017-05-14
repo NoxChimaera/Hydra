@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * @author Nox
  */
 @XmlAccessorType(value = XmlAccessType.FIELD)
-public class Signature {
+public class Signature implements Serializable {
 
     @XmlElement(name = "Returns")
     private String returnType;

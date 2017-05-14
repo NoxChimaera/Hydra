@@ -23,11 +23,13 @@ import com.alee.laf.list.WebList;
 import com.alee.laf.list.WebListModel;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.splitpane.WebSplitPane;
+import com.alee.laf.text.WebTextArea;
 import com.github.noxchimaera.hydra.app.gui.base.Dialog;
 import com.github.noxchimaera.hydra.app.swing.prompt.Warn;
 import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
 import com.github.noxchimaera.hydra.core.modules.diversify.AlgorithmConfiguration;
 import com.github.noxchimaera.hydra.core.modules.diversify.VersionConfiguration;
+import com.github.noxchimaera.hydra.utils.Strings;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 
 import javax.swing.*;
@@ -47,6 +49,7 @@ public class AlgorithmLibraryView extends Dialog<DiversifyContext> {
 
     private WebList algorithms;
     private WebCheckBoxList versions;
+    WebTextArea info;
 
     private Map<AlgorithmConfiguration, CheckBoxListModel> versionsModels;
 
@@ -75,10 +78,19 @@ public class AlgorithmLibraryView extends Dialog<DiversifyContext> {
 
         split.add(algScroll, JSplitPane.LEFT);
         split.add(verScroll, JSplitPane.RIGHT);
+        split.setResizeWeight(0.3);
 
-        contentPanel.add(split, GUI.borderLayout_Centre());
+        info = new WebTextArea();
+
+        WebSplitPane whole = new WebSplitPane(JSplitPane.VERTICAL_SPLIT);
+        whole.add(split, JSplitPane.TOP);
+        whole.add(new WebScrollPane(info), JSplitPane.BOTTOM);
+        whole.setResizeWeight(0.5);
+
+        contentPanel.add(whole, GUI.borderLayout_Centre());
         split.setBackground(contentPanel.getBackground());
-        pack();
+
+        setMinimumSize(new Dimension(600, 480));
     }
 
     public void fill(DiversifyContext config) {
@@ -113,6 +125,10 @@ public class AlgorithmLibraryView extends Dialog<DiversifyContext> {
             }
             versionsModels.put(algorithm, model);
         }
+
+        info.setText(Strings.$(
+            algorithm.name(), " = ", algorithm.signature()
+        ));
     }
 
     @Override

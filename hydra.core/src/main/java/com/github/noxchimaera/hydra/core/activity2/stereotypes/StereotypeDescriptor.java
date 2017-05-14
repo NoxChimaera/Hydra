@@ -20,12 +20,13 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraint;
 import com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints.StereotypeConstraintSequence;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
 /**
  * @author Nox
  */
-public class StereotypeDescriptor {
+public class StereotypeDescriptor implements Serializable {
 
     private String name;
     private Class<? extends Stereotype> stereotypeClass;

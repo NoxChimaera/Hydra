@@ -18,13 +18,14 @@ package com.github.noxchimaera.hydra.core.activity2.stereotypes.constraints;
 
 import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 
+import java.io.Serializable;
 import java.util.function.Function;
 
 /**
  * @author Nox
  */
 @FunctionalInterface
-public interface StereotypeConstraint<T extends UmlNode> {
+public interface StereotypeConstraint<T extends UmlNode> extends Serializable {
 
     boolean checkConstraint(T node);
 
