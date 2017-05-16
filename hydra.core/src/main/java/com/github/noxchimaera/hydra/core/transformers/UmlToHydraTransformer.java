@@ -21,8 +21,11 @@ import com.github.noxchimaera.hydra.core.activity2.UmlNode;
 import com.github.noxchimaera.hydra.core.activity2.UmlVisitor;
 import com.github.noxchimaera.hydra.core.activity2.commons.HasOutput;
 import com.github.noxchimaera.hydra.core.activity2.nodes.*;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.DiversifiedStereotype;
+import com.github.noxchimaera.hydra.core.activity2.stereotypes.Stereotypes;
 import com.github.noxchimaera.hydra.core.graph.Edge;
 import com.github.noxchimaera.hydra.core.model.nodes.*;
+import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
 import com.github.noxchimaera.hydra.utils.Contracts;
 
 import java.util.ArrayDeque;
@@ -95,7 +98,12 @@ public class UmlToHydraTransformer implements UmlVisitor<Void> {
 
     @Override
     public Void action(ActionUmlNode action) {
-        seq(new HyAction(action.value()));
+        if (action.hasStereotype() && Stereotypes.Diversified == action.stereotype().descriptor()) {
+            DiversifyContext ctx = ((DiversifiedStereotype)action.stereotype()).context();
+            seq(new HyDiversifiedAction(action.value(), ctx));
+        } else {
+            seq(new HyAction(action.value()));
+        }
         next(action);
         return null;
     }

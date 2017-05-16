@@ -35,20 +35,20 @@ public class HyConditional extends HyNode {
         this.falseBranch = falseBranch;
     }
 
-    public HyAction getCondition() {
+    public HyAction condition() {
         return condition;
     }
 
-    public HyConditional setCondition(HyAction condition) {
+    public HyConditional condition(HyAction condition) {
         this.condition = condition;
         return this;
     }
 
-    public HyNode getTrueBranch() {
+    public HyNode trueBranch() {
         return trueBranch;
     }
 
-    public HyNode getFalseBranch() {
+    public HyNode falseBranch() {
         return falseBranch;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-package com.github.noxchimaera.hydra.core.model;
+package com.github.noxchimaera.hydra.core.java;
 
-import com.github.noxchimaera.hydra.core.model.nodes.*;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public interface HyVisitor<TResult> {
+public class JavaArgument {
 
-    TResult empty(HyEmpty empty);
-    TResult seq(HySequence seq);
+    private String name;
+    private String type;
 
-    TResult action(HyAction action);
-    TResult action(HyDiversifiedAction action);
+    public JavaArgument(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
 
-    TResult cond(HyConditional cond);
-    TResult loop(HyForLoop loop);
+    public String name() {
+        return name;
+    }
+
+    public String type() {
+        return type;
+    }
+
+    public String str() {
+        return Strings.$(type, " ", name);
+    }
 
 }

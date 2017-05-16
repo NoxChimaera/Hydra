@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Max Balushkin.
+ * Copyright 2016 Nox.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,48 +17,38 @@
 package com.github.noxchimaera.hydra.core.model.nodes;
 
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
+import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
 import com.github.noxchimaera.hydra.utils.Strings;
 
 /**
- * @author Max Balushkin
+ * @author Nox
  */
-public class HyForLoop extends HyNode {
+public class HyDiversifiedAction extends HyNode {
 
-    private HyAction setup;
-    private HyAction test;
-    private HyAction step;
-    private HyNode body;
+    private String effect;
+    private DiversifyContext context;
 
-    public HyForLoop(HyAction setup, HyAction test, HyAction step, HyNode body) {
-        this.setup = setup;
-        this.test = test;
-        this.step = step;
-        this.body = body;
+    public HyDiversifiedAction(String effect, DiversifyContext context) {
+        this.effect = effect;
+        this.context = context;
     }
 
-    public HyAction setup() {
-        return setup;
+    public String effect() {
+        return effect;
     }
 
-    public HyAction test() {
-        return test;
+    public DiversifyContext context() {
+        return context;
     }
 
-    public HyAction step() {
-        return step;
-    }
-
-    public HyNode body() {
-        return body;
-    }
-
-    @Override public void accept(HyVisitor visitor) {
-        visitor.loop(this);
+    @Override
+    public void accept(HyVisitor visitor) {
+        visitor.action(this);
     }
 
     @Override
     public String toString() {
-        return Strings.$("[ For ", setup, " while ", test, " with ", step, " do ", body);
+        return Strings.$("[ @Diversify ", effect, " ]");
     }
 
 }

@@ -30,7 +30,7 @@ public class HyAction extends HyNode {
         this.effect = effect;
     }
 
-    public String getEffect() {
+    public String effect() {
         return effect;
     }
 

@@ -24,6 +24,7 @@ import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
 import com.github.noxchimaera.hydra.app.gui.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.gui.base.DialogEventHandler;
 import com.github.noxchimaera.hydra.app.modules.ModuleRepository;
+import com.github.noxchimaera.hydra.core.java.format.JavaFormat;
 import com.github.noxchimaera.hydra.core.transformers.HydraToJavaTransformer;
 import com.github.noxchimaera.hydra.core.transformers.UmlToHydraTransformer;
 import com.github.noxchimaera.hydra.app.uml.UmlCell;
@@ -144,7 +145,9 @@ public class AppController {
         for (HySequence hySequence : t.getResult()) {
             System.out.println(hySequence);
             t2.seq(hySequence);
-            System.out.println(t2.java());
+            String java = t2.java("Main", "com.example").str();
+            String formatted = new JavaFormat().apply(java);
+            System.out.println(formatted);
         }
 
     }

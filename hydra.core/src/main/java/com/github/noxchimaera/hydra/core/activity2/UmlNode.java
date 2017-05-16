@@ -56,6 +56,10 @@ public abstract class UmlNode extends Node<String> {
         return specification;
     }
 
+    public boolean hasStereotype() {
+        return null != stereotype;
+    }
+
     public Stereotype stereotype() {
         return stereotype;
     }
