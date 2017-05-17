@@ -22,7 +22,11 @@ import com.github.noxchimaera.hydra.core.java.JavaClass;
 import com.github.noxchimaera.hydra.core.java.JavaMethod;
 import com.github.noxchimaera.hydra.core.model.HyVisitor;
 import com.github.noxchimaera.hydra.core.model.nodes.*;
+import com.github.noxchimaera.hydra.core.modules.DiversifyContext;
+import com.github.noxchimaera.hydra.core.modules.diversify.Argument;
+import com.github.noxchimaera.hydra.core.modules.diversify.VersionConfiguration;
 import com.github.noxchimaera.hydra.utils.Contracts;
+import com.github.noxchimaera.hydra.utils.Strings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -134,9 +138,81 @@ public class HydraToJavaTransformer implements HyVisitor<Void> {
         return null;
     }
 
+    private String createDiversifiedMethod(DiversifyContext context) {
+        /*  ActorSystem system = ActorSystem.create("random");
+         *
+         *  GenVersion<Integer> rnd0 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, TrueRandom.class));
+         *  GenVersion<Integer> rnd1 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, TrueRandom.class));
+         *  GenVersion<Integer> rnd2 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, OtherTrueRandom.class));
+         *
+         *  GenVoter<Integer> voter = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVoter.class, MajorityVoter.class));
+         *
+         *  Integer res = voter.vote(Arrays.asList(rnd0, rnd1, rnd2)).get();
+         *  system.terminate();
+         */
+
+        String returns = context.algorithm().signature().returnType();
+        String methodName = context.algorithm().name();
+
+        StringBuilder b = new StringBuilder();
+        b.append("ActorSystem system = ActorSystem.create(\"").append(methodName).append("\"); ");
+
+        /*  GenVersion<Integer> rnd0 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, TrueRandom.class));
+         *  GenVersion<Integer> rnd1 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, TrueRandom.class));
+         *  GenVersion<Integer> rnd2 = TypedActor.get(system).typedActorOf(
+         *      new TypedProps<>(GenVersion.class, OtherTrueRandom.class));
+         */
+        int n = 0;
+        for (VersionConfiguration version : context.versions()) {
+            StringBuilder fncall = new StringBuilder();
+            fncall.append("GenVersion<").append(returns).append("> $").append(n).append(" = ")
+                .append("TypeActor.get(system).typedActorOf(new TypedProps<>(GenVersion.class, ")
+                .append(version.className()).append(".class)); ");
+            b.append(fncall);
+            ++n;
+        }
+
+        /*  GenVoter<Integer> voter = TypedActor.get(system).typedActorOf(
+         *    new TypedProps<>(GenVoter.class, MajorityVoter.class));
+         */
+        b.append("GenVoter<").append(returns).append("> voter = TypedActor.get(system).typedActorOf(")
+            .append("new TypedProps<>(GenVoter.class, ").append(context.genvoter().voterClass().getName()).append(".class)); ");
+
+        /*  Integer res = voter.vote(Arrays.asList(rnd0, rnd1, rnd2)).get();
+         *  system.terminate();
+         */
+        b.append(returns).append(" $$ = voter.vote(Arrays.asList(");
+        for (int i = 0; i < n; ++i) {
+            b.append("$").append(i);
+            if (i != n - 1) {
+                b.append(", ");
+            }
+        }
+        b.append(")).get(); ");
+        b.append("system.terminate(); ");
+        b.append("return $$; ");
+        return b.toString();
+    }
+
     @Override
     public Void action(HyDiversifiedAction action) {
-        // TODO: create method
+        String name = action.context().algorithm().name();
+        if (methods.stream().filter(i -> i.name().equals(name)).count() == 0) {
+            String returns = action.context().algorithm().signature().returnType();
+            List<JavaArgument> args = new ArrayList<>();
+            for (Argument arg : action.context().algorithm().signature().arguments()) {
+                args.add(new JavaArgument(arg.name(), arg.type()));
+            }
+            JavaMethod method = new JavaMethod(name, returns, args);
+            method.body(createDiversifiedMethod(action.context()));
+            methods.add(method);
+        }
 
         String effect = action.effect().trim();
         if (effect.endsWith(";")) {

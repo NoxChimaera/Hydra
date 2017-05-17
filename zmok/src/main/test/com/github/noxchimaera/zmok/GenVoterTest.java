@@ -16,6 +16,7 @@
 
 package com.github.noxchimaera.zmok;
 
+import akka.actor.*;
 import akka.dispatch.Futures;
 import akka.japi.Option;
 import com.github.noxchimaera.zmok.voters.MajorityVoter;
@@ -31,46 +32,46 @@ import static org.junit.Assert.*;
  */
 public class GenVoterTest {
 
+    public static class TrueRandom implements GenVersion<Integer> {
+        @Override
+        public Future<Integer> getHeuristicAsync() {
+            return Futures.successful(4);
+        }
+
+        @Override
+        public Option<Integer> getHeuristic() {
+            return Option.option(4);
+        }
+    }
+
+    public static class OtherTrueRandom implements GenVersion<Integer> {
+        @Override
+        public Future<Integer> getHeuristicAsync() {
+            return Futures.successful(5);
+        }
+
+        @Override
+        public Option<Integer> getHeuristic() {
+            return Option.option(5);
+        }
+    }
+
     @Test
     public void vote() throws Exception {
-        GenVersion<Integer> max0 = new GenVersion<Integer>() {
-            @Override
-            public Future<Integer> getHeuristicAsync() {
-                return Futures.successful(4);
-            }
+        ActorSystem system = ActorSystem.create("random");
 
-            @Override
-            public Option<Integer> getHeuristic() {
-                return Option.option(4);
-            }
-        };
+        GenVersion<Integer> rnd0 = TypedActor.get(system).typedActorOf(
+            new TypedProps<>(GenVersion.class, TrueRandom.class));
+        GenVersion<Integer> rnd1 = TypedActor.get(system).typedActorOf(
+            new TypedProps<>(GenVersion.class, TrueRandom.class));
+        GenVersion<Integer> rnd2 = TypedActor.get(system).typedActorOf(
+            new TypedProps<>(GenVersion.class, OtherTrueRandom.class));
 
-        GenVersion<Integer> max1 = new GenVersion<Integer>() {
-            @Override
-            public Future<Integer> getHeuristicAsync() {
-                return Futures.successful(4);
-            }
+        GenVoter<Integer> voter = TypedActor.get(system).typedActorOf(
+            new TypedProps<>(GenVoter.class, MajorityVoter.class));
 
-            @Override
-            public Option<Integer> getHeuristic() {
-                return Option.option(4);
-            }
-        };
-
-        GenVersion<Integer> max2 = new GenVersion<Integer>() {
-            @Override
-            public Future<Integer> getHeuristicAsync() {
-                return Futures.successful(5);
-            }
-
-            @Override
-            public Option<Integer> getHeuristic() {
-                return Option.option(5);
-            }
-        };
-
-        GenVoter<Integer> voter = new MajorityVoter<>();
-        Integer res = voter.vote(Arrays.asList(max0, max1, max2)).get();
+        Integer res = voter.vote(Arrays.asList(rnd0, rnd1, rnd2)).get();
+        system.terminate();
         assertEquals(4, res.intValue());
     }
 
