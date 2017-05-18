@@ -24,6 +24,7 @@ import com.github.noxchimaera.hydra.app.gui.editors.RegionSelector;
 import com.github.noxchimaera.hydra.app.gui.base.DialogEvent;
 import com.github.noxchimaera.hydra.app.gui.base.DialogEventHandler;
 import com.github.noxchimaera.hydra.app.modules.ModuleRepository;
+import com.github.noxchimaera.hydra.core.java.JavaSource;
 import com.github.noxchimaera.hydra.core.java.format.JavaFormat;
 import com.github.noxchimaera.hydra.core.transformers.HydraToJavaTransformer;
 import com.github.noxchimaera.hydra.core.transformers.UmlToHydraTransformer;
@@ -121,7 +122,7 @@ public class AppController {
                 event.getTarget(), event.getLocation(), true));
     }
 
-    public void codegen(mxIGraphModel model, Object defaultParent) {
+    public JavaSource codegen(mxIGraphModel model, Object defaultParent) {
         List<UmlNode> roots = new ArrayList<>();
 
         int n = model.getChildCount(defaultParent);
@@ -146,14 +147,13 @@ public class AppController {
             System.out.println(hySequence);
             t2.seq(hySequence);
             String java = t2.java("Main", "com.example").str();
-            String formatted = new JavaFormat().apply(java);
-            System.out.println(formatted);
+
+            // TODO: process several trees
+
+            return new JavaSource(java);
         }
 
-    }
-
-    private void debug(String data) {
-        System.out.println(data);
+        return new JavaSource("");
     }
 
 }

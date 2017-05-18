@@ -28,14 +28,18 @@ import java.util.List;
 public class JavaClass {
 
     private String classPackage;
+
+    private List<String> imports;
+
     private String name;
 
     private List<JavaMethod> methods;
 
-    public JavaClass(String classPackage, String name) {
+    public JavaClass(String classPackage, String name, List<String> imports) {
         this.classPackage = classPackage;
         this.name = name;
         this.methods = new ArrayList<>();
+        this.imports = imports;
     }
 
     public void addMethod(JavaMethod method) {
@@ -61,9 +65,9 @@ public class JavaClass {
     public String str() {
         return Strings.$(
             "package ", classPackage, "; ",
-            "// there are will be imports\n",
+            Strings.joined("", imports, i -> "import " + i),
             "public class ", name, " { ",
-            Strings.joined(" ", methods, i -> i.str()),
+            Strings.joined("", methods, i -> i.str()),
             "}"
         );
     }

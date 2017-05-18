@@ -26,7 +26,9 @@ import com.alee.laf.splitpane.WebSplitPane;
 import com.alee.laf.toolbar.WebToolBar;
 import com.github.noxchimaera.hydra.app.gui.graph.UmlGraphView;
 import com.github.noxchimaera.hydra.app.gui.library.LibraryPanel;
+import com.github.noxchimaera.hydra.app.modules.diversify.gui.DiversifyResultViewer;
 import com.github.noxchimaera.hydra.app.swing.prompt.Ask;
+import com.github.noxchimaera.hydra.core.java.JavaSource;
 import com.github.noxchimaera.hydra.utils.functional.Proc;
 import com.github.noxchimaera.hydra.utils.swing.GUI;
 import com.mxgraph.swing.mxGraphOutline;
@@ -150,7 +152,12 @@ public class AppWindowView extends JFrame {
     }
 
     private void codegen() {
-        controller.codegen(getGraphView().getGraph().getModel(), getGraphView().getGraph().getDefaultParent());
+        JavaSource sources =
+            controller.codegen(getGraphView().getGraph().getModel(), getGraphView().getGraph().getDefaultParent());
+
+        DiversifyResultViewer viewer = new DiversifyResultViewer(this, sources);
+        viewer.assemble();
+        viewer.setVisible(true);
     }
 
 }

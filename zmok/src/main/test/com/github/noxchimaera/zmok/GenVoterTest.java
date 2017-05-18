@@ -33,14 +33,21 @@ import static org.junit.Assert.*;
 public class GenVoterTest {
 
     public static class TrueRandom implements GenVersion<Integer> {
+
+        private int value;
+
+        public TrueRandom(int value) {
+            this.value = value;
+        }
+
         @Override
         public Future<Integer> getHeuristicAsync() {
-            return Futures.successful(4);
+            return Futures.successful(value);
         }
 
         @Override
         public Option<Integer> getHeuristic() {
-            return Option.option(4);
+            return Option.option(value);
         }
     }
 
@@ -61,9 +68,9 @@ public class GenVoterTest {
         ActorSystem system = ActorSystem.create("random");
 
         GenVersion<Integer> rnd0 = TypedActor.get(system).typedActorOf(
-            new TypedProps<>(GenVersion.class, TrueRandom.class));
+            new TypedProps<>(GenVersion.class, () -> new TrueRandom(4)));
         GenVersion<Integer> rnd1 = TypedActor.get(system).typedActorOf(
-            new TypedProps<>(GenVersion.class, TrueRandom.class));
+            new TypedProps<>(GenVersion.class, () -> new TrueRandom(4)));
         GenVersion<Integer> rnd2 = TypedActor.get(system).typedActorOf(
             new TypedProps<>(GenVersion.class, OtherTrueRandom.class));
 
